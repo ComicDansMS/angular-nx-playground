@@ -1,7 +1,7 @@
 # Angular NX Playground Project Details
 
 ## Overview
-This is an Angular 19 monorepo application built with NX 20.8.0, using a modern Angular setup with standalone components, the new input syntax, control flow `@if`/`@for` syntax, and signals. The project demonstrates a theme switching mechanism using CSS variables, Angular signals, and dependency injection.
+This is an Angular 19 monorepo application built with NX 20.8.0, using a modern Angular setup with standalone components, the new input syntax, control flow `@if`/`@for` syntax, and signals. The project demonstrates a theme switching mechanism using CSS variables, Angular signals, and dependency injection, along with a reusable UI component library.
 
 ## Versions and Technologies
 - **Angular**: 19.2.0
@@ -11,18 +11,20 @@ This is an Angular 19 monorepo application built with NX 20.8.0, using a modern 
 - **Testing**: Jest 29.7.0 for unit tests, Playwright for e2e
 
 ## Modern Angular Features
-- **Standalone Components**: All components use the standalone: true syntax
+- **Standalone Components**: All components use the standalone approach
+- **New Input/Output Syntax**: Uses the new `input()` and `output()` functions
 - **New Control Flow**: Uses the modern `@if`/`@else` and `@for` syntax instead of `*ngIf`/`*ngFor`
 - **Signals**: Uses Angular's signal API for reactive state management
 - **Injectable DI**: Uses `inject()` function instead of constructor injection
-- **Functional Providers**: Uses providers with the `provide` function
-- **Lazy Loading**: Demonstrates route-level code splitting with dynamic imports
+- **Directives for Components**: Uses directive-based approach for reusable UI elements
+- **Dynamic CSS Injection**: Custom system for component-level CSS injection
 
 ## Project Structure
 
 ```
 - /Users/daniel/dev/experimentation/angular-nx-playground/
   - CLAUDE.md                          # Instructions for Claude
+  - PROJECT_DETAILS.md                 # This file
   - README.md
   - apps/                              # Contains all applications
     - angular-nx-playground/           # Main application
@@ -47,82 +49,51 @@ This is an Angular 19 monorepo application built with NX 20.8.0, using a modern 
         - themes/                      # App-specific theme definitions
           - dark.theme.ts              # Dark theme tokens
           - light.theme.ts             # Light theme tokens
-      - tsconfig.app.json
-      - tsconfig.editor.json
-      - tsconfig.json
-      - tsconfig.spec.json
-  - jest.config.ts
-  - jest.preset.js
   - libs/                              # Contains all libraries
     - ui/
-      - components/                    # UI components library (empty)
+      - components/                    # UI components library
+        - button/                      # Button directive implementation
+          - src/
+            - lib/
+              - button.directive.ts    # Button directive
+              - button.style.ts        # Button styles
+        - input/                       # Input directive implementation
+          - src/
+            - lib/
+              - input.directive.ts     # Input directive
+              - input.style.ts         # Input styles
       - core/                          # Core UI functionality
+        - component-style-base/        # Base class for component styling
+          - src/
+            - lib/
+              - component.style.base.ts # Abstract base class for styles
         - interfaces/                  # Interface definitions
-          - README.md
-          - jest.config.ts
-          - project.json
           - src/
-            - index.ts
             - lib/
+              - theme-type.type.ts     # Theme type definition
               - theme.interface.ts     # Theme interface definition
-            - test-setup.ts
-          - tsconfig.json
-          - tsconfig.lib.json
-          - tsconfig.spec.json
+              - tokens.interface.ts    # Theme tokens interface
         - theme-provider/              # Theme provider component
-          - README.md
-          - jest.config.ts
-          - project.json
           - src/
-            - index.ts
             - lib/
-              - theme-provider.component.spec.ts
-              - theme-provider.component.ts
-            - test-setup.ts
-          - tsconfig.json
-          - tsconfig.lib.json
-          - tsconfig.spec.json
+              - theme-provider.component.ts # Theme provider component
         - theme-service/               # Theme service
-          - README.md
-          - jest.config.ts
-          - project.json
           - src/
-            - index.ts
             - lib/
               - theme.service.ts       # Service for theme management
-            - test-setup.ts
-          - tsconfig.json
-          - tsconfig.lib.json
-          - tsconfig.spec.json
-        - themes/                      # Theme definitions
-          - dark-theme/                # Dark theme library
-            - README.md
-            - jest.config.ts
-            - project.json
-            - src/
-              - index.ts
-              - lib/
-                - dark.theme.ts        # Dark theme token definitions
-              - test-setup.ts
-            - tsconfig.json
-            - tsconfig.lib.json
-            - tsconfig.spec.json
-          - light-theme/               # Light theme library
-            - README.md
-            - jest.config.ts
-            - project.json
-            - src/
-              - index.ts
-              - lib/
-                - light.theme.ts       # Light theme token definitions
-              - test-setup.ts
-            - tsconfig.json
-            - tsconfig.lib.json
-            - tsconfig.spec.json
+      - themes/                        # Theme definitions
+        - dark-theme/                  # Dark theme library
+          - src/
+            - lib/
+              - dark.theme.ts          # Dark theme token definitions
+        - light-theme/                 # Light theme library
+          - src/
+            - lib/
+              - light.theme.ts         # Light theme token definitions
   - nx.json                            # NX workspace configuration
   - package-lock.json
   - package.json
-  - tsconfig.base.json                 # Base TypeScript configuration
+  - tsconfig.base.json                 # Base TypeScript configuration with path aliases
 ```
 
 ## Key Files and Components
@@ -130,17 +101,88 @@ This is an Angular 19 monorepo application built with NX 20.8.0, using a modern 
 ### Project Configuration
 - **package.json**: Contains dependencies including Angular 19.2.0, NX 20.8.0, TailwindCSS 4.1.4
 - **nx.json**: NX workspace configuration with targets, cache settings, and plugin configuration
-- **tsconfig.base.json**: Base TypeScript configuration with path mappings for libraries
+- **tsconfig.base.json**: Base TypeScript configuration with path mappings for libraries and components
+
+### UI Component Library Architecture
+
+The project implements a sophisticated component library with a unique styling approach:
+
+1. **Component Style Base** (`/libs/ui/core/component-style-base/src/lib/component.style.base.ts`)
+   - Abstract base class for component styling
+   - Dynamically injects CSS into the DOM via `<style>` elements
+   - Provides lifecycle methods for loading and removing styles
+   ```typescript
+   export abstract class ComponentStyleBase {
+     abstract componentStyles: string;
+     
+     loadStyles() {
+       // Creates and injects a style element into document.head
+     }
+     
+     removeStyles() {
+       // Removes the style element from document.head
+     }
+   }
+   ```
+
+2. **Component Style Implementation** (e.g., `button.style.ts`, `input.style.ts`)
+   - Extends the base ComponentStyleBase class
+   - Defines component-specific CSS as a template literal
+   - Injected as a provider in the corresponding directive
+   ```typescript
+   @Injectable()
+   export class ButtonStyle extends ComponentStyleBase {
+     componentStyles = /* css */ `
+       .lib-button {
+         background: var(--theme-color-button-primary);
+         // other styles...
+       }
+     `;
+   }
+   ```
+
+3. **Directive Implementation** (e.g., `button.directive.ts`, `input.directive.ts`)
+   - Uses directive selectors like `button[libButton]` or `input[libInput]`
+   - Injects the corresponding style class
+   - Manages the style lifecycle with `ngOnInit()` and `ngOnDestroy()`
+   - Uses Angular's host bindings for class application
+   ```typescript
+   @Directive({
+     selector: 'button[libButton]',
+     host: {
+       class: 'lib-button',
+       '[class.lib-button--type-secondary]': 'variant() === "secondary"',
+       // other conditional classes...
+     },
+     providers: [ButtonStyle],
+   })
+   export class LibButtonDirective implements OnInit, OnDestroy {
+     private componentStyle = inject(ButtonStyle);
+     variant = input<ButtonVariant>();
+     
+     ngOnInit() {
+       this.componentStyle.loadStyles();
+     }
+     
+     ngOnDestroy() {
+       this.componentStyle.removeStyles();
+     }
+   }
+   ```
 
 ### Theme System Architecture
 
-The application implements a comprehensive theme system:
+The application implements a comprehensive theme system that integrates with the component library:
 
-1. **Theme Interface** (`/libs/ui/core/interfaces/src/lib/theme.interface.ts`)
+1. **Theme Tokens Interface** (`/libs/ui/core/interfaces/src/lib/tokens.interface.ts`)
    ```typescript
-   export interface Theme {
+   export interface Tokens {
      '--theme-color-background-primary': string;
      '--theme-color-text-primary': string;
+     '--theme-color-button-primary': string;
+     '--theme-color-button-primary-hover': string;
+     '--theme-color-button-secondary': string;
+     '--theme-color-button-secondary-hover': string;
    }
    ```
 
@@ -151,46 +193,63 @@ The application implements a comprehensive theme system:
 
 3. **Theme Provider Component** (`/libs/ui/core/theme-provider/src/lib/theme-provider.component.ts`)
    - Wrapper component that initializes the theme service
-   - Used in the app root to provide theming
+   - Used in the app root to provide theming context
 
 4. **Theme Definitions**
    - Dark and light themes defined in separate libraries
    - CSS variables following naming convention `--theme-color-*`
-   - The application has its own theme definitions in `/apps/angular-nx-playground/src/themes/`
+   - Component styles reference these variables (e.g., `var(--theme-color-button-primary)`)
 
-5. **Toggle Component** (`/apps/angular-nx-playground/src/app/theme-toggle/theme-toggle.component.ts`)
+5. **Theme Toggle Component** (`/apps/angular-nx-playground/src/app/theme-toggle/theme-toggle.component.ts`)
+   - Uses the new input/output syntax (`input()`, `output()`)
    - Uses modern `@if` syntax for conditional rendering
-   - Demonstrates component-level signal consumption
-   - Standalone component with direct injection
+   - Integrates with UI component library (`libButton`)
 
-### Application Bootstrap and Configuration
+### Application Integration
 
-The application uses the modern Angular standalone bootstrapping approach:
+The home component demonstrates how the UI components and theming are used together:
 
-1. **Main Entry** (`/apps/angular-nx-playground/src/main.ts`)
-   ```typescript
-   import { bootstrapApplication } from '@angular/platform-browser';
-   import { appConfig } from './app/app.config';
-   import { AppComponent } from './app/app.component';
+```typescript
+@Component({
+  selector: 'app-home',
+  template: `
+    <div class="flex gap-4 flex-col items-center w-96 mx-auto border border-slate-300 rounded-lg shadow p-4">
+      <app-theme-toggle
+        [themeType]="themeService.themeType()"
+        (toggleTheme)="themeService.toggleTheme$.next()"
+      />
 
-   bootstrapApplication(AppComponent, appConfig).catch((err) =>
-     console.error(err)
-   );
-   ```
+      <p>It's very {{ themeService.themeType() }}</p>
 
-2. **App Configuration** (`/apps/angular-nx-playground/src/app/app.config.ts`)
-   - Uses functional providers with `provideRouter`, `provideZoneChangeDetection`
-   - Configures theme tokens with application-specific themes
-   - Demonstrates modern dependency injection approach
+      <input type="text" libInput placeholder="input.." />
 
-3. **Routes Configuration** (`/apps/angular-nx-playground/src/app/app.routes.ts`)
-   - Uses lazy loading pattern with dynamic imports
-   - Modern route configuration with component imports
+      <button libButton [width]="'full'">Big Button</button>
+      <button libButton [variant]="'secondary'">Secondary</button>
+    </div>
+  `,
+  imports: [ThemeToggleComponent, LibInputDirective, LibButtonDirective],
+})
+export default class HomeComponent {
+  themeService = inject(ThemeService);
+}
+```
 
-### Styling
-- Uses TailwindCSS 4.1.4
-- CSS variables for theming integrated with Tailwind
-- Responsive design patterns in components
+## CSS Architecture
+
+The project uses a hybrid styling approach:
+
+1. **Component-specific styles**:
+   - BEM-like naming convention (`.lib-button`, `.lib-button--type-secondary`)
+   - Dynamically injected into the DOM at component lifecycle hooks
+   - Each component's styles are isolated to their specific elements
+
+2. **Theme variables**:
+   - Global CSS variables injected at `:root` by the theme service
+   - Component styles reference these variables
+
+3. **TailwindCSS**:
+   - Used for layout and utility classes
+   - Applied directly in component templates
 
 ## Development Commands
 
@@ -210,22 +269,11 @@ npx nx test [project-name]
 npx nx test [project-name] --testFile=path/to/test.spec.ts
 ```
 
-## Libraries and Code Organization
-
-The project follows NX's monorepo approach with clear separation of concerns:
-
-1. **Apps**: Contains the main application
-2. **Libs**: Contains reusable libraries:
-   - `ui/core/interfaces`: Common interfaces 
-   - `ui/core/theme-provider`: Theme provider component
-   - `ui/core/theme-service`: Theme management service
-   - `ui/core/themes/dark-theme` & `light-theme`: Theme definitions
-
 ## Code Style and Conventions
 - Component files: `component-name.component.ts`
 - Service files: `service-name.service.ts`
-- Component selectors:
-  - App components: kebab-case with 'app' prefix (`app-component-name`)
-  - Library components: kebab-case with 'lib' prefix (`lib-component-name`)
-- Code formatting: Prettier with 130 char width, single quotes
+- Directive files: `directive-name.directive.ts`
+- Component selectors: kebab-case with 'app' prefix (`app-component-name`)
+- Directive selectors: camelCase with 'lib' prefix for library directives (`libDirectiveName`)
 - Import paths: Uses aliases defined in tsconfig.base.json
+- CSS naming: BEM-like convention for component styles
