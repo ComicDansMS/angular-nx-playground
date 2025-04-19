@@ -42,7 +42,7 @@ export class ThemeService {
   });
 
   // selectors
-  themeType = computed(() => this.state().themeType);
+  public themeType = computed(() => this.state().themeType);
 
   // sources
   private theme$ = new Subject<Theme>();
