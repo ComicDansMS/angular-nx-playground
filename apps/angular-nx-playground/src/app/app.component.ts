@@ -1,13 +1,14 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { NxWelcomeComponent } from './nx-welcome.component';
+import { ThemeProviderComponent } from '@crm-project/ui/core/theme-provider';
 
 @Component({
-  imports: [NxWelcomeComponent, RouterModule],
   selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.css',
+  template: `
+    <lib-theme-provider>
+      <router-outlet></router-outlet>
+    </lib-theme-provider>
+  `,
+  imports: [RouterModule, ThemeProviderComponent],
 })
-export class AppComponent {
-  title = 'angular-nx-playground';
-}
+export class AppComponent {}
