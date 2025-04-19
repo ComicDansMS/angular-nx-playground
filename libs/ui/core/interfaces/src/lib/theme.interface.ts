@@ -1,4 +1,7 @@
+import { ThemeType } from './theme-type.type';
+import { Tokens } from './tokens.interface';
+
 export interface Theme {
-  '--theme-color-background-primary': string;
-  '--theme-color-text-primary': string;
+  type: ThemeType;
+  tokens: Tokens;
 }

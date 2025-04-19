@@ -15,11 +15,11 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@crm-project/ui/core/interfaces": ["libs/ui/core/interfaces/src/index.ts"],
+      "@crm-project/ui/interfaces": ["libs/ui/core/interfaces/src/index.ts"],
       "@crm-project/ui/core/theme-provider": ["libs/ui/core/theme-provider/src/index.ts"],
       "@crm-project/ui/core/theme-service": ["libs/ui/core/theme-service/src/index.ts"],
-      "@crm-project/ui/core/themes/dark-theme": ["libs/ui/core/themes/dark-theme/src/index.ts"],
-      "@crm-project/ui/core/themes/light-theme": ["libs/ui/core/themes/light-theme/src/index.ts"]
+      "@crm-project/ui/themes/dark-theme": ["libs/ui/themes/dark-theme/src/index.ts"],
+      "@crm-project/ui/themes/light-theme": ["libs/ui/themes/light-theme/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

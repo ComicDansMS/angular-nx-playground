@@ -1,8 +1,15 @@
-import { effect, inject, Injectable, InjectionToken, signal } from '@angular/core';
-import { lightTheme } from '@crm-project/ui/core/themes/light-theme';
-import { darkTheme } from '@crm-project/ui/core/themes/dark-theme';
+import {
+  computed,
+  inject,
+  Injectable,
+  InjectionToken,
+  signal,
+} from '@angular/core';
+import { lightTheme } from '@crm-project/ui/themes/light-theme';
+import { darkTheme } from '@crm-project/ui/themes/dark-theme';
 import { DOCUMENT } from '@angular/common';
-import { Theme } from '@crm-project/ui/core/interfaces';
+import { Theme, ThemeType, Tokens } from '@crm-project/ui/interfaces';
+import { map, Subject, tap } from 'rxjs';
 
 export const LIGHT_THEME = new InjectionToken<Theme>('UI library light theme', {
   factory: () => lightTheme,
@@ -12,49 +19,77 @@ export const DARK_THEME = new InjectionToken<Theme>('UI library dark theme', {
   factory: () => darkTheme,
 });
 
+interface ThemeServiceState {
+  themeType: ThemeType;
+}
+
 @Injectable({
   providedIn: 'root',
 })
 export class ThemeService {
   private document = inject(DOCUMENT);
-  private lightTheme = inject(LIGHT_THEME);
-  private darkTheme = inject(DARK_THEME);
+  private readonly lightTheme = inject(LIGHT_THEME);
+  private readonly darkTheme = inject(DARK_THEME);
 
-  private TOKEN_STYLE_ELEMENT_ID = 'crm-theme-tokens';
-  private currentTheme = signal<Theme>(this.lightTheme);
-  public isDarkMode = signal<boolean>(false);
+  private readonly TOKEN_STYLE_ELEMENT_ID = 'crm-theme-tokens';
+  private readonly styleElement: HTMLStyleElement = this.createStyleElement(
+    this.TOKEN_STYLE_ELEMENT_ID
+  );
 
-  private createStyleElement(theme: Theme, id: string) {
+  // state
+  private state = signal<ThemeServiceState>({
+    themeType: 'light',
+  });
+
+  // selectors
+  themeType = computed(() => this.state().themeType);
+
+  // sources
+  private theme$ = new Subject<Theme>();
+  public toggleTheme$ = new Subject<void>();
+
+  constructor() {
+    this.document.head.append(this.styleElement);
+
+    // reducers
+    this.toggleTheme$
+      .pipe(
+        tap(() => {
+          if (this.themeType() === 'light') {
+            this.state.update((state) => ({ ...state, themeType: 'dark' }));
+            this.theme$.next(this.darkTheme);
+          } else {
+            this.state.update((state) => ({ ...state, themeType: 'light' }));
+            this.theme$.next(this.lightTheme);
+          }
+        })
+      )
+      .subscribe();
+
+    this.theme$
+      .pipe(
+        map((theme) => this.generateCssVariables(theme.tokens)),
+        tap((css) => (this.styleElement.textContent = css))
+      )
+      .subscribe();
+
+    this.theme$.next(
+      this.state().themeType === 'light' ? this.lightTheme : this.darkTheme
+    );
+  }
+
+  // helpers
+  private createStyleElement(id: string): HTMLStyleElement {
     const element = this.document.createElement('style');
     element.id = id;
-    element.textContent = this.generateCssVariables(theme);
     return element;
   }
 
-  private generateCssVariables(theme: Theme): string {
-    const cssVariables = Object.entries(theme)
+  private generateCssVariables(tokens: Tokens): string {
+    const cssVariables = Object.entries(tokens)
       .map(([key, value]) => `${key}: ${value};`)
       .join(' ');
 
     return `:root {${cssVariables} }`;
-  }
-
-  public toggleTheme(): void {
-    const newIsDarkMode = !this.isDarkMode();
-    this.isDarkMode.set(newIsDarkMode);
-    this.currentTheme.set(newIsDarkMode ? this.darkTheme : this.lightTheme);
-  }
-
-  constructor() {
-    const styleElement = this.createStyleElement(this.currentTheme(), this.TOKEN_STYLE_ELEMENT_ID);
-    this.document.head.appendChild(styleElement);
-
-    effect(() => {
-      const domStyleElement = document.getElementById(this.TOKEN_STYLE_ELEMENT_ID);
-
-      if (domStyleElement) {
-        domStyleElement.textContent = this.generateCssVariables(this.currentTheme());
-      }
-    });
   }
 }
