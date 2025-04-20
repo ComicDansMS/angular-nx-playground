@@ -20,7 +20,14 @@
           "tsConfig": "libs/buildable-lib/tsconfig.lib.json"
         }
       },
-      "defaultConfiguration": "production"
+      "defaultConfiguration": "production",
+      "dependsOn": ["update-hello-text"]
+    },
+    "update-hello-text": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "node libs/buildable-lib/scripts/update-hello-text.js"
+      }
     },
     "test": {
       "executor": "@nx/jest:jest",

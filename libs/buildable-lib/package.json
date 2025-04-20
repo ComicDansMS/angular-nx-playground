@@ -5,5 +5,8 @@
     "@angular/common": "^19.2.0",
     "@angular/core": "^19.2.0"
   },
-  "sideEffects": false
+  "sideEffects": false,
+  "scripts": {
+    "update-hello-text": "node scripts/update-hello-text.js"
+  }
 }
