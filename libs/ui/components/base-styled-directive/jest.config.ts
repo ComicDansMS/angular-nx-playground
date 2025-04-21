@@ -1,8 +1,9 @@
 export default {
-  displayName: 'input',
+  displayName: 'base-styled-directive',
   preset: '../../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
-  coverageDirectory: '../../../../coverage/libs/ui/components/input',
+  coverageDirectory:
+    '../../../../coverage/libs/ui/components/base-styled-directive',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': [
       'jest-preset-angular',

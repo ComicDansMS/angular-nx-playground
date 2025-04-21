@@ -1,5 +1,6 @@
 import { Directive, OnDestroy, OnInit } from '@angular/core';
 import { style } from './<%= name %>.style';
+import { BaseStyledDirective } from '@crm-project/ui/base-styled-directive';
 
 @Directive({
   selector: '<%= element %>[lib<%= className %>]',
@@ -7,28 +8,18 @@ import { style } from './<%= name %>.style';
     class: 'lib-<%= name %>',
   },
 })
-export class Lib<%= className %>Directive implements OnInit, OnDestroy {
-  styleElement: HTMLStyleElement | null = null;
-  componentStyle = style;
-
-  minifyCss(css: string): string {
-    return css.replace(/\s+/g, ' ').trim();
-  }
+export class Lib<%= className %>Directive
+  extends BaseStyledDirective
+  implements OnInit, OnDestroy
+{
+  name = '<%= name %>';
+  componentStyles = style;
 
   ngOnInit() {
-    if (!this.styleElement) {
-      this.styleElement = document.createElement('style');
-      this.styleElement.setAttribute('type', 'text/css');
-      document.head.appendChild(this.styleElement);
-    }
-
-    this.styleElement.textContent = this.minifyCss(this.componentStyle);
+    this.loadStyles();
   }
 
   ngOnDestroy() {
-    if (this.styleElement && document.head.contains(this.styleElement)) {
-      document.head.removeChild(this.styleElement);
-      this.styleElement = null;
-    }
+    this.removeStyles();
   }
 }

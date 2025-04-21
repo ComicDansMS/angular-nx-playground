@@ -1,6 +1,6 @@
 import { Directive, input, OnDestroy, OnInit } from '@angular/core';
 import { style } from './button.style';
-import { ComponentStyleBase } from '@crm-project/ui/core/component-style-base';
+import { BaseStyledDirective } from '@crm-project/ui/base-styled-directive';
 
 type ButtonVariant = 'primary' | 'secondary';
 type ButtonWidth = 'tight' | 'normal' | 'full';
@@ -15,14 +15,18 @@ type ButtonWidth = 'tight' | 'normal' | 'full';
   },
 })
 export class LibButtonDirective
-  extends ComponentStyleBase
+  extends BaseStyledDirective
   implements OnInit, OnDestroy
 {
+  variant = input<ButtonVariant>();
+  width = input<ButtonWidth>();
+
   name = 'button';
   componentStyles = style;
 
-  variant = input<ButtonVariant>();
-  width = input<ButtonWidth>();
+  minifyCss(css: string): string {
+    return css.replace(/\s+/g, ' ').trim();
+  }
 
   ngOnInit() {
     this.loadStyles();

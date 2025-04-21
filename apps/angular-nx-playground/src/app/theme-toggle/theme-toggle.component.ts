@@ -1,6 +1,6 @@
 import { Component, input, output } from '@angular/core';
-import { LibButtonDirective } from '@crm-project/ui/components/button';
 import { ThemeType } from '@crm-project/ui/interfaces';
+import { LibButtonDirective } from '@crm-project/ui/button';
 
 @Component({
   selector: 'app-theme-toggle',

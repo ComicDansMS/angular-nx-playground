@@ -16,18 +16,10 @@
     "baseUrl": ".",
     "paths": {
       "@angular-nx-playground/automation": ["tools/automation/src/index.ts"],
-      "@crm-project/ui/components/banana": [
-        "libs/ui/components/banana/src/index.ts"
+      "@crm-project/ui/base-styled-directive": [
+        "libs/ui/components/base-styled-directive/src/index.ts"
       ],
-      "@crm-project/ui/components/button": [
-        "libs/ui/components/button/src/index.ts"
-      ],
-      "@crm-project/ui/components/input": [
-        "libs/ui/components/input/src/index.ts"
-      ],
-      "@crm-project/ui/core/component-style-base": [
-        "libs/ui/core/component-style-base/src/index.ts"
-      ],
+      "@crm-project/ui/button": ["libs/ui/components/button/src/index.ts"],
       "@crm-project/ui/core/theme-provider": [
         "libs/ui/core/theme-provider/src/index.ts"
       ],

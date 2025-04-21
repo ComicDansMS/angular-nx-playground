@@ -1,5 +1,5 @@
 {
-  "name": "@crm-project/ui/components/banana",
+  "name": "@crm-project/ui/base-styled-directive",
   "version": "0.0.1",
   "peerDependencies": {
     "@angular/common": "^19.2.0",

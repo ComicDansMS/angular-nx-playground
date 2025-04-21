@@ -1,5 +1,5 @@
 export default {
-  displayName: 'button',
+  displayName: 'Button',
   preset: '../../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   coverageDirectory: '../../../../coverage/libs/ui/components/button',
