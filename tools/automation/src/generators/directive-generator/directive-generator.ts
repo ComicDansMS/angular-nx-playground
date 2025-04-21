@@ -1,4 +1,11 @@
-import { formatFiles, generateFiles, names, readJson, Tree } from '@nx/devkit';
+import {
+  formatFiles,
+  generateFiles,
+  names,
+  readJson,
+  Tree,
+  updateJson,
+} from '@nx/devkit';
 import * as path from 'path';
 import { DirectiveGeneratorGeneratorSchema } from './schema';
 
@@ -12,6 +19,8 @@ export async function directiveGeneratorGenerator(
     fileName: names(options.name).fileName,
     className: names(options.name).className,
     constantName: names(options.name).constantName,
+    element: options['element'],
+    importPath: options['import-path'],
     scope: readJson(tree, 'package.json').name,
   };
 
@@ -23,6 +32,13 @@ export async function directiveGeneratorGenerator(
     projectRoot,
     resolvedOptions
   );
+
+  updateJson(tree, 'tsconfig.base.json', (json) => {
+    const indexPath = `${projectRoot}/src/index.ts`;
+    json.compilerOptions.paths[resolvedOptions.importPath] = [indexPath];
+    return json;
+  });
+
   await formatFiles(tree);
 }
 

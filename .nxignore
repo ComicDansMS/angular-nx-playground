@@ -1,1 +1,1 @@
-libs/ui/components/input/src/lib/input.style.ts
+libs/ui/components/**/*.style.ts

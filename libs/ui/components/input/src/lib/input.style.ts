@@ -6,8 +6,4 @@
  * libs/ui/components/input/src/lib/input.style.css
  */
 
-export const style = /* css */ `
-.lib-input {
-  border: solid 2px red;
-}
-`
+export const style = `.lib-input{border:solid 2px #8a2be2}`

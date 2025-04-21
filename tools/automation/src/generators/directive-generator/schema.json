@@ -1,27 +1,37 @@
 {
   "$schema": "https://json-schema.org/schema",
   "$id": "DirectiveGenerator",
-  "title": "",
+  "title": "Angular Directive Generator",
+  "description": "Creates a new Angular directive with specified configuration",
   "type": "object",
   "properties": {
     "name": {
       "type": "string",
-      "description": "",
+      "description": "The name of the directive in camelCase format (e.g., 'highlightText', 'tooltipHandler')",
       "$default": {
         "$source": "argv",
         "index": 0
       },
-      "x-prompt": "Provide a name"
+      "x-prompt": "What is the name of your directive? (in camelCase)"
     },
-    "import-path": {
+    "element": {
       "type": "string",
-      "description": "The library name used to import it, like `@myorg/my-awesome-lib`",
+      "description": "The HTML element this directive will target (e.g., 'div', 'button', 'input'). Use '*' for all elements",
       "$default": {
         "$source": "argv",
         "index": 1
       },
-      "x-prompt": "Provide an import path"
+      "x-prompt": "Which HTML element will this directive target?"
+    },
+    "import-path": {
+      "type": "string",
+      "description": "The library path used for importing this directive (e.g., '@myorg/shared/directives')",
+      "$default": {
+        "$source": "argv",
+        "index": 2
+      },
+      "x-prompt": "What is the import path for this directive?"
     }
   },
-  "required": ["name", "import-path"]
+  "required": ["name", "element", "import-path"]
 }

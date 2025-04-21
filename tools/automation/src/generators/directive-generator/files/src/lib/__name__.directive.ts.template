@@ -2,7 +2,7 @@ import { Directive, OnDestroy, OnInit } from '@angular/core';
 import { style } from './<%= name %>.style';
 
 @Directive({
-  selector: '<%= name %>[lib<%= className %>]',
+  selector: '<%= element %>[lib<%= className %>]',
   host: {
     class: 'lib-<%= name %>',
   },
@@ -16,7 +16,6 @@ export class Lib<%= className %>Directive implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    console.log('hello');
     if (!this.styleElement) {
       this.styleElement = document.createElement('style');
       this.styleElement.setAttribute('type', 'text/css');
