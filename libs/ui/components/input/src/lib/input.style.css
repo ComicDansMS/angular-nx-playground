@@ -18,6 +18,6 @@
   width: 150px;
 }
 
-.lib-input--large {
-  width: 300px;
+.lib-input--full {
+  width: 100%;
 }

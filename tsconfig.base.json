@@ -20,6 +20,7 @@
         "libs/ui/components/base-styled-directive/src/index.ts"
       ],
       "@crm-project/ui/button": ["libs/ui/components/button/src/index.ts"],
+      "@crm-project/ui/card": ["libs/ui/components/card/src/index.ts"],
       "@crm-project/ui/core/theme-provider": [
         "libs/ui/core/theme-provider/src/index.ts"
       ],

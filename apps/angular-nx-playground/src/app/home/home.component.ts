@@ -3,13 +3,12 @@ import { ThemeToggleComponent } from '../theme-toggle/theme-toggle.component';
 import { ThemeService } from '@crm-project/ui/core/theme-service';
 import { LibButtonDirective } from '@crm-project/ui/button';
 import { LibInputDirective } from '@crm-project/ui/input';
+import { LibCardDirective } from '@crm-project/ui/card';
 
 @Component({
   selector: 'app-home',
   template: `
-    <div
-      class="flex gap-4 flex-col items-center w-96 mx-auto border border-slate-300 rounded-lg shadow p-4"
-    >
+    <div libCard class="flex gap-4 flex-col items-center w-96 mx-auto">
       <app-theme-toggle
         [themeType]="themeService.themeType()"
         (toggleTheme)="themeService.toggleTheme$.next()"
@@ -17,19 +16,19 @@ import { LibInputDirective } from '@crm-project/ui/input';
 
       <p>It's very {{ themeService.themeType() }}</p>
 
-      <input
-        libInput
-        [size]="'small'"
-        type="text"
-        placeholder="small input.."
-      />
-      <input libInput [size]="'large'" type="text" placeholder="larger one.." />
+      <input libInput [size]="'small'" type="text" placeholder="input.." />
+      <input libInput [size]="'full'" type="text" placeholder="larger one.." />
 
-      <button libButton [width]="'full'">Big Button</button>
+      <button libButton [width]="'full'">Full width Button</button>
       <button libButton [variant]="'secondary'">Secondary</button>
     </div>
   `,
-  imports: [ThemeToggleComponent, LibButtonDirective, LibInputDirective],
+  imports: [
+    ThemeToggleComponent,
+    LibButtonDirective,
+    LibInputDirective,
+    LibCardDirective,
+  ],
 })
 export default class HomeComponent {
   themeService = inject(ThemeService);
