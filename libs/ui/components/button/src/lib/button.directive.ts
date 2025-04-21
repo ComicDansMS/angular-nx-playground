@@ -1,5 +1,6 @@
-import { Directive, inject, input, OnDestroy, OnInit } from '@angular/core';
-import { ButtonStyle } from './button.style';
+import { Directive, input, OnDestroy, OnInit } from '@angular/core';
+import { style } from './button.style';
+import { ComponentStyleBase } from '@crm-project/ui/core/component-style-base';
 
 type ButtonVariant = 'primary' | 'secondary';
 type ButtonWidth = 'tight' | 'normal' | 'full';
@@ -12,19 +13,22 @@ type ButtonWidth = 'tight' | 'normal' | 'full';
     '[class.lib-button--width-tight]': 'width() === "tight"',
     '[class.lib-button--width-full]': 'width() === "full"',
   },
-  providers: [ButtonStyle],
 })
-export class LibButtonDirective implements OnInit, OnDestroy {
-  private componentStyle = inject(ButtonStyle);
+export class LibButtonDirective
+  extends ComponentStyleBase
+  implements OnInit, OnDestroy
+{
+  name = 'button';
+  componentStyles = style;
 
   variant = input<ButtonVariant>();
   width = input<ButtonWidth>();
 
   ngOnInit() {
-    this.componentStyle.loadStyles();
+    this.loadStyles();
   }
 
   ngOnDestroy() {
-    this.componentStyle.removeStyles();
+    this.removeStyles();
   }
 }

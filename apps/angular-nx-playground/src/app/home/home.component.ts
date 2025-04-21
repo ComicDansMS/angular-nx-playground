@@ -2,12 +2,14 @@ import { Component, inject } from '@angular/core';
 import { ThemeToggleComponent } from '../theme-toggle/theme-toggle.component';
 import { LibInputDirective } from '@crm-project/ui/components/input';
 import { LibButtonDirective } from '@crm-project/ui/components/button';
+import { LibBananaDirective } from '@crm-project/ui/components/banana';
 import { ThemeService } from '@crm-project/ui/core/theme-service';
 
 @Component({
   selector: 'app-home',
   template: `
     <div
+      libBanana
       class="flex gap-4 flex-col items-center w-96 mx-auto border border-slate-300 rounded-lg shadow p-4"
     >
       <app-theme-toggle
@@ -23,7 +25,12 @@ import { ThemeService } from '@crm-project/ui/core/theme-service';
       <button libButton [variant]="'secondary'">Secondary</button>
     </div>
   `,
-  imports: [ThemeToggleComponent, LibInputDirective, LibButtonDirective],
+  imports: [
+    ThemeToggleComponent,
+    LibInputDirective,
+    LibButtonDirective,
+    LibBananaDirective,
+  ],
 })
 export default class HomeComponent {
   themeService = inject(ThemeService);

@@ -2,13 +2,10 @@ import { Injectable } from '@angular/core';
 
 @Injectable({ providedIn: 'root' })
 export abstract class ComponentStyleBase {
+  abstract name: string;
   abstract componentStyles: string;
 
   private styleElement: HTMLStyleElement | null = null;
-
-  private minifyCss(css: string): string {
-    return css.replace(/\s+/g, ' ').trim();
-  }
 
   /**
    * Load style content into the DOM
@@ -17,10 +14,11 @@ export abstract class ComponentStyleBase {
     if (!this.styleElement) {
       this.styleElement = document.createElement('style');
       this.styleElement.setAttribute('type', 'text/css');
+      this.styleElement.setAttribute('lib-component', this.name);
       document.head.appendChild(this.styleElement);
     }
 
-    this.styleElement.textContent = this.minifyCss(this.componentStyles);
+    this.styleElement.textContent = this.componentStyles;
   }
 
   /**

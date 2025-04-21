@@ -16,6 +16,9 @@
     "baseUrl": ".",
     "paths": {
       "@angular-nx-playground/automation": ["tools/automation/src/index.ts"],
+      "@crm-project/ui/components/banana": [
+        "libs/ui/components/banana/src/index.ts"
+      ],
       "@crm-project/ui/components/button": [
         "libs/ui/components/button/src/index.ts"
       ],

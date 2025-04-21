@@ -1,7 +1,4 @@
-import { Injectable } from '@angular/core';
-import { ComponentStyleBase } from '@crm-project/ui/core/component-style-base';
-
-const styles = /* css */ ` 
+export const style = /* css */ ` 
   .lib-button {
     background: var(--theme-color-button-primary);
     border-radius: 0.25rem;
@@ -33,8 +30,3 @@ const styles = /* css */ `
     width: 100%;
   }
 `;
-
-@Injectable()
-export class ButtonStyle extends ComponentStyleBase {
-  componentStyles = styles;
-}
