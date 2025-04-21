@@ -15,9 +15,6 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@angular-nx-playground/buildable-lib": [
-        "libs/buildable-lib/src/index.ts"
-      ],
       "@crm-project/ui/components/button": [
         "libs/ui/components/button/src/index.ts"
       ],
