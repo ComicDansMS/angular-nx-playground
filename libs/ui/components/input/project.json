@@ -6,6 +6,29 @@
   "projectType": "library",
   "tags": [],
   "targets": {
+    "build": {
+      "executor": "@nx/angular:ng-packagr-lite",
+      "outputs": ["{workspaceRoot}/dist/{projectRoot}"],
+      "options": {
+        "project": "libs/ui/components/input/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "libs/ui/components/input/tsconfig.lib.prod.json"
+        },
+        "development": {
+          "tsConfig": "libs/ui/components/input/tsconfig.lib.json"
+        }
+      },
+      "defaultConfiguration": "production",
+      "dependsOn": ["inject-styles"]
+    },
+    "inject-styles": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "node libs/ui/build/inject-style.js libs/ui/components/input/src/lib/input.style.css libs/ui/components/input/src/lib/input.style.ts"
+      }
+    },
     "test": {
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],

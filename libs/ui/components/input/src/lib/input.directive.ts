@@ -1,27 +1,35 @@
-import { Directive, inject, input, OnDestroy, OnInit } from '@angular/core';
-import { InputStyle } from './input.style';
-
-type Size = 'small' | 'large';
+import { Directive, OnDestroy, OnInit } from '@angular/core';
+import { style } from './input.style';
 
 @Directive({
   selector: 'input[libInput]',
   host: {
     class: 'lib-input',
-    '[class.lib-input--small]': 'size() === "small"',
-    '[class.lib-input--large]': 'size() === "large"',
   },
-  providers: [InputStyle],
 })
 export class LibInputDirective implements OnInit, OnDestroy {
-  private componentStyle = inject(InputStyle);
+  styleElement: HTMLStyleElement | null = null;
+  componentStyle = style;
 
-  size = input<Size>();
+  minifyCss(css: string): string {
+    return css.replace(/\s+/g, ' ').trim();
+  }
 
   ngOnInit() {
-    this.componentStyle.loadStyles();
+    console.log('hello');
+    if (!this.styleElement) {
+      this.styleElement = document.createElement('style');
+      this.styleElement.setAttribute('type', 'text/css');
+      document.head.appendChild(this.styleElement);
+    }
+
+    this.styleElement.textContent = this.minifyCss(this.componentStyle);
   }
 
   ngOnDestroy() {
-    this.componentStyle.removeStyles();
+    if (this.styleElement && document.head.contains(this.styleElement)) {
+      document.head.removeChild(this.styleElement);
+      this.styleElement = null;
+    }
   }
 }
