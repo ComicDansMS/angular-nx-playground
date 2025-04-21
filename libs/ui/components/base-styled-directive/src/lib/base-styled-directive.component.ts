@@ -21,7 +21,6 @@ export abstract class BaseStyledDirective {
       existing.count++;
     } else {
       const styleElement = this.document.createElement('style');
-      styleElement.setAttribute('type', 'text/css');
       styleElement.setAttribute('data-lib-style', this.id);
       styleElement.textContent = this.componentStyles;
 

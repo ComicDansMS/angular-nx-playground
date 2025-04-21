@@ -31,10 +31,8 @@ export class ThemeService {
   private readonly lightTheme = inject(LIGHT_THEME);
   private readonly darkTheme = inject(DARK_THEME);
 
-  private readonly TOKEN_STYLE_ELEMENT_ID = 'crm-theme-tokens';
-  private readonly styleElement: HTMLStyleElement = this.createStyleElement(
-    this.TOKEN_STYLE_ELEMENT_ID
-  );
+  private readonly styleElement: HTMLStyleElement =
+    this.document.createElement('style');
 
   // state
   private state = signal<ThemeServiceState>({
@@ -68,6 +66,9 @@ export class ThemeService {
 
     this.theme$
       .pipe(
+        tap((theme) =>
+          this.styleElement.setAttribute('data-lib-theme', theme.type)
+        ),
         map((theme) => this.generateCssVariables(theme.tokens)),
         tap((css) => (this.styleElement.textContent = css))
       )
@@ -76,13 +77,6 @@ export class ThemeService {
     this.theme$.next(
       this.state().themeType === 'light' ? this.lightTheme : this.darkTheme
     );
-  }
-
-  // helpers
-  private createStyleElement(id: string): HTMLStyleElement {
-    const element = this.document.createElement('style');
-    element.id = id;
-    return element;
   }
 
   private generateCssVariables(tokens: Tokens): string {
