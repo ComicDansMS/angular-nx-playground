@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import * as shortUuid from 'short-uuid';
 
 @Injectable({ providedIn: 'root' })
 export abstract class BaseStyledDirective {
@@ -25,9 +24,5 @@ export abstract class BaseStyledDirective {
       document.head.removeChild(this.styleElement);
       this.styleElement = null;
     }
-  }
-
-  generateId(): string {
-    return shortUuid.generate().substring(0, 5);
   }
 }

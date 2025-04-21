@@ -1,6 +1,7 @@
 import { Directive, input, OnDestroy, OnInit } from '@angular/core';
 import { style } from './input.style';
 import { BaseStyledDirective } from '@crm-project/ui/base-styled-directive';
+import * as shortUuid from 'short-uuid';
 
 type Size = 'small' | 'full';
 
@@ -20,7 +21,7 @@ export class LibInputDirective
   size = input<Size>();
 
   name = 'input';
-  id = 'input-' + this.generateId();
+  id = 'input-' + shortUuid.generate().substring(0, 5);
   componentStyles = style;
 
   ngOnInit() {

@@ -1,6 +1,7 @@
 import { Directive, input, OnDestroy, OnInit } from '@angular/core';
 import { style } from './button.style';
 import { BaseStyledDirective } from '@crm-project/ui/base-styled-directive';
+import * as shortUuid from 'short-uuid';
 
 type ButtonVariant = 'primary' | 'secondary';
 type ButtonWidth = 'tight' | 'normal' | 'full';
@@ -23,7 +24,7 @@ export class LibButtonDirective
   width = input<ButtonWidth>();
 
   name = 'button';
-  id = 'button-' + this.generateId();
+  id = 'button-' + shortUuid.generate().substring(0, 5);
   componentStyles = style;
 
   ngOnInit() {
