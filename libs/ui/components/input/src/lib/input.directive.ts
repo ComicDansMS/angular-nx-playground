@@ -16,7 +16,6 @@ export class LibInputDirective implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    console.log('hello');
     if (!this.styleElement) {
       this.styleElement = document.createElement('style');
       this.styleElement.setAttribute('type', 'text/css');
