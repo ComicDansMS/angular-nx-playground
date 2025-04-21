@@ -1,12 +1,11 @@
 import { Directive, OnDestroy, OnInit } from '@angular/core';
 import { style } from './card.style';
 import { BaseStyledDirective } from '@crm-project/ui/base-styled-directive';
-import * as shortUuid from 'short-uuid';
 
 @Directive({
   selector: 'div[libCard]',
   host: {
-    '[id]': 'id',
+    '[attr.data-lib-component]': 'id',
     class: 'lib-card',
   },
 })
@@ -15,7 +14,7 @@ export class LibCardDirective
   implements OnInit, OnDestroy
 {
   name = 'card';
-  id = 'button-' + shortUuid.generate().substring(0, 5);
+  id = this.makeId();
   componentStyles = style;
 
   ngOnInit() {

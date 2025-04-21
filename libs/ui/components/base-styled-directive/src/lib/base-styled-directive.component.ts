@@ -1,28 +1,53 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 
 @Injectable({ providedIn: 'root' })
 export abstract class BaseStyledDirective {
+  document = inject(DOCUMENT);
+
   abstract name: string;
   abstract componentStyles: string;
   abstract id: string;
 
-  private styleElement: HTMLStyleElement | null = null;
+  private static componentRegistry = new Map<
+    string,
+    { element: HTMLStyleElement; count: number }
+  >();
 
   loadStyles(): void {
-    if (!this.styleElement) {
-      this.styleElement = document.createElement('style');
-      this.styleElement.setAttribute('type', 'text/css');
-      this.styleElement.setAttribute('lib-component', `${this.id}`);
-      document.head.appendChild(this.styleElement);
-    }
+    const existing = BaseStyledDirective.componentRegistry.get(this.id);
 
-    this.styleElement.textContent = this.componentStyles;
+    if (existing) {
+      existing.count++;
+    } else {
+      const styleElement = this.document.createElement('style');
+      styleElement.setAttribute('type', 'text/css');
+      styleElement.setAttribute('data-lib-style', this.id);
+      styleElement.textContent = this.componentStyles;
+
+      this.document.head.appendChild(styleElement);
+
+      BaseStyledDirective.componentRegistry.set(this.id, {
+        element: styleElement,
+        count: 1,
+      });
+    }
   }
 
   removeStyles(): void {
-    if (this.styleElement && document.head.contains(this.styleElement)) {
-      document.head.removeChild(this.styleElement);
-      this.styleElement = null;
+    const existing = BaseStyledDirective.componentRegistry.get(this.id);
+
+    if (existing) {
+      existing.count--;
+
+      if (existing.count === 0) {
+        this.document.head.removeChild(existing.element);
+        BaseStyledDirective.componentRegistry.delete(this.id);
+      }
     }
+  }
+
+  makeId() {
+    return this.name;
   }
 }

@@ -1,14 +1,13 @@
 import { Directive, input, OnDestroy, OnInit } from '@angular/core';
 import { style } from './input.style';
 import { BaseStyledDirective } from '@crm-project/ui/base-styled-directive';
-import * as shortUuid from 'short-uuid';
 
 type Size = 'small' | 'full';
 
 @Directive({
   selector: 'input[libInput]',
   host: {
-    '[id]': 'id',
+    '[attr.data-lib-component]': 'id',
     class: 'lib-input',
     '[class.lib-input--small]': 'size() === "small"',
     '[class.lib-input--full]': 'size() === "full"',
@@ -21,7 +20,7 @@ export class LibInputDirective
   size = input<Size>();
 
   name = 'input';
-  id = 'input-' + shortUuid.generate().substring(0, 5);
+  id = this.makeId();
   componentStyles = style;
 
   ngOnInit() {

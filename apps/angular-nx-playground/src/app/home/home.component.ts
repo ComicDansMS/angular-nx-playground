@@ -2,8 +2,8 @@ import { Component, inject } from '@angular/core';
 import { ThemeToggleComponent } from '../theme-toggle/theme-toggle.component';
 import { ThemeService } from '@crm-project/ui/core/theme-service';
 import { LibButtonDirective } from '@crm-project/ui/button';
-import { LibInputDirective } from '@crm-project/ui/input';
 import { LibCardDirective } from '@crm-project/ui/card';
+import InputsComponent from '../inputs/inputs.component';
 
 @Component({
   selector: 'app-home',
@@ -16,18 +16,17 @@ import { LibCardDirective } from '@crm-project/ui/card';
 
       <p>It's very {{ themeService.themeType() }}</p>
 
-      <input libInput [size]="'small'" type="text" placeholder="input.." />
-      <input libInput [size]="'full'" type="text" placeholder="larger one.." />
-
       <button libButton [width]="'full'">Full width Button</button>
       <button libButton [variant]="'secondary'">Secondary</button>
+
+      <app-inputs />
     </div>
   `,
   imports: [
     ThemeToggleComponent,
     LibButtonDirective,
-    LibInputDirective,
     LibCardDirective,
+    InputsComponent,
   ],
 })
 export default class HomeComponent {

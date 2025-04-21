@@ -1,8 +1,8 @@
 export default {
   displayName: 'dark-theme',
-  preset: '../../../../../jest.preset.js',
+  preset: '../../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
-  coverageDirectory: '../../../../../coverage/libs/ui/core/themes/dark-theme',
+  coverageDirectory: '../../../../coverage/libs/ui/themes/dark-theme',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': [
       'jest-preset-angular',
