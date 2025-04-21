@@ -5,6 +5,7 @@ import { BaseStyledDirective } from '@crm-project/ui/base-styled-directive';
 @Directive({
   selector: '<%= element %>[lib<%= className %>]',
   host: {
+    '[id]': 'id',
     class: 'lib-<%= name %>',
   },
 })
@@ -13,6 +14,7 @@ export class Lib<%= className %>Directive
   implements OnInit, OnDestroy
 {
   name = '<%= name %>';
+  id = '<%= name %>-' + this.generateId();
   componentStyles = style;
 
   ngOnInit() {

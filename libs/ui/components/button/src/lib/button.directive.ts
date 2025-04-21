@@ -8,6 +8,7 @@ type ButtonWidth = 'tight' | 'normal' | 'full';
 @Directive({
   selector: 'button[libButton]',
   host: {
+    '[id]': 'id',
     class: 'lib-button',
     '[class.lib-button--type-secondary]': 'variant() === "secondary"',
     '[class.lib-button--width-tight]': 'width() === "tight"',
@@ -22,11 +23,8 @@ export class LibButtonDirective
   width = input<ButtonWidth>();
 
   name = 'button';
+  id = 'button-' + this.generateId();
   componentStyles = style;
-
-  minifyCss(css: string): string {
-    return css.replace(/\s+/g, ' ').trim();
-  }
 
   ngOnInit() {
     this.loadStyles();

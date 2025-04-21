@@ -5,6 +5,7 @@ import { BaseStyledDirective } from '@crm-project/ui/base-styled-directive';
 @Directive({
   selector: 'div[libCard]',
   host: {
+    '[id]': 'id',
     class: 'lib-card',
   },
 })
@@ -13,6 +14,7 @@ export class LibCardDirective
   implements OnInit, OnDestroy
 {
   name = 'card';
+  id = 'button-' + this.generateId();
   componentStyles = style;
 
   ngOnInit() {

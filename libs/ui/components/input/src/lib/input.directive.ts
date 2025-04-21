@@ -7,6 +7,7 @@ type Size = 'small' | 'full';
 @Directive({
   selector: 'input[libInput]',
   host: {
+    '[id]': 'id',
     class: 'lib-input',
     '[class.lib-input--small]': 'size() === "small"',
     '[class.lib-input--full]': 'size() === "full"',
@@ -19,6 +20,7 @@ export class LibInputDirective
   size = input<Size>();
 
   name = 'input';
+  id = 'input-' + this.generateId();
   componentStyles = style;
 
   ngOnInit() {
