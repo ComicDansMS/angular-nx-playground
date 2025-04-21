@@ -26,7 +26,7 @@
     "inject-styles": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "node libs/ui/build/inject-style.js libs/ui/components/input/src/lib/input.style.css libs/ui/components/input/src/lib/input.style.ts"
+        "command": "node libs/ui/build/inject-style.js libs/ui/components/{projectName}/src/lib/{projectName}.style.css libs/ui/components/{projectName}/src/lib/{projectName}.style.ts"
       }
     },
     "test": {
