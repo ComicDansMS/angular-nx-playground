@@ -3,11 +3,11 @@ import { Theme } from '@crm-project/ui/interfaces';
 export const lightTheme: Theme = {
   type: 'light',
   tokens: {
-    '--theme-color-background-primary': '#edddbe',
-    '--theme-color-text-primary': '#856528',
-    '--theme-color-button-primary': '',
-    '--theme-color-button-primary-hover': '',
-    '--theme-color-button-secondary': '',
-    '--theme-color-button-secondary-hover': '',
+    '--theme-color-background-primary': '#fff',
+    '--theme-color-text-primary': '#424242',
+    '--theme-color-button-primary': '#05935a',
+    '--theme-color-button-primary-hover': '#06794a',
+    '--theme-color-button-secondary': '#7c7c7d',
+    '--theme-color-button-secondary-hover': '#626262',
   },
 };
