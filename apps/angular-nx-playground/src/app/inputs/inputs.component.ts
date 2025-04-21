@@ -5,12 +5,12 @@ import { LibInputDirective } from '@crm-project/ui/input';
 @Component({
   selector: 'app-inputs',
   template: `
-    <div class="flex gap-2 m-2">
+    <div class="flex gap-2 mb-4">
       <button libButton (click)="addInput()">Add input</button>
       <button libButton (click)="removeInput()">Remove input</button>
     </div>
 
-    <div class="flex flex-col gap-2">
+    <div class="flex flex-col gap-2 items-center">
       @for (input of inputs(); track input.id) {
       <input libInput type="text" libTemporary placeholder="input.." />
       }
