@@ -30,7 +30,7 @@
     "inject-styles": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "node libs/ui/build/inject-style.js libs/ui/components/<%= name %>/src/lib/<%= name %>.style.css libs/ui/components/<%= name %>/src/lib/<%= name %>.style.ts"
+        "command": "node libs/ui/build/directive-style-injection.js --stylesheet=libs/ui/components/<%= name %>/src/lib/<%= name %>.style.css --typescript=libs/ui/components/<%= name %>/src/lib/<%= name %>.style.ts",
       }
     },
     "test": {
