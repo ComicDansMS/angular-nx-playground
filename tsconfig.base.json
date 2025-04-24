@@ -34,6 +34,9 @@
       ],
       "@crm-project/ui/themes/light-theme": [
         "libs/ui/themes/light-theme/src/index.ts"
+      ],
+      "@crm-project/ui/themes/light-theme-buildable": [
+        "libs/ui/themes/light-theme-buildable/src/index.ts"
       ]
     }
   },
