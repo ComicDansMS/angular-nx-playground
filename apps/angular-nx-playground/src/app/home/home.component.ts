@@ -1,9 +1,9 @@
 import { Component, inject } from '@angular/core';
-import { ThemeToggleComponent } from '../theme-toggle/theme-toggle.component';
+import { ThemeToggleComponent } from './ui/theme-toggle/theme-toggle.component';
 import { ThemeService } from '@crm-project/ui/core/theme-service';
 import { LibButtonDirective } from '@crm-project/ui/components/button';
 import { LibCardDirective } from '@crm-project/ui/components/card';
-import InputsComponent from '../inputs/inputs.component';
+import InputsComponent from './ui/inputs/inputs.component';
 
 @Component({
   selector: 'app-home',
