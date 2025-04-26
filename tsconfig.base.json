@@ -26,6 +26,9 @@
       "@crm-project/ui/components/input": [
         "libs/ui/components/input/src/index.ts"
       ],
+      "@crm-project/ui/components/label": [
+        "libs/ui/components/label/src/index.ts"
+      ],
       "@crm-project/ui/core/abstract-directive-style": [
         "libs/ui/core/abstracts/abstract-directive-style/src/index.ts"
       ],
