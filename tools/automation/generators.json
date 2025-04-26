@@ -1,9 +1,0 @@
-{
-  "generators": {
-    "directive-generator": {
-      "factory": "./src/generators/directive-generator/directive-generator",
-      "schema": "./src/generators/directive-generator/schema.json",
-      "description": "directive-generator generator"
-    }
-  }
-}
