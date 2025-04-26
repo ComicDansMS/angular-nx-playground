@@ -9,5 +9,6 @@ export const lightTheme: Theme = {
     '--theme-color-button-primary-hover': '#06794a',
     '--theme-color-button-secondary': '#7c7c7d',
     '--theme-color-button-secondary-hover': '#626262',
+    '--theme-color-shadow': '#cfcfd1',
   },
 };

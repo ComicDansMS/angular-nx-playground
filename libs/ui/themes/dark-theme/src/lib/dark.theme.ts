@@ -9,5 +9,6 @@ export const darkTheme: Theme = {
     '--theme-color-button-primary-hover': '#152a41',
     '--theme-color-button-secondary': '#3e4852',
     '--theme-color-button-secondary-hover': '#2e363d',
+    '--theme-color-shadow': '#4b6563',
   },
 };
