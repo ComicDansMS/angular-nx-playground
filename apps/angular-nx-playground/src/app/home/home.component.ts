@@ -1,6 +1,4 @@
-import { Component, inject } from '@angular/core';
-import { ThemeToggleComponent } from './ui/theme-toggle/theme-toggle.component';
-import { ThemeService } from '@crm-project/ui/core/theme-service';
+import { Component } from '@angular/core';
 import { LibButtonDirective } from '@crm-project/ui/components/button';
 import { LibCardDirective } from '@crm-project/ui/components/card';
 import InputsComponent from './ui/inputs/inputs.component';
@@ -9,26 +7,12 @@ import InputsComponent from './ui/inputs/inputs.component';
   selector: 'app-home',
   template: `
     <div libCard class="flex gap-4 flex-col items-center w-96 mx-auto">
-      <app-theme-toggle
-        [themeType]="themeService.themeType()"
-        (toggleTheme)="themeService.toggleTheme$.next()"
-      />
-
-      <p>It's very {{ themeService.themeType() }}</p>
-
       <button libButton [width]="'full'">Full width Button</button>
       <button libButton [variant]="'secondary'">Secondary</button>
 
       <app-inputs />
     </div>
   `,
-  imports: [
-    ThemeToggleComponent,
-    LibButtonDirective,
-    LibCardDirective,
-    InputsComponent,
-  ],
+  imports: [LibButtonDirective, LibCardDirective, InputsComponent],
 })
-export default class HomeComponent {
-  themeService = inject(ThemeService);
-}
+export default class HomeComponent {}
