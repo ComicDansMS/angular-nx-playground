@@ -1,12 +1,19 @@
-import { Directive, input, OnDestroy, OnInit } from '@angular/core';
+import {
+  Directive,
+  HostListener,
+  input,
+  OnDestroy,
+  OnInit,
+  signal,
+} from '@angular/core';
 import { AbstractStyledDirective } from '@crm-project/ui/core/abstract-styled-directive';
 
 const style = /* css */ `
   .lib-input {
-    border: solid 1px #929292;
+    border: solid 1px var(--theme-color-text-primary);
     width: 200px;
     border-radius: 0.25rem;
-    padding: 0.35rem 0.45rem;
+    padding: 0.35rem 0.75rem;
   }
 
   .lib-input:focus {
@@ -32,10 +39,11 @@ type Size = 'small' | 'full';
 @Directive({
   selector: 'input[libInput]',
   host: {
-    '[attr.data-lib-component]': 'name',
+    '[attr.data-lib-component]': 'componentName',
     class: 'lib-input',
     '[class.lib-input--small]': 'size() === "small"',
     '[class.lib-input--full]': 'size() === "full"',
+    '[class.lib-input--has-value]': 'hasValue()',
   },
 })
 export class LibInputDirective
@@ -43,15 +51,20 @@ export class LibInputDirective
   implements OnInit, OnDestroy
 {
   size = input<Size>();
-
-  name = 'input';
+  componentName = 'input';
   componentStyles = style;
+  hasValue = signal(false);
+
+  @HostListener('input', ['$event.target.value'])
+  onInput(value: string) {
+    this.hasValue.set(!!value);
+  }
 
   ngOnInit() {
-    this.loadStyles();
+    this.loadStyles(this.componentStyles, this.componentName);
   }
 
   ngOnDestroy() {
-    this.removeStyles();
+    this.removeStyles(this.componentName);
   }
 }

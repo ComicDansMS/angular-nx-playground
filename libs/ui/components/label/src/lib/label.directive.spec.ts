@@ -28,7 +28,7 @@ describe('LibLabelDirective', () => {
   });
 
   it('should have correct name property', () => {
-    expect(directive.name).toBe('label');
+    expect(directive.componentName).toBe('label');
   });
 
   it('should add the .lib-label class to the host element', () => {

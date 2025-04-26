@@ -3,14 +3,14 @@ import { AbstractStyledDirective } from '@crm-project/ui/core/abstract-styled-di
 
 const style = /* css */ `
   .lib-label {
-
+    font-size: 14px;
   }
 `;
 
 @Directive({
   selector: 'label[libLabel]',
   host: {
-    '[attr.data-lib-component]': 'name',
+    '[attr.data-lib-component]': 'componentName',
     class: 'lib-label',
   },
 })
@@ -18,14 +18,14 @@ export class LibLabelDirective
   extends AbstractStyledDirective
   implements OnInit, OnDestroy
 {
-  name = 'label';
+  componentName = 'label';
   componentStyles = style;
 
   ngOnInit() {
-    this.loadStyles();
+    this.loadStyles(this.componentStyles, this.componentName);
   }
 
   ngOnDestroy() {
-    this.removeStyles();
+    this.removeStyles(this.componentName);
   }
 }

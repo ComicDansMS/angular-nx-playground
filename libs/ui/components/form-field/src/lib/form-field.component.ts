@@ -1,11 +1,90 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {
+  AfterContentInit,
+  ChangeDetectionStrategy,
+  Component,
+  ContentChild,
+  OnDestroy,
+} from '@angular/core';
+import { LibInputDirective } from '@crm-project/ui/components/input';
+import { LibLabelDirective } from '@crm-project/ui/components/label';
+
+const labelStyle = /* css */ `
+  .lib-form-field {
+    label {
+      position: absolute;
+      z-index: -1;
+      top: 50%;
+      transform: translateY(-50%);
+      left: 0.75rem;
+      letter-spacing: 0.04rem;
+      font-size: 1rem;
+      transition: all 200ms;
+    }
+  }
+
+  .lib-form-field:focus-within,
+  .lib-form-field:has(.lib-input--has-value) {
+    label {
+      position: absolute;
+      z-index: -1;
+      top: 0.35rem;
+      transform: translateY(0);
+      font-size: 0.625rem;
+    }
+  }
+`;
+
+const inputStyle = /* css */ `
+  .lib-form-field {
+    input {
+      padding: 1.375rem 0.75rem 0.5rem 0.75rem;
+      height: 2.8125rem;
+    }
+  }
+`;
 
 @Component({
   selector: 'lib-form-field',
-  imports: [CommonModule],
-  template: `<p>FormField works!</p>`,
-  styles: ``,
+  template: `
+    <div class="lib-form-field w-full">
+      <ng-content></ng-content>
+    </div>
+  `,
+  styles: `
+    .lib-form-field {
+      position: relative;
+      width: max-content;
+      z-index: 1;
+      width: 100%;
+    }
+  `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FormFieldComponent {}
+export class LibFormFieldComponent implements AfterContentInit, OnDestroy {
+  @ContentChild(LibInputDirective) input!: LibInputDirective;
+  @ContentChild(LibLabelDirective) label!: LibLabelDirective;
+
+  styleComponent() {
+    if (this.input !== undefined) {
+      this.input.loadStyles(inputStyle, 'form-field-input');
+    }
+
+    if (this.label !== undefined) {
+      this.label.loadStyles(labelStyle, 'form-field-label');
+    }
+  }
+
+  ngAfterContentInit(): void {
+    this.styleComponent();
+  }
+
+  ngOnDestroy(): void {
+    if (this.input !== undefined) {
+      this.input.removeStyles('form-field-input');
+    }
+
+    if (this.label !== undefined) {
+      this.label.removeStyles('form-field-label');
+    }
+  }
+}

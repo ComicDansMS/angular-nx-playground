@@ -30,7 +30,7 @@ describe('Lib<%= className %>Directive', () => {
   });
 
   it('should have correct name property', () => {
-    expect(directive.name).toBe('<%= name %>');
+    expect(directive.componentName).toBe('<%= name %>');
   });
 
   it('should add the .lib-<%= name %> class to the host element', () => {

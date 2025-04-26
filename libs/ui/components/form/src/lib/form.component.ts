@@ -1,11 +1,15 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { LibCardDirective } from '@crm-project/ui/components/card';
+import { FormFieldComponent } from '@crm-project/ui/components/form-field';
 
 @Component({
   selector: 'lib-form',
-  imports: [CommonModule],
-  template: `<p>Form works!</p>`,
-  styles: ``,
+  template: `
+    <div libCard>
+      <lib-form-field />
+    </div>
+  `,
+  imports: [LibCardDirective, FormFieldComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FormComponent {}

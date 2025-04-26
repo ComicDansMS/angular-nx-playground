@@ -3,7 +3,7 @@ import { AbstractStyledDirective } from '@crm-project/ui/core/abstract-styled-di
 
 const style = /* css */ `
   .lib-card {
-    box-shadow: rgba(99, 99, 99, 0.2) 0 2px 8px 0;
+    box-shadow: var(--theme-color-shadow) 0 2px 8px 0;
     padding: 2rem;
     border-radius: 1rem;
   }
@@ -12,7 +12,7 @@ const style = /* css */ `
 @Directive({
   selector: 'div[libCard]',
   host: {
-    '[attr.data-lib-component]': 'name',
+    '[attr.data-lib-component]': 'componentName',
     class: 'lib-card',
   },
 })
@@ -20,14 +20,14 @@ export class LibCardDirective
   extends AbstractStyledDirective
   implements OnInit, OnDestroy
 {
-  name = 'card';
+  componentName = 'card';
   componentStyles = style;
 
   ngOnInit() {
-    this.loadStyles();
+    this.loadStyles(this.componentStyles, this.componentName);
   }
 
   ngOnDestroy() {
-    this.removeStyles();
+    this.removeStyles(this.componentName);
   }
 }

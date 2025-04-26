@@ -5,7 +5,7 @@ import { DOCUMENT } from '@angular/common';
 export abstract class AbstractStyledDirective {
   document = inject(DOCUMENT);
 
-  abstract name: string;
+  abstract componentName: string;
   abstract componentStyles: string;
 
   private static componentRegistry = new Map<
@@ -13,34 +13,34 @@ export abstract class AbstractStyledDirective {
     { element: HTMLStyleElement; count: number }
   >();
 
-  loadStyles(): void {
-    const existing = AbstractStyledDirective.componentRegistry.get(this.name);
+  loadStyles(styles: string, identifier: string): void {
+    const existing = AbstractStyledDirective.componentRegistry.get(identifier);
 
     if (existing) {
       existing.count++;
     } else {
       const styleElement = this.document.createElement('style');
-      styleElement.setAttribute('data-lib-style', this.name);
-      styleElement.textContent = this.componentStyles;
+      styleElement.setAttribute('data-lib-style', identifier);
+      styleElement.textContent = styles;
 
       this.document.head.appendChild(styleElement);
 
-      AbstractStyledDirective.componentRegistry.set(this.name, {
+      AbstractStyledDirective.componentRegistry.set(identifier, {
         element: styleElement,
         count: 1,
       });
     }
   }
 
-  removeStyles(): void {
-    const existing = AbstractStyledDirective.componentRegistry.get(this.name);
+  removeStyles(identifier: string): void {
+    const existing = AbstractStyledDirective.componentRegistry.get(identifier);
 
     if (existing) {
       existing.count--;
 
       if (existing.count === 0) {
         this.document.head.removeChild(existing.element);
-        AbstractStyledDirective.componentRegistry.delete(this.name);
+        AbstractStyledDirective.componentRegistry.delete(identifier);
       }
     }
   }

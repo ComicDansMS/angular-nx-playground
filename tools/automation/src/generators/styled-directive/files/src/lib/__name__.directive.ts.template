@@ -10,7 +10,7 @@ const style = /* css */ `
 @Directive({
   selector: '<%= element %>[lib<%= className %>]',
   host: {
-    '[attr.data-lib-component]': 'name',
+    '[attr.data-lib-component]': 'componentName',
     class: 'lib-<%= name %>',
   },
 })
@@ -18,14 +18,14 @@ export class Lib<%= className %>Directive
   extends AbstractStyledDirective
   implements OnInit, OnDestroy
 {
-  name = '<%= name %>';
+  componentName = '<%= name %>';
   componentStyles = style;
 
   ngOnInit() {
-    this.loadStyles();
+    this.loadStyles(this.componentStyles, this.componentName);
   }
 
   ngOnDestroy() {
-    this.removeStyles();
+    this.removeStyles(this.componentName);
   }
 }

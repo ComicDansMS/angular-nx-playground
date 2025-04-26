@@ -28,7 +28,7 @@ describe('LibInputDirective', () => {
   });
 
   it('should have correct name property', () => {
-    expect(directive.name).toBe('input');
+    expect(directive.componentName).toBe('input');
   });
 
   it('should add the .lib-input class to the host element', () => {

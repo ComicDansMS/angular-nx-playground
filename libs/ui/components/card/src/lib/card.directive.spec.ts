@@ -28,7 +28,7 @@ describe('LibCardDirective', () => {
   });
 
   it('should have correct name property', () => {
-    expect(directive.name).toBe('card');
+    expect(directive.componentName).toBe('card');
   });
 
   it('should add the .lib-card class to the host element', () => {

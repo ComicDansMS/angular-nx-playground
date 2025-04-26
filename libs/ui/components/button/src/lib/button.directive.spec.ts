@@ -30,7 +30,7 @@ describe('LibButtonDirective', () => {
   });
 
   it('should have correct name property', () => {
-    expect(directive.name).toBe('button');
+    expect(directive.componentName).toBe('button');
   });
 
   it('should add the .lib-button class to the host element', () => {
