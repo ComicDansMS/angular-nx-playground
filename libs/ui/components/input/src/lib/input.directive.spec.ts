@@ -6,7 +6,7 @@ import { AbstractStyledDirective } from '@crm-project/ui/core/abstract-styled-di
 import cssValidator from 'w3c-css-validator';
 
 @Component({
-  template: `<input libInput>input</input>`,
+  template: `<input libInput />`,
   imports: [LibInputDirective],
 })
 class HostComponent {}
