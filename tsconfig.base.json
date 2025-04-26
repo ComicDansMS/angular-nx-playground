@@ -15,6 +15,19 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@crm-project/ui/components/card": ["libs/ui/components/card/src/index.ts"],
+      "@crm-project/ui/components/button": [
+        "libs/ui/components/button/src/index.ts"
+      ],
+      "@crm-project/ui/components/input": [
+        "libs/ui/components/input/src/index.ts"
+      ],
+      "@crm-project/ui/core/abstract-directive-style": [
+        "libs/ui/core/abstracts/abstract-directive-style/src/index.ts"
+      ],
+      "@crm-project/ui/core/abstract-styled-directive": [
+        "libs/ui/core/abstracts/abstract-styled-directive/src/index.ts"
+      ],
       "@crm-project/ui/core/theme-provider": [
         "libs/ui/core/theme-provider/src/index.ts"
       ],

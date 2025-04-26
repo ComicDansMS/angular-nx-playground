@@ -1,6 +1,6 @@
 import { Component, signal } from '@angular/core';
-import { LibButtonDirective } from '@crm-project/ui/button';
-import { LibInputDirective } from '@crm-project/ui/input';
+import { LibButtonDirective } from '@crm-project/ui/components/button';
+import { LibInputDirective } from '@crm-project/ui/components/input';
 
 @Component({
   selector: 'app-inputs',
