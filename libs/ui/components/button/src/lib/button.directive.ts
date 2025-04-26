@@ -40,7 +40,7 @@ type ButtonWidth = 'tight' | 'normal' | 'full';
 @Directive({
   selector: 'button[libButton]',
   host: {
-    '[attr.data-lib-component]': 'id',
+    '[attr.data-lib-component]': 'name',
     class: 'lib-button',
     '[class.lib-button--type-secondary]': 'variant() === "secondary"',
     '[class.lib-button--width-tight]': 'width() === "tight"',
