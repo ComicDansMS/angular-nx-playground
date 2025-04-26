@@ -2,25 +2,23 @@ import { Directive, OnDestroy, OnInit } from '@angular/core';
 import { AbstractStyledDirective } from '@crm-project/ui/core/abstract-styled-directive';
 
 const style = /* css */ `
-  .lib-card {
-    box-shadow: rgba(99, 99, 99, 0.2) 0 2px 8px 0;
-    padding: 2rem;
-    border-radius: 1rem;
+  .lib-<%= name %> {
+
   }
 `;
 
 @Directive({
-  selector: 'div[libCard]',
+  selector: '<%= element %>[lib<%= className %>]',
   host: {
     '[attr.data-lib-component]': 'name',
-    class: 'lib-card',
+    class: 'lib-<%= name %>',
   },
 })
-export class LibCardDirective
+export class Lib<%= className %>Directive
   extends AbstractStyledDirective
   implements OnInit, OnDestroy
 {
-  name = 'card';
+  name = '<%= name %>';
   componentStyles = style;
 
   ngOnInit() {

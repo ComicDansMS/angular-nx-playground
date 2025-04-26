@@ -32,7 +32,7 @@ type Size = 'small' | 'full';
 @Directive({
   selector: 'input[libInput]',
   host: {
-    '[attr.data-lib-component]': 'id',
+    '[attr.data-lib-component]': 'name',
     class: 'lib-input',
     '[class.lib-input--small]': 'size() === "small"',
     '[class.lib-input--full]': 'size() === "full"',

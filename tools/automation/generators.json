@@ -1,0 +1,9 @@
+{
+  "generators": {
+    "styled-directive": {
+      "factory": "./src/generators/styled-directive/styled-directive",
+      "schema": "./src/generators/styled-directive/schema.json",
+      "description": "styled-directive generator"
+    }
+  }
+}
