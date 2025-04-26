@@ -16,9 +16,12 @@
     "baseUrl": ".",
     "esModuleInterop": true,
     "paths": {
-      "@crm-project/ui/components/card": ["libs/ui/components/card/src/index.ts"],
+      "@angular-nx-playground/automation": ["tools/automation/src/index.ts"],
       "@crm-project/ui/components/button": [
         "libs/ui/components/button/src/index.ts"
+      ],
+      "@crm-project/ui/components/card": [
+        "libs/ui/components/card/src/index.ts"
       ],
       "@crm-project/ui/components/input": [
         "libs/ui/components/input/src/index.ts"
