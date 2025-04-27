@@ -81,10 +81,8 @@ export class ThemeService {
     const storedTheme = localStorage.getItem(this.STORAGE_KEY);
 
     if (storedTheme === ThemeType.Dark) {
-      console.log(`${storedTheme} found in ThemeType`);
       return ThemeType.Dark;
     } else {
-      console.log(`${storedTheme} not in ThemeType`);
       return ThemeType.Light;
     }
   }
