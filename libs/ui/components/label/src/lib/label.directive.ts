@@ -4,6 +4,7 @@ import { AbstractStyledDirective } from '@crm-project/ui/core/abstract-styled-di
 const style = /* css */ `
   .lib-label {
     font-size: 14px;
+    opacity: 0.5;
   }
 `;
 
@@ -14,10 +15,7 @@ const style = /* css */ `
     class: 'lib-label',
   },
 })
-export class LibLabelDirective
-  extends AbstractStyledDirective
-  implements OnInit, OnDestroy
-{
+export class LibLabelDirective extends AbstractStyledDirective implements OnInit, OnDestroy {
   componentName = 'label';
   componentStyles = style;
 
