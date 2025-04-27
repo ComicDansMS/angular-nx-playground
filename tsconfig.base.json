@@ -17,40 +17,19 @@
     "esModuleInterop": true,
     "paths": {
       "@crm-project/tools/automation": ["tools/automation/src/index.ts"],
-      "@crm-project/ui/components/button": [
-        "libs/ui/components/button/src/index.ts"
-      ],
-      "@crm-project/ui/components/card": [
-        "libs/ui/components/card/src/index.ts"
-      ],
-      "@crm-project/ui/components/form-field": [
-        "libs/ui/components/form-field/src/index.ts"
-      ],
-      "@crm-project/ui/components/input": [
-        "libs/ui/components/input/src/index.ts"
-      ],
-      "@crm-project/ui/components/label": [
-        "libs/ui/components/label/src/index.ts"
-      ],
-      "@crm-project/ui/core/abstract-directive-style": [
-        "libs/ui/core/abstracts/abstract-directive-style/src/index.ts"
-      ],
+      "@crm-project/ui/components/button": ["libs/ui/components/button/src/index.ts"],
+      "@crm-project/ui/components/card": ["libs/ui/components/card/src/index.ts"],
+      "@crm-project/ui/components/form-field": ["libs/ui/components/form-field/src/index.ts"],
+      "@crm-project/ui/components/input": ["libs/ui/components/input/src/index.ts"],
+      "@crm-project/ui/components/label": ["libs/ui/components/label/src/index.ts"],
       "@crm-project/ui/core/abstract-styled-directive": [
         "libs/ui/core/abstracts/abstract-styled-directive/src/index.ts"
       ],
-      "@crm-project/ui/core/theme-provider": [
-        "libs/ui/core/theme-provider/src/index.ts"
-      ],
-      "@crm-project/ui/core/theme-service": [
-        "libs/ui/core/theme-service/src/index.ts"
-      ],
+      "@crm-project/ui/core/theme-provider": ["libs/ui/core/theme-provider/src/index.ts"],
+      "@crm-project/ui/core/theme-service": ["libs/ui/core/theme-service/src/index.ts"],
       "@crm-project/ui/interfaces": ["libs/ui/core/interfaces/src/index.ts"],
-      "@crm-project/ui/themes/dark-theme": [
-        "libs/ui/themes/dark-theme/src/index.ts"
-      ],
-      "@crm-project/ui/themes/light-theme": [
-        "libs/ui/themes/light-theme/src/index.ts"
-      ]
+      "@crm-project/ui/themes/dark-theme": ["libs/ui/themes/dark-theme/src/index.ts"],
+      "@crm-project/ui/themes/light-theme": ["libs/ui/themes/light-theme/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
