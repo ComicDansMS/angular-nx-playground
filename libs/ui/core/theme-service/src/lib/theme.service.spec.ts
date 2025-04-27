@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { ThemeService } from './theme.service';
+import { DARK_THEME, LIGHT_THEME, ThemeService } from './theme.service';
 import { DOCUMENT } from '@angular/common';
 import cssValidator from 'w3c-css-validator';
 import { lightTheme as defaultLightTheme } from '@crm-project/ui/themes/light-theme';
@@ -13,6 +13,8 @@ describe('ThemeService', () => {
 
   describe('Default theme', () => {
     beforeEach(() => {
+      localStorage.removeItem('lib-theme');
+
       TestBed.configureTestingModule({
         providers: [ThemeService],
       });
@@ -22,11 +24,11 @@ describe('ThemeService', () => {
     });
 
     describe('State', () => {
-      it('should initialize themeType state correctly', () => {
+      it('should initialise themeType state correctly', () => {
         expect(service.themeType()).toBe('light');
       });
 
-      it('should initialize themeCss state correctly', () => {
+      it('should initialise themeCss state correctly', () => {
         const lightThemeCss = service.generateCssFromTokens(defaultLightTheme.tokens);
 
         expect(service.themeCss()).toBe(lightThemeCss);
@@ -52,7 +54,24 @@ describe('ThemeService', () => {
       });
     });
 
-    describe('Document style element', () => {
+    describe('Methods', () => {
+      it('should generate valid CSS when generateCssFromTokens() is provided with theme tokens', async () => {
+        const generatedCss = service.generateCssFromTokens(defaultLightTheme.tokens);
+        const validation = await cssValidator.validateText(generatedCss);
+
+        if (!validation.valid) {
+          const validationErrors = validation.errors
+            .map((error) => `Line ${error.line}: ${error.message}`)
+            .join('\n');
+
+          throw new Error(`CSS validation errors:\n${validationErrors}`);
+        }
+
+        expect(validation.valid).toBe(true);
+      });
+    });
+
+    describe('Style element', () => {
       it('should create the style element and add to document head', () => {
         const styleElement = document.querySelector('[data-lib-theme="light"]');
 
@@ -60,7 +79,7 @@ describe('ThemeService', () => {
         expect(document.head.contains(styleElement)).toBe(true);
       });
 
-      it('should match the theme CSS with the style element CSS', () => {
+      it('should match the style element CSS with the theme CSS', () => {
         const styleElement = document.querySelector('[data-lib-theme="light"]');
         const styleContent = styleElement?.textContent?.trim() || '';
         const themeCss = service.themeCss()?.trim();
@@ -84,7 +103,7 @@ describe('ThemeService', () => {
         expect(validation.valid).toBe(true);
       });
 
-      it('should update CSS in the style element on theme toggle', () => {
+      it('should update the style element when theme is toggled', () => {
         const lightThemeElement = document.querySelector('[data-lib-theme="light"]');
         const lightThemeElementContent = lightThemeElement?.textContent?.trim() || '';
         const lightThemeCss = service.generateCssFromTokens(defaultLightTheme.tokens).trim();
@@ -99,49 +118,42 @@ describe('ThemeService', () => {
         expect(darkThemeElementContent).toBe(darkThemeCss);
       });
     });
-
-    describe('Methods', () => {
-      it('should generate valid CSS when tokens passed to generateCssFromTokens()', async () => {
-        const generatedCss = service.generateCssFromTokens(defaultLightTheme.tokens);
-        const validation = await cssValidator.validateText(generatedCss);
-
-        if (!validation.valid) {
-          const validationErrors = validation.errors
-            .map((error) => `Line ${error.line}: ${error.message}`)
-            .join('\n');
-
-          throw new Error(`CSS validation errors:\n${validationErrors}`);
-        }
-
-        expect(validation.valid).toBe(true);
-      });
-    });
   });
 
   describe('Theme injection', () => {
     beforeEach(() => {
+      localStorage.removeItem('lib-theme');
+
       TestBed.configureTestingModule({
-        providers: [ThemeService],
+        providers: [
+          ThemeService,
+          { provide: LIGHT_THEME, useValue: testLightTheme },
+          { provide: DARK_THEME, useValue: testDarkTheme },
+        ],
       });
 
       service = TestBed.inject(ThemeService);
       document = TestBed.inject(DOCUMENT);
     });
 
-    it('should initialize state with injected light theme', () => {
-      const lightThemeCss = service.generateCssFromTokens(testLightTheme.tokens);
+    it('should initialise state with the injected light theme', () => {
+      const defaultLightThemeCss = service.generateCssFromTokens(defaultLightTheme.tokens);
+      const testLightThemeCss = service.generateCssFromTokens(testLightTheme.tokens);
 
-      expect(service.themeCss()).toBe(lightThemeCss);
+      expect(service.themeCss()).not.toBe(defaultLightThemeCss);
+      expect(service.themeCss()).toBe(testLightThemeCss);
       expect(service.themeType()).toBe('light');
     });
 
-    it('should load injected dark theme when theme is toggled', () => {
-      const darkThemeCss = service.generateCssFromTokens(testDarkTheme.tokens);
+    it('should switch to the injected dark theme when theme is toggled', () => {
+      const defaultDarkThemeCss = service.generateCssFromTokens(defaultDarkTheme.tokens);
+      const testDarkThemeCss = service.generateCssFromTokens(testDarkTheme.tokens);
 
       service.toggleTheme$.next();
 
+      expect(service.themeCss()).not.toBe(defaultDarkThemeCss);
+      expect(service.themeCss()).toBe(testDarkThemeCss);
       expect(service.themeType()).toBe('dark');
-      expect(service.themeCss()).toBe(darkThemeCss);
     });
   });
 });

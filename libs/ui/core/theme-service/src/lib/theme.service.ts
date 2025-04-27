@@ -46,10 +46,10 @@ export class ThemeService {
       .pipe(
         tap(() => {
           if (this.themeType() === ThemeType.Light) {
-            this.state.update((state) => ({ ...state, themeType: ThemeType.Light }));
+            this.state.update((state) => ({ ...state, themeType: ThemeType.Dark }));
             this.theme$.next(this.darkTheme);
           } else {
-            this.state.update((state) => ({ ...state, themeType: ThemeType.Dark }));
+            this.state.update((state) => ({ ...state, themeType: ThemeType.Light }));
             this.theme$.next(this.lightTheme);
           }
         })

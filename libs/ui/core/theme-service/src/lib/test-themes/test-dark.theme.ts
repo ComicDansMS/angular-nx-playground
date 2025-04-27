@@ -3,12 +3,12 @@ import { Theme, ThemeType } from '@crm-project/ui/interfaces';
 export const testDarkTheme: Theme = {
   type: ThemeType.Dark,
   tokens: {
-    '--theme-color-background-primary': '#112020',
-    '--theme-color-text-primary': '#598d8d',
-    '--theme-color-button-primary': '#1a3755',
-    '--theme-color-button-primary-hover': '#152a41',
-    '--theme-color-button-secondary': '#3e4852',
-    '--theme-color-button-secondary-hover': '#2e363d',
-    '--theme-color-shadow': '#4b6563',
+    '--theme-color-background-primary': '#0d1b2a',
+    '--theme-color-text-primary': '#e0e1dd',
+    '--theme-color-button-primary': '#415a77',
+    '--theme-color-button-primary-hover': '#1b263b',
+    '--theme-color-button-secondary': '#778da9',
+    '--theme-color-button-secondary-hover': '#3d5a80',
+    '--theme-color-shadow': '#0f172a',
   },
 };
