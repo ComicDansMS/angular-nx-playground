@@ -1,10 +1,4 @@
-import {
-  computed,
-  inject,
-  Injectable,
-  InjectionToken,
-  signal,
-} from '@angular/core';
+import { computed, inject, Injectable, InjectionToken, signal } from '@angular/core';
 import { lightTheme } from '@crm-project/ui/themes/light-theme';
 import { darkTheme } from '@crm-project/ui/themes/dark-theme';
 import { DOCUMENT } from '@angular/common';
@@ -21,6 +15,7 @@ export const DARK_THEME = new InjectionToken<Theme>('UI library dark theme', {
 
 interface ThemeServiceState {
   themeType: ThemeType;
+  themeCss: string | null;
 }
 
 @Injectable({
@@ -30,20 +25,20 @@ export class ThemeService {
   private document = inject(DOCUMENT);
   private readonly lightTheme = inject(LIGHT_THEME);
   private readonly darkTheme = inject(DARK_THEME);
-
-  private readonly styleElement: HTMLStyleElement =
-    this.document.createElement('style');
+  private readonly styleElement: HTMLStyleElement = this.document.createElement('style');
 
   // state
   private state = signal<ThemeServiceState>({
     themeType: 'light',
+    themeCss: null,
   });
 
   // selectors
   public themeType = computed(() => this.state().themeType);
+  public themeCss = computed(() => this.state().themeCss);
 
   // sources
-  private theme$ = new Subject<Theme>();
+  protected theme$ = new Subject<Theme>();
   public toggleTheme$ = new Subject<void>();
 
   constructor() {
@@ -66,24 +61,21 @@ export class ThemeService {
 
     this.theme$
       .pipe(
-        tap((theme) =>
-          this.styleElement.setAttribute('data-lib-theme', theme.type)
-        ),
-        map((theme) => this.generateCssVariables(theme.tokens)),
-        tap((css) => (this.styleElement.textContent = css))
+        tap((theme) => this.styleElement.setAttribute('data-lib-theme', theme.type)),
+        map((theme) => this.generateCssFromTokens(theme.tokens)),
+        tap((css) => (this.styleElement.textContent = css)),
+        tap((css) => this.state.update((state) => ({ ...state, themeCss: css })))
       )
       .subscribe();
 
-    this.theme$.next(
-      this.state().themeType === 'light' ? this.lightTheme : this.darkTheme
-    );
+    this.theme$.next(this.state().themeType === 'light' ? this.lightTheme : this.darkTheme);
   }
 
-  private generateCssVariables(tokens: Tokens): string {
+  generateCssFromTokens(tokens: Tokens): string {
     const cssVariables = Object.entries(tokens)
       .map(([key, value]) => `${key}: ${value};`)
       .join(' ');
 
-    return `:root {${cssVariables} }`;
+    return `:root {${cssVariables}}`;
   }
 }
