@@ -1,4 +1,4 @@
-import { ThemeType } from './theme-type.type';
+import { ThemeType } from './theme-type.enum';
 import { Tokens } from './tokens.interface';
 
 export interface Theme {

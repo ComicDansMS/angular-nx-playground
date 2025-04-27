@@ -1,7 +1,7 @@
-import { Theme } from '@crm-project/ui/interfaces';
+import { Theme, ThemeType } from '@crm-project/ui/interfaces';
 
 export const darkTheme: Theme = {
-  type: 'dark',
+  type: ThemeType.Dark,
   tokens: {
     '--theme-color-background-primary': '#112020',
     '--theme-color-text-primary': '#598d8d',

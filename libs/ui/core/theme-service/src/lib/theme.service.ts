@@ -26,33 +26,30 @@ export class ThemeService {
   private readonly lightTheme = inject(LIGHT_THEME);
   private readonly darkTheme = inject(DARK_THEME);
   private readonly styleElement: HTMLStyleElement = this.document.createElement('style');
+  private readonly STORAGE_KEY = 'lib-theme';
 
-  // state
   private state = signal<ThemeServiceState>({
-    themeType: 'light',
+    themeType: this.loadTheme(),
     themeCss: null,
   });
 
-  // selectors
   public themeType = computed(() => this.state().themeType);
   public themeCss = computed(() => this.state().themeCss);
 
-  // sources
   protected theme$ = new Subject<Theme>();
   public toggleTheme$ = new Subject<void>();
 
   constructor() {
     this.document.head.append(this.styleElement);
 
-    // reducers
     this.toggleTheme$
       .pipe(
         tap(() => {
-          if (this.themeType() === 'light') {
-            this.state.update((state) => ({ ...state, themeType: 'dark' }));
+          if (this.themeType() === ThemeType.Light) {
+            this.state.update((state) => ({ ...state, themeType: ThemeType.Light }));
             this.theme$.next(this.darkTheme);
           } else {
-            this.state.update((state) => ({ ...state, themeType: 'light' }));
+            this.state.update((state) => ({ ...state, themeType: ThemeType.Dark }));
             this.theme$.next(this.lightTheme);
           }
         })
@@ -62,13 +59,14 @@ export class ThemeService {
     this.theme$
       .pipe(
         tap((theme) => this.styleElement.setAttribute('data-lib-theme', theme.type)),
+        tap((theme) => localStorage.setItem(this.STORAGE_KEY, theme.type)),
         map((theme) => this.generateCssFromTokens(theme.tokens)),
         tap((css) => (this.styleElement.textContent = css)),
         tap((css) => this.state.update((state) => ({ ...state, themeCss: css })))
       )
       .subscribe();
 
-    this.theme$.next(this.state().themeType === 'light' ? this.lightTheme : this.darkTheme);
+    this.theme$.next(this.state().themeType === ThemeType.Light ? this.lightTheme : this.darkTheme);
   }
 
   generateCssFromTokens(tokens: Tokens): string {
@@ -77,5 +75,17 @@ export class ThemeService {
       .join(' ');
 
     return `:root {${cssVariables}}`;
+  }
+
+  loadTheme(): ThemeType {
+    const storedTheme = localStorage.getItem(this.STORAGE_KEY);
+
+    if (storedTheme === ThemeType.Dark) {
+      console.log(`${storedTheme} found in ThemeType`);
+      return ThemeType.Dark;
+    } else {
+      console.log(`${storedTheme} not in ThemeType`);
+      return ThemeType.Light;
+    }
   }
 }

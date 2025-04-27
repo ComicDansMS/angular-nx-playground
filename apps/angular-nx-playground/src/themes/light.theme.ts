@@ -1,7 +1,7 @@
-import { Theme } from '@crm-project/ui/interfaces';
+import { Theme, ThemeType } from '@crm-project/ui/interfaces';
 
 export const lightTheme: Theme = {
-  type: 'light',
+  type: ThemeType.Light,
   tokens: {
     '--theme-color-background-primary': '#fffade',
     '--theme-color-text-primary': '#424242',
