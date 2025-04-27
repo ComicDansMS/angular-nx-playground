@@ -4,7 +4,6 @@ import { LibCardDirective } from '@crm-project/ui/components/card';
 import { LibFormFieldComponent } from '@crm-project/ui/components/form-field';
 import { LibInputDirective } from '@crm-project/ui/components/input';
 import { LibLabelDirective } from '@crm-project/ui/components/label';
-import InputsComponent from './ui/inputs/inputs.component';
 
 import {
   FormBuilder,
@@ -45,28 +44,20 @@ import {
           </div>
           <div class="mt-4">
             <lib-form-field>
-              <label libLabel for="email">email</label>
+              <label libLabel for="email">Email</label>
               <input
                 libInput
                 id="email"
                 type="text"
                 [size]="'full'"
                 formControlName="email"
+                placeholder="email@mail.com"
               />
             </lib-form-field>
-
-            <div class="mt-4">
-              <label libLabel for="email">No form-field</label>
-              <input libInput [size]="'full'" />
-            </div>
           </div>
-        </form>
-      </div>
 
-      <div libCard class="flex gap-4 flex-col items-center">
-        <button libButton [width]="'full'">Full width Button</button>
-        <button libButton [variant]="'secondary'">Secondary</button>
-        <app-inputs />
+          <button libButton [width]="'full'" class="mt-4">Submit</button>
+        </form>
       </div>
     </div>
   `,
@@ -76,7 +67,6 @@ import {
     LibInputDirective,
     LibButtonDirective,
     LibCardDirective,
-    InputsComponent,
     ReactiveFormsModule,
   ],
 })

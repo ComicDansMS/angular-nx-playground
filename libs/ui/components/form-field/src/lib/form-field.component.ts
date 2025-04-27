@@ -40,6 +40,16 @@ const inputStyle = /* css */ `
       padding: 1.375rem 0.75rem 0.5rem 0.75rem;
       height: 2.8125rem;
     }
+
+    input::placeholder {
+      transition: opacity 100ms;
+    }
+  }
+
+  .lib-form-field:not(:focus-within) {
+    input::placeholder {
+      opacity: 0;
+    }
   }
 `;
 

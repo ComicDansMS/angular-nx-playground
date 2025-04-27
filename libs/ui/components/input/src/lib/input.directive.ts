@@ -1,10 +1,11 @@
 import {
   Directive,
-  HostListener,
+  ElementRef,
+  HostBinding,
+  inject,
   input,
   OnDestroy,
   OnInit,
-  signal,
 } from '@angular/core';
 import { AbstractStyledDirective } from '@crm-project/ui/core/abstract-styled-directive';
 
@@ -43,21 +44,20 @@ type Size = 'small' | 'full';
     class: 'lib-input',
     '[class.lib-input--small]': 'size() === "small"',
     '[class.lib-input--full]': 'size() === "full"',
-    '[class.lib-input--has-value]': 'hasValue()',
   },
 })
 export class LibInputDirective
   extends AbstractStyledDirective
   implements OnInit, OnDestroy
 {
+  elementRef = inject(ElementRef);
   size = input<Size>();
   componentName = 'input';
   componentStyles = style;
-  hasValue = signal(false);
 
-  @HostListener('input', ['$event.target.value'])
-  onInput(value: string) {
-    this.hasValue.set(!!value);
+  @HostBinding('class.lib-input--has-value')
+  get hasValue() {
+    return this.elementRef.nativeElement.value.length > 0;
   }
 
   ngOnInit() {
