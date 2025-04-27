@@ -48,7 +48,7 @@ import {
               <input
                 libInput
                 id="email"
-                type="text"
+                type="email"
                 [size]="'full'"
                 formControlName="email"
                 placeholder="email@mail.com"

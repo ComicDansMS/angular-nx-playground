@@ -3,21 +3,20 @@ import { DOCUMENT } from '@angular/common';
 
 @Injectable({ providedIn: 'root' })
 export abstract class AbstractStyledDirective {
-  document = inject(DOCUMENT);
-
-  abstract componentName: string;
-  abstract componentStyles: string;
-
+  private document = inject(DOCUMENT);
   private static componentRegistry = new Map<
     string,
     { element: HTMLStyleElement; count: number }
   >();
+  protected abstract componentName: string;
+  protected abstract componentStyles: string;
 
   loadStyles(styles: string, identifier: string): void {
-    const existing = AbstractStyledDirective.componentRegistry.get(identifier);
+    const registryComponent =
+      AbstractStyledDirective.componentRegistry.get(identifier);
 
-    if (existing) {
-      existing.count++;
+    if (registryComponent) {
+      registryComponent.count++;
     } else {
       const styleElement = this.document.createElement('style');
       styleElement.setAttribute('data-lib-style', identifier);
@@ -33,13 +32,14 @@ export abstract class AbstractStyledDirective {
   }
 
   removeStyles(identifier: string): void {
-    const existing = AbstractStyledDirective.componentRegistry.get(identifier);
+    const registryComponent =
+      AbstractStyledDirective.componentRegistry.get(identifier);
 
-    if (existing) {
-      existing.count--;
+    if (registryComponent) {
+      registryComponent.count--;
 
-      if (existing.count === 0) {
-        this.document.head.removeChild(existing.element);
+      if (registryComponent.count === 0) {
+        this.document.head.removeChild(registryComponent.element);
         AbstractStyledDirective.componentRegistry.delete(identifier);
       }
     }

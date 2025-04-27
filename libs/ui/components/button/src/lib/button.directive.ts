@@ -1,4 +1,12 @@
-import { Directive, input, OnDestroy, OnInit } from '@angular/core';
+import {
+  Directive,
+  HostBinding,
+  HostListener,
+  input,
+  OnDestroy,
+  OnInit,
+  signal,
+} from '@angular/core';
 import { AbstractStyledDirective } from '@crm-project/ui/core/abstract-styled-directive';
 
 const style = /* css */ `
@@ -13,7 +21,7 @@ const style = /* css */ `
   }
 
   .lib-button:hover {
-    background: var(--theme-color-button-primary-hover);
+    filter: brightness(1.1)
   }
 
   .lib-button--type-secondary {
@@ -21,7 +29,7 @@ const style = /* css */ `
   }
 
   .lib-button--type-secondary:hover {
-    background: var(--theme-color-button-secondary-hover);
+    filter: brightness(1.1)
   }
 
   .lib-button--width-tight {
@@ -31,6 +39,14 @@ const style = /* css */ `
     
   .lib-button--width-full {
     width: 100%;
+  }
+
+  @keyframes flash {
+    0%   { filter: brightness(1.35); }
+    100% { filter: brightness(1.1); }
+  }
+  .lib-button--click {
+    animation: flash 300ms ease-out;
   }
 `;
 
@@ -53,9 +69,20 @@ export class LibButtonDirective
 {
   variant = input<ButtonVariant>();
   width = input<ButtonWidth>();
-
   componentName = 'button';
   componentStyles = style;
+  private playClickAnimation = signal(false);
+
+  @HostBinding('class.lib-button--click')
+  get isClick() {
+    return this.playClickAnimation();
+  }
+
+  @HostListener('click')
+  setClickAnimation() {
+    this.playClickAnimation.set(true);
+    setTimeout(() => this.playClickAnimation.set(false), 300);
+  }
 
   ngOnInit() {
     this.loadStyles(this.componentStyles, this.componentName);
