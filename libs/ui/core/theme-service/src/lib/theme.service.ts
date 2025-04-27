@@ -29,7 +29,7 @@ export class ThemeService {
   private readonly STORAGE_KEY = 'lib-theme';
 
   private state = signal<ThemeServiceState>({
-    themeType: this.loadTheme(),
+    themeType: this.getInitialTheme(),
     themeCss: null,
   });
 
@@ -77,7 +77,7 @@ export class ThemeService {
     return `:root {${cssVariables}}`;
   }
 
-  loadTheme(): ThemeType {
+  getInitialTheme(): ThemeType {
     const storedTheme = localStorage.getItem(this.STORAGE_KEY);
 
     if (storedTheme === ThemeType.Dark) {
