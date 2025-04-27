@@ -18,7 +18,7 @@ import {
     <div class="flex flex-col gap-8 mt-8 w-96 mx-auto">
       <div libCard>
         <form [formGroup]="loginForm">
-          <div class="mt-4">
+          <div class="flex flex-col gap-4">
             <lib-form-field>
               <label libLabel for="last-name">First name</label>
               <input
@@ -29,8 +29,6 @@ import {
                 formControlName="firstName"
               />
             </lib-form-field>
-          </div>
-          <div class="mt-4">
             <lib-form-field class="w-full">
               <label libLabel for="last-name">Last name</label>
               <input
@@ -41,8 +39,6 @@ import {
                 formControlName="lastName"
               />
             </lib-form-field>
-          </div>
-          <div class="mt-4">
             <lib-form-field>
               <label libLabel for="email">Email</label>
               <input
@@ -54,9 +50,9 @@ import {
                 placeholder="email@mail.com"
               />
             </lib-form-field>
-          </div>
 
-          <button libButton [width]="'full'" class="mt-4">Submit</button>
+            <button libButton [width]="'full'">Submit</button>
+          </div>
         </form>
       </div>
     </div>

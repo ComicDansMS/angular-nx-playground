@@ -11,7 +11,7 @@ import { AbstractStyledDirective } from '@crm-project/ui/core/abstract-styled-di
 
 const style = /* css */ `
   .lib-input {
-    border: solid 1px var(--theme-color-text-primary);
+    border: solid 1px #4c4d53;
     width: 200px;
     border-radius: 0.25rem;
     padding: 0.35rem 0.75rem;
@@ -32,6 +32,10 @@ const style = /* css */ `
     
   .lib-input--full {
     width: 100%;
+  }
+
+  .lib-input.ng-invalid:not(.ng-untouched) {
+    border-color: #8a4c4d;
   }
 `;
 

@@ -20,15 +20,11 @@ const style = /* css */ `
     text-transform: uppercase;
   }
 
-  .lib-button:hover {
-    filter: brightness(1.1)
-  }
-
   .lib-button--type-secondary {
     background: var(--theme-color-button-secondary);
   }
 
-  .lib-button--type-secondary:hover {
+  .lib-button:hover {
     filter: brightness(1.1)
   }
 
@@ -46,7 +42,7 @@ const style = /* css */ `
     100% { filter: brightness(1.1); }
   }
   .lib-button--click {
-    animation: flash 300ms ease-out;
+    animation: flash 200ms ease-out;
   }
 `;
 
@@ -81,7 +77,7 @@ export class LibButtonDirective
   @HostListener('click')
   setClickAnimation() {
     this.playClickAnimation.set(true);
-    setTimeout(() => this.playClickAnimation.set(false), 300);
+    setTimeout(() => this.playClickAnimation.set(false), 200);
   }
 
   ngOnInit() {
