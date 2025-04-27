@@ -23,9 +23,6 @@
       "@crm-project/ui/components/card": [
         "libs/ui/components/card/src/index.ts"
       ],
-      "@crm-project/ui/components/form": [
-        "libs/ui/components/form/src/index.ts"
-      ],
       "@crm-project/ui/components/form-field": [
         "libs/ui/components/form-field/src/index.ts"
       ],
