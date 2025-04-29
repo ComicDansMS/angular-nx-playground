@@ -1,12 +1,4 @@
-import {
-  Directive,
-  ElementRef,
-  HostBinding,
-  inject,
-  input,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { Directive, input, OnDestroy, OnInit } from '@angular/core';
 import { AbstractStyledDirective } from '@crm-project/ui/core/abstract-styled-directive';
 
 const style = /* css */ `
@@ -54,15 +46,9 @@ export class LibInputDirective
   extends AbstractStyledDirective
   implements OnInit, OnDestroy
 {
-  elementRef = inject(ElementRef);
   size = input<Size>();
   componentName = 'input';
   componentStyles = style;
-
-  @HostBinding('class.lib-input--has-value')
-  get hasValue() {
-    return this.elementRef.nativeElement.value.length > 0;
-  }
 
   ngOnInit() {
     this.loadStyles(this.componentStyles, this.componentName);

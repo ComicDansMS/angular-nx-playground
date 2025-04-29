@@ -1,9 +1,7 @@
 import { Component } from '@angular/core';
 import { LibButtonDirective } from '@crm-project/ui/components/button';
 import { LibCardDirective } from '@crm-project/ui/components/card';
-import { LibFormFieldComponent } from '@crm-project/ui/components/form-field';
-import { LibInputDirective } from '@crm-project/ui/components/input';
-import { LibLabelDirective } from '@crm-project/ui/components/label';
+import { LibInputFormFieldComponent } from '@crm-project/ui/components/input-form-field';
 
 import {
   FormBuilder,
@@ -11,6 +9,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { tap } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -19,37 +18,19 @@ import {
       <div libCard>
         <form [formGroup]="loginForm">
           <div class="flex flex-col gap-4">
-            <lib-form-field>
-              <label libLabel for="last-name">First name</label>
-              <input
-                libInput
-                id="first-name"
-                type="text"
-                [size]="'full'"
-                formControlName="firstName"
-              />
-            </lib-form-field>
-            <lib-form-field class="w-full">
-              <label libLabel for="last-name">Last name</label>
-              <input
-                libInput
-                id="last-name"
-                type="text"
-                [size]="'full'"
-                formControlName="lastName"
-              />
-            </lib-form-field>
-            <lib-form-field>
-              <label libLabel for="email">Email</label>
-              <input
-                libInput
-                id="email"
-                type="email"
-                [size]="'full'"
-                formControlName="email"
-                placeholder="email@mail.com"
-              />
-            </lib-form-field>
+            <lib-input-form-field
+              formControlName="firstName"
+              [label]="'First name'"
+            />
+            <lib-input-form-field
+              formControlName="lastName"
+              [label]="'Last name'"
+            />
+            <lib-input-form-field
+              formControlName="email"
+              placeholder="email@mail.com"
+              [label]="'Email'"
+            />
 
             <button libButton [width]="'full'">Submit</button>
           </div>
@@ -58,9 +39,7 @@ import {
     </div>
   `,
   imports: [
-    LibLabelDirective,
-    LibFormFieldComponent,
-    LibInputDirective,
+    LibInputFormFieldComponent,
     LibButtonDirective,
     LibCardDirective,
     ReactiveFormsModule,
@@ -73,4 +52,10 @@ export default class HomeComponent {
     lastName: new FormControl('', Validators.required),
     email: new FormControl('', Validators.required),
   });
+
+  constructor() {
+    this.loginForm.valueChanges
+      .pipe(tap((value) => console.log(value)))
+      .subscribe();
+  }
 }
