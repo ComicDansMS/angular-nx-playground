@@ -18,7 +18,7 @@ import {
     <div class="flex flex-col gap-8 mt-8 w-96 mx-auto">
       <div libCard>
         <form [formGroup]="loginForm">
-          <div class="flex flex-col gap-4">
+          <div class="flex flex-col">
             <lib-form-field>
               <label libLabel for="last-name">First name</label>
               <input
@@ -51,7 +51,7 @@ import {
               />
             </lib-form-field>
 
-            <button libButton [width]="'full'">Submit</button>
+            <button libButton [width]="'full'" class="mt-3">Submit</button>
           </div>
         </form>
       </div>

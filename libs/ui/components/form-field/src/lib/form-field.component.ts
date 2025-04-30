@@ -9,7 +9,7 @@ import { LibInputDirective } from '@crm-project/ui/components/input';
 import { LibLabelDirective } from '@crm-project/ui/components/label';
 
 const labelStyle = /* css */ `
-  .lib-form-field {
+  .lib-form-field--field-container {
     label {
       position: absolute;
       z-index: -1;
@@ -22,8 +22,8 @@ const labelStyle = /* css */ `
     }
   }
 
-  .lib-form-field:focus-within,
-  .lib-form-field:has(.lib-input--has-value) {
+  .lib-form-field--field-container:focus-within,
+  .lib-form-field--field-container:has(.lib-input--has-value) {
     label {
       position: absolute;
       z-index: -1;
@@ -35,7 +35,7 @@ const labelStyle = /* css */ `
 `;
 
 const inputStyle = /* css */ `
-  .lib-form-field {
+  .lib-form-field--field-container {
     input {
       padding: 1.375rem 0.75rem 0.5rem 0.75rem;
       height: 2.8125rem;
@@ -46,7 +46,7 @@ const inputStyle = /* css */ `
     }
   }
 
-  .lib-form-field:not(:focus-within) {
+  .lib-form-field--field-container:not(:focus-within) {
     input::placeholder {
       opacity: 0;
     }
@@ -57,11 +57,16 @@ const inputStyle = /* css */ `
   selector: 'lib-form-field',
   template: `
     <div class="lib-form-field w-full">
-      <ng-content></ng-content>
+      <div class="lib-form-field--field-container">
+        <ng-content></ng-content>
+      </div>
+      <div class="h-6">
+        <!-- <div class="text-red-300 text-[10px] pt-1">An error</div> -->
+      </div>
     </div>
   `,
   styles: `
-    .lib-form-field {
+    .lib-form-field--field-container {
       position: relative;
       width: max-content;
       z-index: 1;
