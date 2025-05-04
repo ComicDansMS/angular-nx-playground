@@ -21,8 +21,8 @@ type InputType = 'text' | 'number' | 'email' | 'password';
     </div>
 
     <div class="h-6">
-      @if (control.errors && control.touched) { @for (error of
-      control.errors | keyvalue; track $index) {
+      @if (control.errors && control.touched) { @for (error of control.errors |
+      keyvalue; track $index) {
       <span class="text-red-400 text-[12px]">{{
         errorMessages[error.key]
       }}</span>
@@ -32,6 +32,10 @@ type InputType = 'text' | 'number' | 'email' | 'password';
   styles: `
     .lib-form-field {
       position: relative;
+    }
+
+    .lib-form-field:has(input[disabled]) {
+      opacity: 0.25;
     }
 
     .lib-form-field input {

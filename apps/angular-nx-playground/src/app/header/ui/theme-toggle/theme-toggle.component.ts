@@ -5,7 +5,7 @@ import { LibButtonDirective } from '@crm-project/ui/components/button';
 @Component({
   selector: 'app-theme-toggle',
   template: `
-    <button libButton [width]="'tight'" (click)="toggleTheme.emit()">
+    <button libButton [width]="'adapt'" (click)="toggleTheme.emit()">
       @if (themeType() === themeTypeEnum.Light) {
       <span>☀️</span>
       } @else {

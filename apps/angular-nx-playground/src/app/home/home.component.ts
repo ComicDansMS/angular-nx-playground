@@ -45,7 +45,29 @@ import { LibFormFieldComponent } from '@crm-project/ui/components/form-field';
               [type]="'password'"
             />
 
-            <button libButton [width]="'full'">Submit</button>
+            <button
+              libButton
+              (click)="onEnableNotes($event)"
+              type="button"
+              [variant]="'secondary'"
+              [width]="'adapt'"
+              class="mb-4 mt-8"
+            >
+              {{
+                loginForm.get('notes')?.disabled
+                  ? 'Enable notes'
+                  : 'Disable notes'
+              }}
+            </button>
+
+            <lib-form-field
+              formControlName="notes"
+              [label]="'Notes'"
+              [inputId]="'notes'"
+              [type]="'text'"
+            />
+
+            <button libButton class="mt-8">Submit</button>
           </div>
         </form>
       </div>
@@ -72,6 +94,7 @@ export default class HomeComponent {
       Validators.required,
       Validators.minLength(8),
     ]),
+    notes: new FormControl({ value: '', disabled: true }),
   });
 
   onSubmit() {
@@ -83,5 +106,17 @@ export default class HomeComponent {
 
     console.log('login form valid');
     console.log(this.loginForm.value);
+  }
+
+  onEnableNotes(event?: Event) {
+    // Prevent form submission
+    event?.preventDefault();
+
+    const notesControl = this.loginForm.get('notes');
+    if (notesControl?.disabled) {
+      notesControl.enable();
+    } else {
+      notesControl?.disable();
+    }
   }
 }

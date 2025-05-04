@@ -69,6 +69,12 @@ export class ControlValueAccessorDirective<T>
   }
 
   setDisabledState?(isDisabled: boolean): void {
-    this._isDisabled = isDisabled;
+    if (this.control.disabled === isDisabled) return;
+
+    if (isDisabled) {
+      this.control.disable();
+    } else {
+      this.control.enable();
+    }
   }
 }
