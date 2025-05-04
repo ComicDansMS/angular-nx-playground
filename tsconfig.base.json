@@ -44,6 +44,9 @@
       "@crm-project/ui/core/theme-service": [
         "libs/ui/core/theme-service/src/index.ts"
       ],
+      "@crm-project/ui/directives/control-value-accessor": [
+        "libs/ui/directives/control-value-accessor/src/index.ts"
+      ],
       "@crm-project/ui/interfaces": ["libs/ui/core/interfaces/src/index.ts"],
       "@crm-project/ui/themes/dark-theme": [
         "libs/ui/themes/dark-theme/src/index.ts"
