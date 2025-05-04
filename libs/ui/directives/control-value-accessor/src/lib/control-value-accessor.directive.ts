@@ -1,4 +1,4 @@
-import { Directive, inject, Injector, OnInit } from '@angular/core';
+import { Directive, inject, Injector, OnDestroy, OnInit } from '@angular/core';
 import {
   ControlValueAccessor,
   FormControl,
@@ -8,23 +8,28 @@ import {
   NgControl,
   Validators,
 } from '@angular/forms';
-import { distinctUntilChanged, Subject, takeUntil, tap } from 'rxjs';
+import { Subject } from 'rxjs';
 
 @Directive()
 export class ControlValueAccessorDirective<T>
-  implements ControlValueAccessor, OnInit
+  implements ControlValueAccessor, OnInit, OnDestroy
 {
   injector = inject(Injector);
   control!: FormControl;
   isRequired = false;
 
+  private _onChange!: (value: T) => void;
   private _onTouched!: () => T;
-  private _isDisabled = false;
   private _destroy$ = new Subject<void>();
 
   ngOnInit(): void {
     this.setFormControl();
     this.isRequired = this.control?.hasValidator(Validators.required) ?? false;
+  }
+
+  ngOnDestroy(): void {
+    this._destroy$.next();
+    this._destroy$.complete();
   }
 
   setFormControl(): void {
@@ -53,15 +58,7 @@ export class ControlValueAccessorDirective<T>
   }
 
   registerOnChange(onChange: (value: T | null) => T): void {
-    this.control?.valueChanges
-      .pipe(
-        takeUntil(this._destroy$),
-        distinctUntilChanged(),
-        tap((value) => onChange(value))
-      )
-      .subscribe(() => {
-        this.control?.markAsUntouched();
-      });
+    this._onChange = onChange;
   }
 
   registerOnTouched(onTouched: () => T): void {
