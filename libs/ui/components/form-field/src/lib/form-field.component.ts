@@ -21,7 +21,7 @@ type InputType = 'text' | 'number' | 'email' | 'password';
     </div>
 
     <div class="h-6">
-      @if (control.errors && control.dirty && control.touched) { @for (error of
+      @if (control.errors && control.touched) { @for (error of
       control.errors | keyvalue; track $index) {
       <span class="text-red-400 text-[12px]">{{
         errorMessages[error.key]

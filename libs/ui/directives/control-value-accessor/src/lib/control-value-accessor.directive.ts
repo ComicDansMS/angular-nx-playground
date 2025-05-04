@@ -59,7 +59,9 @@ export class ControlValueAccessorDirective<T>
         distinctUntilChanged(),
         tap((value) => onChange(value))
       )
-      .subscribe();
+      .subscribe(() => {
+        this.control?.markAsUntouched();
+      });
   }
 
   registerOnTouched(onTouched: () => T): void {
