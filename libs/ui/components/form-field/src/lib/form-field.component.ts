@@ -1,32 +1,33 @@
-import { Component, effect, forwardRef, input } from '@angular/core';
-import { NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
-import { ControlValueAccessorDirective } from '@crm-project/ui/directives/control-value-accessor';
+import { Component, effect, input } from '@angular/core';
 import { KeyValuePipe } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
+import { ControlValueAccessorDirective } from '@crm-project/ui/directives/control-value-accessor';
 
 type InputType = 'text' | 'number' | 'email' | 'password';
 
 @Component({
   selector: 'lib-form-field',
   template: `
-    <div class="lib-form-field" [class.lib-form-field--value]="!!control.value">
-      <label [for]="inputId()">{{ label() }}</label>
+    <div class="lib-form-field" [class.lib-form-field--has-value]="!!value()">
+      <label [for]="inputId()">{{ label() }}{{ isRequired ? '*' : '' }}</label>
 
       <input
         [required]="isRequired"
         [type]="type()"
         [id]="inputId()"
-        [formControl]="control"
+        [value]="value()"
+        (input)="onChange($any($event.target).value)"
+        (blur)="onTouched()"
         class="mt-1 border border-slate-600 rounded h-9 focus:outline-0 focus:border-slate-500 px-2"
       />
-    </div>
 
-    <div class="h-6">
-      @if (control.errors && control.touched) { @for (error of control.errors |
-      keyvalue; track $index) {
-      <span class="text-red-400 text-[12px]">{{
-        errorMessages[error.key]
-      }}</span>
-      } }
+      <div class="h-6 mb-1">
+        @if (errors()) { @for (error of errors() | keyvalue; track $index) {
+        <span class="text-red-300 text-[12px]">{{
+          errorMessages[error.key]
+        }}</span>
+        } }
+      </div>
     </div>
   `,
   styles: `
@@ -66,22 +67,16 @@ type InputType = 'text' | 'number' | 'email' | 'password';
     }
 
     .lib-form-field:focus-within label,
-    .lib-form-field--value label {
+    .lib-form-field--has-value label {
       top: 0.85em;
       transform: translateY(0);
       font-size: 0.625rem;
     }
   `,
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => LibFormFieldComponent),
-      multi: true,
-    },
-  ],
+  providers: [],
   imports: [ReactiveFormsModule, KeyValuePipe],
 })
-export class LibFormFieldComponent<T> extends ControlValueAccessorDirective<T> {
+export class LibFormFieldComponent extends ControlValueAccessorDirective {
   inputId = input.required<string>();
   label = input.required<string>();
   type = input<InputType>('text');

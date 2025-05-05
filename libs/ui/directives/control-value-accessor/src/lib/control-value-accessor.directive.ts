@@ -1,77 +1,71 @@
-import { Directive, inject, Injector, OnDestroy, OnInit } from '@angular/core';
+/* eslint-disable @typescript-eslint/no-empty-function */
+import {
+  AfterViewInit,
+  Directive,
+  inject,
+  OnInit,
+  signal,
+} from '@angular/core';
 import {
   ControlValueAccessor,
-  FormControl,
-  FormControlDirective,
-  FormControlName,
-  FormGroupDirective,
   NgControl,
+  ValidationErrors,
   Validators,
 } from '@angular/forms';
-import { Subject } from 'rxjs';
 
 @Directive()
-export class ControlValueAccessorDirective<T>
-  implements ControlValueAccessor, OnInit, OnDestroy
+export class ControlValueAccessorDirective
+  implements ControlValueAccessor, OnInit
 {
-  injector = inject(Injector);
-  control!: FormControl;
+  controlDir = inject(NgControl, { self: true, optional: true });
+  value = signal('');
   isRequired = false;
+  errors = signal<ValidationErrors | null>(null);
 
-  private _onChange!: (value: T) => void;
-  private _onTouched!: () => T;
-  private _destroy$ = new Subject<void>();
+  onChange = (value: string) => {};
+  onTouched = () => {};
+
+  constructor() {
+    if (this.controlDir) {
+      this.controlDir.valueAccessor = this;
+
+      this.controlDir.control?.statusChanges.subscribe(() => {
+        this.errors.set(this.controlDir?.control?.errors || null);
+      });
+    }
+  }
 
   ngOnInit(): void {
-    this.setFormControl();
-    this.isRequired = this.control?.hasValidator(Validators.required) ?? false;
+    if (this.controlDir) {
+      this.isRequired = !!this.controlDir.control?.hasValidator(
+        Validators.required
+      );
+    }
   }
 
-  ngOnDestroy(): void {
-    this._destroy$.next();
-    this._destroy$.complete();
+  writeValue(value: any): void {
+    this.onChange(value);
   }
 
-  setFormControl(): void {
-    try {
-      const formControl = this.injector.get(NgControl);
+  registerOnChange(fn: (value: string) => void): void {
+    this.onChange = (rawValue: string) => {
+      this.value.set(rawValue);
+      this.errors.set(null);
+      fn(rawValue.trim());
+    };
+  }
 
-      switch (formControl.constructor) {
-        case FormControlName:
-          this.control = this.injector
-            .get(FormGroupDirective)
-            .getControl(formControl as FormControlName);
-          break;
-        default:
-          this.control = (formControl as FormControlDirective)
-            .form as FormControl;
+  registerOnTouched(fn: any): void {
+    this.onTouched = () => {
+      if (this.value().trim() === '') {
+        this.value.set('');
       }
-    } catch (err) {
-      this.control = new FormControl();
-    }
-  }
 
-  writeValue(value: T): void {
-    this.control
-      ? this.control.setValue(value)
-      : (this.control = new FormControl(value));
-  }
+      if (this.controlDir?.control) {
+        this.errors.set(this.controlDir.control.errors);
+      }
 
-  registerOnChange(onChange: (value: T | null) => T): void {
-    this._onChange = onChange;
-  }
-
-  registerOnTouched(onTouched: () => T): void {
-    this._onTouched = onTouched;
-  }
-
-  setDisabledState?(isDisabled: boolean): void {
-    if (this.control.disabled === isDisabled) return;
-
-    if (isDisabled) {
-      this.control.disable();
-    } else {
-      this.control.enable();
-    }
+      fn();
+    };
   }
 }

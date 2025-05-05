@@ -8,6 +8,7 @@ import {
 import { LibButtonDirective } from '@crm-project/ui/components/button';
 import { LibCardDirective } from '@crm-project/ui/components/card';
 import { LibFormFieldComponent } from '@crm-project/ui/components/form-field';
+import { tap } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -84,7 +85,7 @@ export default class HomeComponent {
   fb = new FormBuilder();
   loginForm = this.fb.nonNullable.group({
     firstName: new FormControl('', Validators.required),
-    lastName: new FormControl('', Validators.required),
+    lastName: new FormControl(''),
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [
       Validators.required,
@@ -94,7 +95,8 @@ export default class HomeComponent {
       Validators.required,
       Validators.minLength(8),
     ]),
-    notes: new FormControl({ value: '', disabled: true }),
+    hello: new FormControl('', Validators.required),
+    notes: new FormControl(''),
   });
 
   onSubmit() {
@@ -109,7 +111,6 @@ export default class HomeComponent {
   }
 
   onEnableNotes(event?: Event) {
-    // Prevent form submission
     event?.preventDefault();
 
     const notesControl = this.loginForm.get('notes');
@@ -119,4 +120,10 @@ export default class HomeComponent {
       notesControl?.disable();
     }
   }
+
+  // constructor() {
+  //   this.loginForm.valueChanges
+  //     .pipe(tap((value) => console.log(value)))
+  //     .subscribe();
+  // }
 }
