@@ -8,7 +8,6 @@ import {
 import { LibButtonDirective } from '@crm-project/ui/components/button';
 import { LibCardDirective } from '@crm-project/ui/components/card';
 import { LibFormFieldComponent } from '@crm-project/ui/components/form-field';
-import { tap } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -21,6 +20,7 @@ import { tap } from 'rxjs';
               formControlName="firstName"
               [label]="'First name'"
               [inputId]="'firstName'"
+              [customErrorMessages]="{ required: 'You need a first name' }"
             />
             <lib-form-field
               formControlName="lastName"
@@ -120,10 +120,4 @@ export default class HomeComponent {
       notesControl?.disable();
     }
   }
-
-  // constructor() {
-  //   this.loginForm.valueChanges
-  //     .pipe(tap((value) => console.log(value)))
-  //     .subscribe();
-  // }
 }

@@ -1,11 +1,5 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
-import {
-  AfterViewInit,
-  Directive,
-  inject,
-  OnInit,
-  signal,
-} from '@angular/core';
+import { Directive, inject, OnInit, signal } from '@angular/core';
 import {
   ControlValueAccessor,
   NgControl,
