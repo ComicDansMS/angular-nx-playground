@@ -7,7 +7,7 @@ import {
 } from '@angular/forms';
 import { LibButtonDirective } from '@crm-project/ui/components/button';
 import { LibCardDirective } from '@crm-project/ui/components/card';
-import { LibInputFormFieldComponent } from '@crm-project/ui/components/form-field';
+import { LibInputFormFieldComponent } from '@crm-project/ui/components/input-form-field';
 
 @Component({
   selector: 'app-home',

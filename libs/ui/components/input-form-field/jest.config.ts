@@ -1,8 +1,8 @@
 export default {
-  displayName: 'input-form-field',
+  displayName: 'form-field',
   preset: '../../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
-  coverageDirectory: '../../../../coverage/libs/ui/components/input-form-field',
+  coverageDirectory: '../../../../coverage/libs/ui/components/form-field',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': [
       'jest-preset-angular',
