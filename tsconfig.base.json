@@ -32,6 +32,9 @@
       "@crm-project/ui/components/label": [
         "libs/ui/components/label/src/index.ts"
       ],
+      "@crm-project/ui/components/radio-form-field": [
+        "libs/ui/components/radio-form-field/src/index.ts"
+      ],
       "@crm-project/ui/core/abstract-styled-directive": [
         "libs/ui/core/abstracts/abstract-styled-directive/src/index.ts"
       ],

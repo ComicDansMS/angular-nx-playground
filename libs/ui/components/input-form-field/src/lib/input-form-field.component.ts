@@ -1,4 +1,9 @@
-import { Component, effect, input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  effect,
+  input,
+} from '@angular/core';
 import { KeyValuePipe } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ControlValueAccessorDirective } from '@crm-project/ui/directives/control-value-accessor';
@@ -76,6 +81,7 @@ type InputType = 'text' | 'number' | 'email' | 'password';
       font-size: 0.625rem;
     }
   `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [],
   imports: [ReactiveFormsModule, KeyValuePipe],
 })
