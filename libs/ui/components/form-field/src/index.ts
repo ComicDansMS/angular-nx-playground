@@ -1,1 +1,1 @@
-export * from './lib/form-field.component';
+export * from './lib/input-form-field.component';

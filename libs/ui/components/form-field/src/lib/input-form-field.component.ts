@@ -6,9 +6,12 @@ import { ControlValueAccessorDirective } from '@crm-project/ui/directives/contro
 type InputType = 'text' | 'number' | 'email' | 'password';
 
 @Component({
-  selector: 'lib-form-field',
+  selector: 'lib-input-form-field',
   template: `
-    <div class="lib-form-field" [class.lib-form-field--has-value]="!!value()">
+    <div
+      class="lib-input-form-field"
+      [class.lib-input-form-field--has-value]="!!value()"
+    >
       <label [for]="inputId()">{{ label() }}{{ isRequired ? '*' : '' }}</label>
 
       <input
@@ -31,31 +34,31 @@ type InputType = 'text' | 'number' | 'email' | 'password';
     </div>
   `,
   styles: `
-    .lib-form-field {
+    .lib-input-form-field {
       position: relative;
     }
 
-    .lib-form-field:has(input[disabled]) {
+    .lib-input-form-field:has(input[disabled]) {
       opacity: 0.25;
     }
 
-    .lib-form-field input {
+    .lib-input-form-field input {
       padding: 1.375rem 0.75rem 0.5rem 0.75rem;
       height: 2.8125rem;
       width: 100%;
     }
 
-    .lib-form-field input::placeholder {
+    .lib-input-form-field input::placeholder {
       transition: opacity 100ms;
     }
 
-    .lib-form-field:not(:focus-within) {
+    .lib-input-form-field:not(:focus-within) {
       input::placeholder {
         opacity: 0;
       }
     }
 
-    .lib-form-field label {
+    .lib-input-form-field label {
       position: absolute;
       z-index: -1;
       top: 1em;
@@ -66,8 +69,8 @@ type InputType = 'text' | 'number' | 'email' | 'password';
       opacity: 0.5;
     }
 
-    .lib-form-field:focus-within label,
-    .lib-form-field--has-value label {
+    .lib-input-form-field:focus-within label,
+    .lib-input-form-field--has-value label {
       top: 0.85em;
       transform: translateY(0);
       font-size: 0.625rem;
@@ -76,7 +79,7 @@ type InputType = 'text' | 'number' | 'email' | 'password';
   providers: [],
   imports: [ReactiveFormsModule, KeyValuePipe],
 })
-export class LibFormFieldComponent extends ControlValueAccessorDirective {
+export class LibInputFormFieldComponent extends ControlValueAccessorDirective {
   inputId = input.required<string>();
   label = input.required<string>();
   type = input<InputType>('text');

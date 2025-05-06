@@ -7,7 +7,7 @@ import {
 } from '@angular/forms';
 import { LibButtonDirective } from '@crm-project/ui/components/button';
 import { LibCardDirective } from '@crm-project/ui/components/card';
-import { LibFormFieldComponent } from '@crm-project/ui/components/form-field';
+import { LibInputFormFieldComponent } from '@crm-project/ui/components/form-field';
 
 @Component({
   selector: 'app-home',
@@ -16,30 +16,30 @@ import { LibFormFieldComponent } from '@crm-project/ui/components/form-field';
       <div libCard>
         <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
           <div class="flex flex-col">
-            <lib-form-field
+            <lib-input-form-field
               formControlName="firstName"
               [label]="'First name'"
               [inputId]="'firstName'"
               [customErrorMessages]="{ required: 'You need a first name' }"
             />
-            <lib-form-field
+            <lib-input-form-field
               formControlName="lastName"
               [label]="'Last name'"
               [inputId]="'lastName'"
             />
-            <lib-form-field
+            <lib-input-form-field
               formControlName="email"
               [label]="'Email'"
               [inputId]="'email'"
               [type]="'email'"
             />
-            <lib-form-field
+            <lib-input-form-field
               formControlName="password"
               [label]="'Password'"
               [inputId]="'password'"
               [type]="'password'"
             />
-            <lib-form-field
+            <lib-input-form-field
               formControlName="repeatPassword"
               [label]="'Repeat password'"
               [inputId]="'repeatPassword'"
@@ -61,7 +61,7 @@ import { LibFormFieldComponent } from '@crm-project/ui/components/form-field';
               }}
             </button>
 
-            <lib-form-field
+            <lib-input-form-field
               formControlName="notes"
               [label]="'Notes'"
               [inputId]="'notes'"
@@ -78,7 +78,7 @@ import { LibFormFieldComponent } from '@crm-project/ui/components/form-field';
     LibButtonDirective,
     LibCardDirective,
     ReactiveFormsModule,
-    LibFormFieldComponent,
+    LibInputFormFieldComponent,
   ],
 })
 export default class HomeComponent {
