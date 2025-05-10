@@ -16,12 +16,18 @@
     "baseUrl": ".",
     "esModuleInterop": true,
     "paths": {
+      "@crm-project/pipes/camel-case-pipe": [
+        "libs/pipes/camel-case/src/index.ts"
+      ],
       "@crm-project/tools/automation": ["tools/automation/src/index.ts"],
       "@crm-project/ui/components/button": [
         "libs/ui/components/button/src/index.ts"
       ],
       "@crm-project/ui/components/card": [
         "libs/ui/components/card/src/index.ts"
+      ],
+      "@crm-project/ui/components/form-field-error": [
+        "libs/ui/components/form-field-error/src/index.ts"
       ],
       "@crm-project/ui/components/input": [
         "libs/ui/components/input/src/index.ts"

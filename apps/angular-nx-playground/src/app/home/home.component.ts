@@ -1,13 +1,16 @@
-import { Component } from '@angular/core';
+import { Component, effect } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
+  FormGroup,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
 import { LibButtonDirective } from '@crm-project/ui/components/button';
 import { LibCardDirective } from '@crm-project/ui/components/card';
-import { LibInputFormFieldComponent } from '@crm-project/ui/components/input-form-field';
+import { InputFormFieldComponent } from '@crm-project/ui/components/input-form-field';
+import { RadioFormFieldComponent } from '@crm-project/ui/components/radio-form-field';
+import { tap } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -46,20 +49,14 @@ import { LibInputFormFieldComponent } from '@crm-project/ui/components/input-for
               [type]="'password'"
             />
 
-            <button
-              libButton
-              (click)="onEnableNotes($event)"
-              type="button"
-              [variant]="'secondary'"
-              [width]="'adapt'"
-              class="mb-4 mt-8"
-            >
-              {{
-                loginForm.get('notes')?.disabled
-                  ? 'Enable notes'
-                  : 'Disable notes'
-              }}
-            </button>
+            <lib-radio-form-field
+              formControlName="addNotes"
+              [label]="'Add notes'"
+              [options]="[
+                { label: 'No thanks', value: false },
+                { label: 'Yes please', value: true }
+              ]"
+            />
 
             <lib-input-form-field
               formControlName="notes"
@@ -78,7 +75,8 @@ import { LibInputFormFieldComponent } from '@crm-project/ui/components/input-for
     LibButtonDirective,
     LibCardDirective,
     ReactiveFormsModule,
-    LibInputFormFieldComponent,
+    InputFormFieldComponent,
+    RadioFormFieldComponent,
   ],
 })
 export default class HomeComponent {
@@ -95,29 +93,27 @@ export default class HomeComponent {
       Validators.required,
       Validators.minLength(8),
     ]),
-    hello: new FormControl('', Validators.required),
-    notes: new FormControl(''),
+    addNotes: new FormControl<boolean | null>(null),
+    notes: new FormControl({ value: '', disabled: true }),
+  });
+
+  enableNotes = effect(() => {
+    this.loginForm.controls.addNotes.valueChanges.subscribe((enableNotes) =>
+      enableNotes
+        ? this.loginForm.controls.notes.enable()
+        : this.loginForm.controls.notes.disable()
+    );
   });
 
   onSubmit() {
-    if (this.loginForm.invalid) {
-      console.log('login form invalid');
-      this.loginForm.markAllAsTouched();
-      return;
-    }
-
-    console.log('login form valid');
-    console.log(this.loginForm.value);
-  }
-
-  onEnableNotes(event?: Event) {
-    event?.preventDefault();
-
-    const notesControl = this.loginForm.get('notes');
-    if (notesControl?.disabled) {
-      notesControl.enable();
+    if (this.loginForm.valid) {
+      console.log('submitting...');
     } else {
-      notesControl?.disable();
+      this.loginForm.markAllAsTouched();
     }
   }
+
+  // constructor() {
+  //   this.loginForm.valueChanges.subscribe((value) => console.log(value));
+  // }
 }

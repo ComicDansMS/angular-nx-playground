@@ -1,65 +1,102 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
-import { Directive, inject, OnInit, signal } from '@angular/core';
+import { Directive, inject, OnDestroy, OnInit, signal } from '@angular/core';
 import {
   ControlValueAccessor,
   NgControl,
   ValidationErrors,
   Validators,
 } from '@angular/forms';
+import { filter, Subject, takeUntil, tap } from 'rxjs';
 
 @Directive()
 export class ControlValueAccessorDirective
-  implements ControlValueAccessor, OnInit
+  implements ControlValueAccessor, OnInit, OnDestroy
 {
-  controlDir = inject(NgControl, { self: true, optional: true });
-  value = signal('');
-  isRequired = false;
-  errors = signal<ValidationErrors | null>(null);
+  protected controlDir = inject(NgControl, { self: true, optional: true });
+  protected readonly value = signal('');
+  protected readonly isDisabled = signal(false);
+  protected isRequired = false;
+  protected readonly errors = signal<ValidationErrors | null>(null);
+  private $destroy = new Subject<void>();
 
-  onChange = (value: string) => {};
-  onTouched = () => {};
+  private onChange = (value: string) => {};
+  private onTouched = () => {};
 
   constructor() {
     if (this.controlDir) {
       this.controlDir.valueAccessor = this;
-
-      this.controlDir.control?.statusChanges.subscribe(() => {
-        this.errors.set(this.controlDir?.control?.errors || null);
-      });
     }
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     if (this.controlDir) {
-      this.isRequired = !!this.controlDir.control?.hasValidator(
-        Validators.required
-      );
+      const control = this.controlDir.control;
+      if (!control) return;
+
+      this.isRequired = !!control.hasValidator(Validators.required);
+
+      control.events
+        .pipe(
+          takeUntil(this.$destroy),
+          tap(() => console.log('control.events before')),
+          filter((value) => value.source.pristine && value.source.touched),
+          tap(() => console.log('control.events before'))
+        )
+        .subscribe(() => this.updateErrorState());
+
+      // control.statusChanges
+      //   .pipe(
+      //     takeUntil(this.$destroy),
+      //     tap((value) => console.log('statusChanges', value))
+      //   )
+      //   .subscribe(() => {
+      //     this.updateErrorState();
+      //   });
     }
   }
 
-  writeValue(value: any): void {
-    this.onChange(value);
+  public ngOnDestroy(): void {
+    this.$destroy.next();
+    this.$destroy.complete();
   }
 
-  registerOnChange(fn: (value: string) => void): void {
-    this.onChange = (rawValue: string) => {
-      this.value.set(rawValue);
+  public writeValue(value: string): void {
+    this.value.set(value === null || value === undefined ? '' : String(value));
+  }
+
+  public registerOnChange(fn: (value: string) => void): void {
+    this.onChange = fn;
+  }
+
+  public registerOnTouched(fn: () => void): void {
+    this.onTouched = fn;
+  }
+
+  public setDisabledState(isDisabled: boolean): void {
+    this.isDisabled.set(isDisabled);
+  }
+
+  public handleInputValueChange(value: string): void {
+    const processedValue = value.trim().replace(/\s\s+/g, ' ');
+    this.value.set(value);
+    this.onChange(processedValue);
+  }
+
+  public handleInputBlur(): void {
+    this.onTouched();
+    this.updateErrorState();
+  }
+
+  updateErrorState(): void {
+    if (this.controlDir?.control) {
+      const control = this.controlDir.control;
+      if (control.invalid && control.touched) {
+        this.errors.set(control.errors || null);
+      } else {
+        this.errors.set(null);
+      }
+    } else {
       this.errors.set(null);
-      fn(rawValue.trim());
-    };
-  }
-
-  registerOnTouched(fn: any): void {
-    this.onTouched = () => {
-      if (this.value().trim() === '') {
-        this.value.set('');
-      }
-
-      if (this.controlDir?.control) {
-        this.errors.set(this.controlDir.control.errors);
-      }
-
-      fn();
-    };
+    }
   }
 }

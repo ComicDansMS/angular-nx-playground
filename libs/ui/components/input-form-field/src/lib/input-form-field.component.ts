@@ -1,12 +1,7 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  effect,
-  input,
-} from '@angular/core';
-import { KeyValuePipe } from '@angular/common';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ControlValueAccessorDirective } from '@crm-project/ui/directives/control-value-accessor';
+import { FormFieldErrorComponent } from '@crm-project/ui/components/form-field-error';
 
 type InputType = 'text' | 'number' | 'email' | 'password';
 
@@ -24,17 +19,17 @@ type InputType = 'text' | 'number' | 'email' | 'password';
         [type]="type()"
         [id]="inputId()"
         [value]="value()"
-        (input)="onChange($any($event.target).value)"
-        (blur)="onTouched()"
+        (input)="handleInputValueChange($any($event.target).value)"
+        (blur)="handleInputBlur()"
+        [disabled]="isDisabled()"
         class="mt-1 border border-slate-600 rounded h-9 focus:outline-0 focus:border-slate-500 px-2"
       />
 
-      <div class="h-6 mb-1">
-        @if (errors()) { @for (error of errors() | keyvalue; track $index) {
-        <span class="text-red-300 text-[12px]">{{
-          errorMessages[error.key]
-        }}</span>
-        } }
+      <div class="mb-1">
+        <lib-form-field-error
+          [errors]="errors()"
+          [customErrorMessages]="customErrorMessages()"
+        />
       </div>
     </div>
   `,
@@ -45,6 +40,7 @@ type InputType = 'text' | 'number' | 'email' | 'password';
 
     .lib-input-form-field:has(input[disabled]) {
       opacity: 0.25;
+      pointer-events: none;
     }
 
     .lib-input-form-field input {
@@ -83,26 +79,11 @@ type InputType = 'text' | 'number' | 'email' | 'password';
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [],
-  imports: [ReactiveFormsModule, KeyValuePipe],
+  imports: [ReactiveFormsModule, FormFieldErrorComponent],
 })
-export class LibInputFormFieldComponent extends ControlValueAccessorDirective {
+export class InputFormFieldComponent extends ControlValueAccessorDirective {
   inputId = input.required<string>();
   label = input.required<string>();
   type = input<InputType>('text');
   customErrorMessages = input<Record<string, string>>();
-
-  errorMessages: Record<string, string> = {
-    required: 'This field is required',
-    email: 'Not a valid email address',
-    minlength: 'This field has a min length',
-  };
-
-  customErrorMessagesEffect = effect(() => {
-    if (this.customErrorMessages()) {
-      this.errorMessages = {
-        ...this.errorMessages,
-        ...this.customErrorMessages(),
-      };
-    }
-  });
 }
