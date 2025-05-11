@@ -107,13 +107,14 @@ export default class HomeComponent {
 
   onSubmit() {
     if (this.loginForm.valid) {
-      console.log('submitting...');
+      console.log('form valid');
     } else {
+      console.log('form not valid');
       this.loginForm.markAllAsTouched();
     }
   }
 
-  // constructor() {
-  //   this.loginForm.valueChanges.subscribe((value) => console.log(value));
-  // }
+  constructor() {
+    this.loginForm.valueChanges.subscribe((value) => console.log(value));
+  }
 }
