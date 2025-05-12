@@ -30,13 +30,13 @@ type InputType = 'text' | 'number' | 'email' | 'password';
   template: `
     <div
       class="lib-input-form-field"
-      [class.lib-input-form-field--has-value]="!!value()"
       [class.lib-input-form-field--focus]="!!isFocused()"
+      [class.lib-input-form-field--error]="!!errors()"
     >
       <div class="field">
-        <label [for]="inputId()"
-          >{{ label() }}{{ isRequired ? '*' : '' }}</label
-        >
+        <label [for]="inputId()" [class.small]="!!value()">
+          {{ label() }}{{ isRequired ? '*' : '' }}
+        </label>
 
         <input
           [required]="isRequired"
@@ -59,7 +59,8 @@ type InputType = 'text' | 'number' | 'email' | 'password';
   styles: `
     .lib-input-form-field {
       --field-padding-x: 0.75rem;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.75rem;
+      padding-top: 0.375rem;
     }
 
     .field {
@@ -72,6 +73,10 @@ type InputType = 'text' | 'number' | 'email' | 'password';
       color: #b8bfdc;
     }
 
+    .lib-input-form-field--error .field {
+      border-color: #c67a7a;
+    }
+
     label {
       --label-padding: 0.12rem;
       position: absolute;
@@ -80,14 +85,19 @@ type InputType = 'text' | 'number' | 'email' | 'password';
       left: calc(var(--field-padding-x) - var(--label-padding));
       padding: 0 var(--label-padding);
       background: var(--theme-color-background-primary);
+      line-height: 1em;
       transition: all 200ms;
     }
 
     .lib-input-form-field:focus-within label,
-    .lib-input-form-field.lib-input-form-field--has-value label {
-      top: -0.9em;
+    label.small {
+      top: -0.6em;
       transform: translateY(0);
       font-size: 0.75rem;
+    }
+
+    .lib-input-form-field--error label.small {
+      color: #c67a7a;
     }
 
     input {
