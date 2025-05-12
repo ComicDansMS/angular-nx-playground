@@ -31,10 +31,11 @@ type InputType = 'text' | 'number' | 'email' | 'password';
     <div
       class="lib-input-form-field"
       [class.lib-input-form-field--focus]="!!isFocused()"
+      [class.lib-input-form-field--value]="!!value()"
       [class.lib-input-form-field--error]="!!errors()"
     >
       <div class="field">
-        <label [for]="inputId()" [class.small]="!!value()">
+        <label [for]="inputId()">
           {{ label() }}{{ isRequired ? '*' : '' }}
         </label>
 
@@ -47,6 +48,7 @@ type InputType = 'text' | 'number' | 'email' | 'password';
           (blur)="handleBlur()"
           (focus)="handleFocus()"
           [disabled]="isDisabled()"
+          [placeholder]="placeholder()"
         />
       </div>
 
@@ -56,74 +58,7 @@ type InputType = 'text' | 'number' | 'email' | 'password';
       />
     </div>
   `,
-  styles: `
-    .lib-input-form-field {
-      --field-padding-x: 0.75rem;
-      margin-bottom: 0.75rem;
-      padding-top: 0.375rem;
-    }
-
-    .field {
-      position: relative;
-      border: solid 1px #666a79;
-    }
-
-    .lib-input-form-field--focus .field {
-      border-color: #b8bfdc;
-      color: #b8bfdc;
-    }
-
-    .lib-input-form-field--error .field {
-      border-color: #c67a7a;
-    }
-
-    label {
-      --label-padding: 0.12rem;
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      left: calc(var(--field-padding-x) - var(--label-padding));
-      padding: 0 var(--label-padding);
-      background: var(--theme-color-background-primary);
-      line-height: 1em;
-      transition: all 200ms;
-    }
-
-    .lib-input-form-field:focus-within label,
-    label.small {
-      top: -0.6em;
-      transform: translateY(0);
-      font-size: 0.75rem;
-    }
-
-    .lib-input-form-field--error label.small {
-      color: #c67a7a;
-    }
-
-    input {
-      padding: 0.6rem var(--field-padding-x);
-      width: 100%;
-    }
-
-    input:focus {
-      outline: none;
-    }
-
-    .lib-input-form-field:has(input[disabled]) {
-      opacity: 0.25;
-      pointer-events: none;
-    }
-
-    input::placeholder {
-      transition: opacity 100ms;
-    }
-
-    .lib-input-form-field:not(:focus-within) {
-      input::placeholder {
-        opacity: 0;
-      }
-    }
-  `,
+  styleUrl: 'input-form-field.style.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     {
@@ -137,11 +72,12 @@ type InputType = 'text' | 'number' | 'email' | 'password';
 export class InputFormFieldComponent implements ControlValueAccessor, OnInit {
   private injector = inject(Injector);
 
-  control: FormControl | null = null;
-  inputId = input.required<string>();
-  label = input.required<string>();
   type = input<InputType>('text');
+  label = input.required<string>();
+  placeholder = input<string>('');
+  inputId = input.required<string>();
   customErrorMessages = input<Record<string, string>>();
+  control: FormControl | null = null;
   value = signal<string>('');
   errors = signal<ValidationErrors | null>(null);
   isRequired = false;

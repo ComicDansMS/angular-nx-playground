@@ -35,6 +35,7 @@ import { tap } from 'rxjs';
               [label]="'Email'"
               [inputId]="'email'"
               [type]="'email'"
+              [placeholder]="'you@mail.com'"
             />
             <lib-input-form-field
               formControlName="password"
@@ -93,7 +94,7 @@ export default class HomeComponent {
       Validators.required,
       Validators.minLength(8),
     ]),
-    addNotes: new FormControl<boolean | null>(null),
+    addNotes: new FormControl<boolean | null>(null, Validators.required),
     notes: new FormControl({ value: '', disabled: true }),
   });
 
