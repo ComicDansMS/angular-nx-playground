@@ -36,11 +36,11 @@ type InputType = 'text' | 'number' | 'email' | 'password';
     >
       <div class="field">
         <label [for]="inputId()">
-          {{ label() }}{{ isRequired ? '*' : '' }}
+          {{ label() }}{{ isRequired() ? '*' : '' }}
         </label>
 
         <input
-          [required]="isRequired"
+          [required]="isRequired()"
           [type]="type()"
           [id]="inputId()"
           [value]="value()"
@@ -77,10 +77,11 @@ export class InputFormFieldComponent implements ControlValueAccessor, OnInit {
   placeholder = input<string>('');
   inputId = input.required<string>();
   customErrorMessages = input<Record<string, string>>();
+
   control: FormControl | null = null;
   value = signal<string>('');
   errors = signal<ValidationErrors | null>(null);
-  isRequired = false;
+  isRequired = signal(false);
   isDisabled = signal(false);
   isFocused = signal(false);
 
@@ -88,7 +89,7 @@ export class InputFormFieldComponent implements ControlValueAccessor, OnInit {
 
   ngOnInit(): void {
     this.setFormControl();
-    this.isRequired = !!this.control?.hasValidator(Validators.required);
+    this.isRequired.set(!!this.control?.hasValidator(Validators.required));
 
     // Catch control updates made by submit calling
     // markAllAsTouched() when form not valid

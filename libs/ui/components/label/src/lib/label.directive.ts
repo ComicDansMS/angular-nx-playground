@@ -15,7 +15,10 @@ const style = /* css */ `
     class: 'lib-label',
   },
 })
-export class LibLabelDirective extends AbstractStyledDirective implements OnInit, OnDestroy {
+export class LibLabelDirective
+  extends AbstractStyledDirective
+  implements OnInit, OnDestroy
+{
   componentName = 'label';
   componentStyles = style;
 
