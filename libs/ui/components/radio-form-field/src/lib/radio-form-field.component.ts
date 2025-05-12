@@ -151,6 +151,7 @@ export class RadioFormFieldComponent implements ControlValueAccessor, OnInit {
     this.selectedValue.set(value);
     this.onChange(value);
     this.onTouched();
+    this.updateErrors();
   }
 
   handleFocus(): void {
