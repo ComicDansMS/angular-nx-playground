@@ -21,7 +21,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { FormFieldErrorComponent } from '@crm-project/ui/components/form-field-error';
-import { filter, Subject, takeUntil, tap } from 'rxjs';
+import { filter, Subject, takeUntil } from 'rxjs';
 
 type InputType = 'text' | 'number' | 'email' | 'password';
 
@@ -31,31 +31,72 @@ type InputType = 'text' | 'number' | 'email' | 'password';
     <div
       class="lib-input-form-field"
       [class.lib-input-form-field--has-value]="!!value()"
+      [class.lib-input-form-field--focus]="!!isFocused()"
     >
-      <label [for]="inputId()">{{ label() }}{{ isRequired ? '*' : '' }}</label>
+      <div class="field">
+        <label [for]="inputId()"
+          >{{ label() }}{{ isRequired ? '*' : '' }}</label
+        >
 
-      <input
-        [required]="isRequired"
-        [type]="type()"
-        [id]="inputId()"
-        [value]="value()"
-        (input)="handleInput($any($event.target).value)"
-        (blur)="handleBlur()"
-        [disabled]="isDisabled()"
-        class="mt-1 border border-slate-600 rounded h-9 focus:outline-0 focus:border-slate-500 px-2"
-      />
-
-      <div class="mb-1">
-        <lib-form-field-error
-          [errors]="errors()"
-          [customErrorMessages]="customErrorMessages()"
+        <input
+          [required]="isRequired"
+          [type]="type()"
+          [id]="inputId()"
+          [value]="value()"
+          (input)="handleInput($any($event.target).value)"
+          (blur)="handleBlur()"
+          (focus)="handleFocus()"
+          [disabled]="isDisabled()"
         />
       </div>
+
+      <lib-form-field-error
+        [errors]="errors()"
+        [customErrorMessages]="customErrorMessages()"
+      />
     </div>
   `,
   styles: `
     .lib-input-form-field {
+      --field-padding-x: 0.75rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .field {
       position: relative;
+      border: solid 1px #666a79;
+    }
+
+    .lib-input-form-field--focus .field {
+      border-color: #b8bfdc;
+      color: #b8bfdc;
+    }
+
+    label {
+      --label-padding: 0.12rem;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      left: calc(var(--field-padding-x) - var(--label-padding));
+      padding: 0 var(--label-padding);
+      background: var(--theme-color-background-primary);
+      transition: all 200ms;
+    }
+
+    .lib-input-form-field:focus-within label,
+    .lib-input-form-field.lib-input-form-field--has-value label {
+      top: -0.9em;
+      transform: translateY(0);
+      font-size: 0.75rem;
+    }
+
+    input {
+      padding: 0.6rem var(--field-padding-x);
+      width: 100%;
+    }
+
+    input:focus {
+      outline: none;
     }
 
     .lib-input-form-field:has(input[disabled]) {
@@ -63,13 +104,7 @@ type InputType = 'text' | 'number' | 'email' | 'password';
       pointer-events: none;
     }
 
-    .lib-input-form-field input {
-      padding: 1.375rem 0.75rem 0.5rem 0.75rem;
-      height: 2.8125rem;
-      width: 100%;
-    }
-
-    .lib-input-form-field input::placeholder {
+    input::placeholder {
       transition: opacity 100ms;
     }
 
@@ -77,24 +112,6 @@ type InputType = 'text' | 'number' | 'email' | 'password';
       input::placeholder {
         opacity: 0;
       }
-    }
-
-    .lib-input-form-field label {
-      position: absolute;
-      z-index: -1;
-      top: 1em;
-      left: 0.75rem;
-      letter-spacing: 0.04rem;
-      font-size: 1rem;
-      transition: all 200ms;
-      opacity: 0.5;
-    }
-
-    .lib-input-form-field:focus-within label,
-    .lib-input-form-field.lib-input-form-field--has-value label {
-      top: 0.85em;
-      transform: translateY(0);
-      font-size: 0.625rem;
     }
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -119,6 +136,7 @@ export class InputFormFieldComponent implements ControlValueAccessor, OnInit {
   errors = signal<ValidationErrors | null>(null);
   isRequired = false;
   isDisabled = signal(false);
+  isFocused = signal(false);
 
   private $destroy = new Subject<void>();
 
@@ -184,8 +202,13 @@ export class InputFormFieldComponent implements ControlValueAccessor, OnInit {
     this.onChange(processedValue);
   }
 
+  handleFocus(): void {
+    this.isFocused.set(true);
+  }
+
   handleBlur(): void {
     this.onTouched();
+    this.isFocused.set(false);
     this.updateErrors();
   }
 
