@@ -140,7 +140,7 @@ export class InputFormFieldComponent implements ControlValueAccessor, OnInit {
 
   setFormControl() {
     try {
-      const formControl = this.injector.get(NgControl); // TODO: Does this need self:true?
+      const formControl = this.injector.get(NgControl);
 
       switch (formControl.constructor) {
         case FormControlName:
