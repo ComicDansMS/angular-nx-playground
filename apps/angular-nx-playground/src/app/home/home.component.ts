@@ -2,7 +2,6 @@ import { Component, effect } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
-  FormGroup,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
@@ -10,7 +9,6 @@ import { LibButtonDirective } from '@crm-project/ui/components/button';
 import { LibCardDirective } from '@crm-project/ui/components/card';
 import { InputFormFieldComponent } from '@crm-project/ui/components/input-form-field';
 import { RadioFormFieldComponent } from '@crm-project/ui/components/radio-form-field';
-import { tap } from 'rxjs';
 
 @Component({
   selector: 'app-home',
