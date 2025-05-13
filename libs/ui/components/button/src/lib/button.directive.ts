@@ -14,8 +14,8 @@ const style = /* css */ `
     background: var(--theme-color-button-primary);
     border-radius: 0.25rem;
     color: #fff;
-    padding: 0.5rem 1.5rem;
-    min-width: 8rem;
+    padding: 0.5rem 1rem;
+    width: 100%;
     cursor: pointer;
     text-transform: uppercase;
   }
@@ -28,13 +28,8 @@ const style = /* css */ `
     filter: brightness(1.1)
   }
 
-  .lib-button--width-tight {
-    min-width: 0;
-    padding: 0.5rem 1rem;
-  }
-    
-  .lib-button--width-full {
-    width: 100%;
+  .lib-button--width-adapt {
+    width: max-content;
   }
 
   @keyframes flash {
@@ -47,7 +42,7 @@ const style = /* css */ `
 `;
 
 type ButtonVariant = 'primary' | 'secondary';
-type ButtonWidth = 'tight' | 'normal' | 'full';
+type ButtonWidth = 'adapt';
 
 @Directive({
   selector: 'button[libButton]',
@@ -55,8 +50,7 @@ type ButtonWidth = 'tight' | 'normal' | 'full';
     '[attr.data-lib-component]': 'componentName',
     class: 'lib-button',
     '[class.lib-button--type-secondary]': 'variant() === "secondary"',
-    '[class.lib-button--width-tight]': 'width() === "tight"',
-    '[class.lib-button--width-full]': 'width() === "full"',
+    '[class.lib-button--width-adapt]': 'width() === "adapt"',
   },
 })
 export class LibButtonDirective

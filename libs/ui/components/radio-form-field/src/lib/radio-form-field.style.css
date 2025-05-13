@@ -1,0 +1,16 @@
+.lib-radio-form-field-fieldset {
+  margin: 0.5rem 0;
+}
+
+.lib-radio-form-field-fieldset.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.lib-radio-form-field-legend {
+  margin-bottom: 0.5rem;
+}
+
+.lib-radio-option input[type='radio'] {
+  margin-right: 0.5rem;
+}
