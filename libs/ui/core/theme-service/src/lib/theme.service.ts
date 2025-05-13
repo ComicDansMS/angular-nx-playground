@@ -1,89 +1,61 @@
-import { computed, inject, Injectable, InjectionToken, signal } from '@angular/core';
-import { lightTheme } from '@crm-project/ui/themes/light-theme';
-import { darkTheme } from '@crm-project/ui/themes/dark-theme';
+import { computed, inject, Injectable, signal } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
-import { Theme, ThemeType, Tokens } from '@crm-project/ui/interfaces';
-import { map, Subject, tap } from 'rxjs';
-
-export const LIGHT_THEME = new InjectionToken<Theme>('UI library light theme', {
-  factory: () => lightTheme,
-});
-
-export const DARK_THEME = new InjectionToken<Theme>('UI library dark theme', {
-  factory: () => darkTheme,
-});
-
-interface ThemeServiceState {
-  themeType: ThemeType;
-  themeCss: string | null;
-}
+import { Theme } from '@crm-project/ui/interfaces';
+import { Subject, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ThemeService {
   private document = inject(DOCUMENT);
-  private readonly lightTheme = inject(LIGHT_THEME);
-  private readonly darkTheme = inject(DARK_THEME);
-  private readonly styleElement: HTMLStyleElement = this.document.createElement('style');
   private readonly STORAGE_KEY = 'lib-theme';
 
-  private state = signal<ThemeServiceState>({
-    themeType: this.getInitialTheme(),
-    themeCss: null,
-  });
+  private _theme = signal<Theme>(this.loadInitialTheme());
+  public theme = computed(() => this._theme());
 
-  public themeType = computed(() => this.state().themeType);
-  public themeCss = computed(() => this.state().themeCss);
-
-  protected theme$ = new Subject<Theme>();
-  public toggleTheme$ = new Subject<void>();
+  toggleTheme$ = new Subject<void>();
 
   constructor() {
-    this.document.head.append(this.styleElement);
-
     this.toggleTheme$
       .pipe(
-        tap(() => {
-          if (this.themeType() === ThemeType.Light) {
-            this.state.update((state) => ({ ...state, themeType: ThemeType.Dark }));
-            this.theme$.next(this.darkTheme);
-          } else {
-            this.state.update((state) => ({ ...state, themeType: ThemeType.Light }));
-            this.theme$.next(this.lightTheme);
-          }
-        })
+        tap(() =>
+          this.theme() === Theme.Light
+            ? this.setTheme(Theme.Dark)
+            : this.setTheme(Theme.Light)
+        )
       )
       .subscribe();
 
-    this.theme$
-      .pipe(
-        tap((theme) => this.styleElement.setAttribute('data-lib-theme', theme.type)),
-        tap((theme) => localStorage.setItem(this.STORAGE_KEY, theme.type)),
-        map((theme) => this.generateCssFromTokens(theme.tokens)),
-        tap((css) => (this.styleElement.textContent = css)),
-        tap((css) => this.state.update((state) => ({ ...state, themeCss: css })))
-      )
-      .subscribe();
-
-    this.theme$.next(this.state().themeType === ThemeType.Light ? this.lightTheme : this.darkTheme);
+    this.setTheme(this.theme());
   }
 
-  generateCssFromTokens(tokens: Tokens): string {
-    const cssVariables = Object.entries(tokens)
-      .map(([key, value]) => `${key}: ${value};`)
-      .join(' ');
+  private loadInitialTheme(): Theme {
+    const storedTheme = localStorage.getItem(this.STORAGE_KEY) as Theme | null;
 
-    return `:root {${cssVariables}}`;
+    if (storedTheme === Theme.Light || storedTheme === Theme.Dark) {
+      return storedTheme as Theme;
+    }
+
+    if (
+      window.matchMedia &&
+      window.matchMedia('(prefers-color-scheme: dark)').matches
+    ) {
+      return Theme.Dark;
+    }
+
+    return Theme.Light;
   }
 
-  getInitialTheme(): ThemeType {
-    const storedTheme = localStorage.getItem(this.STORAGE_KEY);
+  setTheme(theme: Theme): void {
+    this._theme.set(theme);
+    localStorage.setItem(this.STORAGE_KEY, theme);
 
-    if (storedTheme === ThemeType.Dark) {
-      return ThemeType.Dark;
+    if (theme === Theme.Light) {
+      this.document.body.classList.remove(`theme-${Theme.Dark}`);
+      this.document.body.classList.add(`theme-${Theme.Light}`);
     } else {
-      return ThemeType.Light;
+      this.document.body.classList.remove(`theme-${Theme.Light}`);
+      this.document.body.classList.add(`theme-${Theme.Dark}`);
     }
   }
 }

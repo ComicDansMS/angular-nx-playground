@@ -1,12 +1,12 @@
 import { Component, input, output } from '@angular/core';
-import { ThemeType } from '@crm-project/ui/interfaces';
 import { LibButtonDirective } from '@crm-project/ui/components/button';
+import { Theme } from '@crm-project/ui/interfaces';
 
 @Component({
   selector: 'app-theme-toggle',
   template: `
     <button libButton [width]="'adapt'" (click)="toggleTheme.emit()">
-      @if (themeType() === themeTypeEnum.Light) {
+      @if (theme() === 'light') {
       <span>☀️</span>
       } @else {
       <span>🌙</span>
@@ -16,7 +16,6 @@ import { LibButtonDirective } from '@crm-project/ui/components/button';
   imports: [LibButtonDirective],
 })
 export class ThemeToggleComponent {
-  themeType = input.required<ThemeType>();
+  theme = input.required<Theme>();
   toggleTheme = output();
-  readonly themeTypeEnum = ThemeType;
 }

@@ -8,12 +8,11 @@ import { ThemeToggleComponent } from './ui/theme-toggle/theme-toggle.component';
   template: `
     <div class="flex justify-end items-center gap-4">
       <app-theme-toggle
-        [themeType]="themeService.themeType()"
+        [theme]="themeService.theme()"
         (toggleTheme)="themeService.toggleTheme$.next()"
       />
     </div>
   `,
-  styles: ``,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeaderComponent {
