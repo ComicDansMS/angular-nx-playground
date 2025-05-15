@@ -42,7 +42,8 @@ label {
   padding: 0 var(--label-padding);
   background: var(--theme-color-background-primary);
   line-height: 1em;
-  transition: all 200ms;
+  transition-property: top, transform, font-size;
+  transition-duration: 200ms;
 }
 
 .lib-input-form-field--focus label,
