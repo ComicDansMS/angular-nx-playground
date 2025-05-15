@@ -1,183 +1,171 @@
 import { TestBed } from '@angular/core/testing';
 import { ThemeService } from './theme.service';
 import { DOCUMENT } from '@angular/common';
-import cssValidator from 'w3c-css-validator';
-import { lightTheme as defaultLightTheme } from '@crm-project/ui/themes/light-theme';
-import { darkTheme as defaultDarkTheme } from '@crm-project/ui/themes/dark-theme';
+
+function setMatchMediaMock(colorScheme = 'light') {
+  return jest.fn().mockImplementation((query) => ({
+    matches: query === `(prefers-color-scheme: ${colorScheme})`,
+    media: query,
+    addListener: jest.fn(),
+    removeListener: jest.fn(),
+    addEventListener: jest.fn(),
+    removeEventListener: jest.fn(),
+    onchange: null,
+    dispatchEvent: jest.fn(),
+  }));
+}
+
+function expectThemeToBe(
+  themeService: ThemeService,
+  document: Document,
+  theme: string
+) {
+  const oppositeTheme = theme === 'dark' ? 'light' : 'dark';
+  expect(themeService.theme()).toBe(`${theme}`);
+  expect(document.body.classList.contains(`theme-${theme}`)).toBe(true);
+  expect(document.body.classList.contains(`theme-${oppositeTheme}`)).toBe(
+    false
+  );
+}
 
 describe('ThemeService', () => {
-  let service: ThemeService;
+  let themeService: ThemeService;
   let document: Document;
 
-  describe('Default theme', () => {
-    beforeEach(() => {
-      localStorage.removeItem('lib-theme');
+  const originalLocalStorage = window.localStorage;
+  const originalMatchMedia = window.matchMedia;
 
-      TestBed.configureTestingModule({
-        providers: [ThemeService],
+  const localStorageMock = {
+    store: {} as { [key: string]: string },
+    getItem: jest.fn(function (key: string) {
+      return this.store[key] || null;
+    }),
+    setItem: jest.fn(function (key: string, value: string) {
+      this.store[key] = value.toString();
+    }),
+    removeItem: jest.fn(function (key: string) {
+      delete this.store[key];
+    }),
+    clear: jest.fn(function () {
+      this.store = {};
+    }),
+  };
+
+  const matchMediaMock = setMatchMediaMock();
+
+  function setupTest(
+    options: { localStorageTheme?: string; prefersColorScheme?: string } = {}
+  ) {
+    if (options.localStorageTheme) {
+      window.localStorage.setItem('lib-theme', options.localStorageTheme);
+    }
+
+    if (options.prefersColorScheme) {
+      const updatedMatchMediaMock = setMatchMediaMock(
+        options.prefersColorScheme
+      );
+
+      Object.defineProperty(window, 'matchMedia', {
+        value: updatedMatchMediaMock,
+        writable: true,
       });
+    }
 
-      service = TestBed.inject(ThemeService);
-      document = TestBed.inject(DOCUMENT);
+    themeService = TestBed.inject(ThemeService);
+  }
+
+  beforeEach(() => {
+    localStorageMock.clear();
+    Object.defineProperty(window, 'localStorage', {
+      value: localStorageMock,
+      writable: true,
     });
 
-    describe('State', () => {
-      it('should initialise themeType state correctly', () => {
-        expect(service.themeType()).toBe('light');
-      });
-
-      it('should initialise themeCss state correctly', () => {
-        const lightThemeCss = service.generateCssFromTokens(
-          defaultLightTheme.tokens
-        );
-
-        expect(service.themeCss()).toBe(lightThemeCss);
-      });
-
-      it('should update themeType state when theme is toggled', () => {
-        expect(service.themeType()).toBe('light');
-        service.toggleTheme$.next();
-        expect(service.themeType()).toBe('dark');
-        service.toggleTheme$.next();
-        expect(service.themeType()).toBe('light');
-      });
-
-      it('should update themeCss state when theme is toggled', () => {
-        const lightThemeCss = service.generateCssFromTokens(
-          defaultLightTheme.tokens
-        );
-        const darkThemeCss = service.generateCssFromTokens(
-          defaultDarkTheme.tokens
-        );
-
-        expect(service.themeCss()).toBe(lightThemeCss);
-        service.toggleTheme$.next();
-        expect(service.themeCss()).toBe(darkThemeCss);
-        service.toggleTheme$.next();
-        expect(service.themeCss()).toBe(lightThemeCss);
-      });
+    Object.defineProperty(window, 'matchMedia', {
+      value: matchMediaMock,
+      writable: true,
     });
 
-    describe('Methods', () => {
-      it('should generate valid CSS when generateCssFromTokens() is provided with theme tokens', async () => {
-        const generatedCss = service.generateCssFromTokens(
-          defaultLightTheme.tokens
-        );
-        const validation = await cssValidator.validateText(generatedCss);
-
-        if (!validation.valid) {
-          const validationErrors = validation.errors
-            .map((error) => `Line ${error.line}: ${error.message}`)
-            .join('\n');
-
-          throw new Error(`CSS validation errors:\n${validationErrors}`);
-        }
-
-        expect(validation.valid).toBe(true);
-      });
+    TestBed.configureTestingModule({
+      providers: [ThemeService],
     });
 
-    describe('Style element', () => {
-      it('should create the style element and add to document head', () => {
-        const styleElement = document.querySelector('[data-lib-theme="light"]');
-
-        expect(styleElement?.tagName).toBe('STYLE');
-        expect(document.head.contains(styleElement)).toBe(true);
-      });
-
-      it('should match the style element CSS with the theme CSS', () => {
-        const styleElement = document.querySelector('[data-lib-theme="light"]');
-        const styleContent = styleElement?.textContent?.trim() || '';
-        const themeCss = service.themeCss()?.trim();
-
-        expect(styleContent).toBe(themeCss);
-      });
-
-      it('should have valid CSS in the style element', async () => {
-        const styleElement = document.querySelector('[data-lib-theme="light"]');
-        const styleContent = styleElement?.textContent || '';
-        const validation = await cssValidator.validateText(styleContent);
-
-        if (!validation.valid) {
-          const validationErrors = validation.errors
-            .map((error) => `Line ${error.line}: ${error.message}`)
-            .join('\n');
-
-          throw new Error(`CSS validation errors:\n${validationErrors}`);
-        }
-
-        expect(validation.valid).toBe(true);
-      });
-
-      it('should update the style element when theme is toggled', () => {
-        const lightThemeElement = document.querySelector(
-          '[data-lib-theme="light"]'
-        );
-        const lightThemeElementContent =
-          lightThemeElement?.textContent?.trim() || '';
-        const lightThemeCss = service
-          .generateCssFromTokens(defaultLightTheme.tokens)
-          .trim();
-
-        expect(lightThemeElementContent).toBe(lightThemeCss);
-        service.toggleTheme$.next();
-
-        const darkThemeElement = document.querySelector(
-          '[data-lib-theme="dark"]'
-        );
-        const darkThemeElementContent =
-          darkThemeElement?.textContent?.trim() || '';
-        const darkThemeCss = service
-          .generateCssFromTokens(defaultDarkTheme.tokens)
-          .trim();
-
-        expect(darkThemeElementContent).toBe(darkThemeCss);
-      });
-    });
+    document = TestBed.inject(DOCUMENT);
   });
 
-  describe('Theme injection', () => {
-    beforeEach(() => {
-      localStorage.removeItem('lib-theme');
-
-      TestBed.configureTestingModule({
-        providers: [
-          ThemeService,
-          { provide: LIGHT_THEME, useValue: testLightTheme },
-          { provide: DARK_THEME, useValue: testDarkTheme },
-        ],
-      });
-
-      service = TestBed.inject(ThemeService);
-      document = TestBed.inject(DOCUMENT);
+  afterEach(() => {
+    Object.defineProperty(window, 'localStorage', {
+      value: originalLocalStorage,
     });
+    Object.defineProperty(window, 'matchMedia', { value: originalMatchMedia });
+  });
 
-    it('should initialise state with the injected light theme', () => {
-      const defaultLightThemeCss = service.generateCssFromTokens(
-        defaultLightTheme.tokens
-      );
-      const testLightThemeCss = service.generateCssFromTokens(
-        testLightTheme.tokens
-      );
+  it('should set the default theme to light when no localStorage or OS preference is set', () => {
+    setupTest();
 
-      expect(service.themeCss()).not.toBe(defaultLightThemeCss);
-      expect(service.themeCss()).toBe(testLightThemeCss);
-      expect(service.themeType()).toBe('light');
+    expectThemeToBe(themeService, document, 'light');
+  });
+
+  it('should set the theme to dark when OS preference is dark', () => {
+    setupTest({ prefersColorScheme: 'dark' });
+
+    expectThemeToBe(themeService, document, 'dark');
+  });
+
+  it('should set the theme to light when localStorage preference is light', () => {
+    setupTest({ localStorageTheme: 'light' });
+
+    expectThemeToBe(themeService, document, 'light');
+  });
+
+  it('should set the theme to dark when localStorage preference is dark', () => {
+    setupTest({ localStorageTheme: 'dark' });
+
+    expectThemeToBe(themeService, document, 'dark');
+  });
+
+  it('should prioritise localStorage (light) over OS preference (dark)', () => {
+    setupTest({ localStorageTheme: 'light', prefersColorScheme: 'dark' });
+
+    expectThemeToBe(themeService, document, 'light');
+  });
+
+  it('should correctly cycle themes through multiple toggles', () => {
+    setupTest();
+
+    expect(themeService.theme()).toBe('light');
+
+    themeService.toggleTheme$.next();
+
+    expectThemeToBe(themeService, document, 'dark');
+    expect(window.localStorage.getItem('lib-theme')).toBe('dark');
+
+    themeService.toggleTheme$.next();
+
+    expectThemeToBe(themeService, document, 'light');
+    expect(window.localStorage.getItem('lib-theme')).toBe('light');
+
+    themeService.toggleTheme$.next();
+
+    expectThemeToBe(themeService, document, 'dark');
+    expect(window.localStorage.getItem('lib-theme')).toBe('dark');
+  });
+
+  it('should fall back to OS preference (dark) if localStorage theme is invalid', () => {
+    setupTest({
+      localStorageTheme: 'invalid-theme',
+      prefersColorScheme: 'dark',
     });
+    expectThemeToBe(themeService, document, 'dark');
+  });
 
-    it('should switch to the injected dark theme when theme is toggled', () => {
-      const defaultDarkThemeCss = service.generateCssFromTokens(
-        defaultDarkTheme.tokens
-      );
-      const testDarkThemeCss = service.generateCssFromTokens(
-        testDarkTheme.tokens
-      );
+  it('should fall back to default theme (light) if localStorage and OS preference are not definitive', () => {
+    setupTest({ localStorageTheme: 'invalid-theme' });
+    expectThemeToBe(themeService, document, 'light');
+  });
 
-      service.toggleTheme$.next();
-
-      expect(service.themeCss()).not.toBe(defaultDarkThemeCss);
-      expect(service.themeCss()).toBe(testDarkThemeCss);
-      expect(service.themeType()).toBe('dark');
-    });
+  it('should not store theme preference if toggle is not triggered', () => {
+    setupTest();
+    expect(window.localStorage.getItem('lib-theme')).toBe(null);
   });
 });

@@ -10,7 +10,7 @@ export class ThemeService {
   private document = inject(DOCUMENT);
   private readonly STORAGE_KEY = 'lib-theme';
 
-  private _theme = signal<Theme>(this.loadInitialTheme());
+  private _theme = signal<Theme>(this.getPreferredTheme());
   public theme = computed(() => this._theme());
 
   toggleTheme$ = new Subject<void>();
@@ -18,18 +18,22 @@ export class ThemeService {
   constructor() {
     this.toggleTheme$
       .pipe(
-        tap(() =>
-          this.theme() === Theme.Light
-            ? this.setTheme(Theme.Dark)
-            : this.setTheme(Theme.Light)
-        )
+        tap(() => {
+          if (this.theme() === Theme.Light) {
+            this.setTheme(Theme.Dark);
+            localStorage.setItem(this.STORAGE_KEY, Theme.Dark);
+          } else {
+            this.setTheme(Theme.Light);
+            localStorage.setItem(this.STORAGE_KEY, Theme.Light);
+          }
+        })
       )
       .subscribe();
 
     this.setTheme(this.theme());
   }
 
-  private loadInitialTheme(): Theme {
+  private getPreferredTheme(): Theme {
     const storedTheme = localStorage.getItem(this.STORAGE_KEY) as Theme | null;
 
     if (storedTheme === Theme.Light || storedTheme === Theme.Dark) {
@@ -46,9 +50,8 @@ export class ThemeService {
     return Theme.Light;
   }
 
-  setTheme(theme: Theme): void {
+  private setTheme(theme: Theme): void {
     this._theme.set(theme);
-    localStorage.setItem(this.STORAGE_KEY, theme);
 
     if (theme === Theme.Light) {
       this.document.body.classList.remove(`theme-${Theme.Dark}`);
