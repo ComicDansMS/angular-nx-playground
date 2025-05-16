@@ -38,10 +38,10 @@ export interface RadioOption {
       class="lib-radio-form-field-fieldset"
       [class.disabled]="isDisabled()"
     >
-      <legend libLabel class="lib-radio-form-field-legend">
+      <legend class="lib-radio-form-field-legend">
         {{ label() }}{{ isRequired() ? '*' : '' }}
       </legend>
-      @for (option of options(); track option.value; let i = $index) {
+      @for (option of options(); track option.value) {
       <div class="lib-radio-option">
         <input
           type="radio"
@@ -124,7 +124,7 @@ export class RadioFormFieldComponent implements ControlValueAccessor, OnInit {
     }
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  // eslint-disable-next-line @typescript-eslint/no-empty-function,@typescript-eslint/no-unused-vars
   onChange = (value: boolean) => {};
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   onTouched = () => {};

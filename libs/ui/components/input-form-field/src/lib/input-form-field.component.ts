@@ -30,7 +30,7 @@ type InputType = 'text' | 'number' | 'email' | 'password';
   template: `
     <div
       class="lib-input-form-field"
-      [class.lib-input-form-field--focus]="!!isFocused()"
+      [class.lib-input-form-field--focus]="!isFocused()"
       [class.lib-input-form-field--value]="!!value()"
       [class.lib-input-form-field--error]="!!errors()"
     >
@@ -122,7 +122,7 @@ export class InputFormFieldComponent implements ControlValueAccessor, OnInit {
     }
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  // eslint-disable-next-line @typescript-eslint/no-empty-function,@typescript-eslint/no-unused-vars
   onChange = (value: string) => {};
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   onTouched = () => {};
