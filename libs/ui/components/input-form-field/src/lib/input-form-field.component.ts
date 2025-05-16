@@ -30,7 +30,7 @@ type InputType = 'text' | 'number' | 'email' | 'password';
   template: `
     <div
       class="lib-input-form-field"
-      [class.lib-input-form-field--focus]="!isFocused()"
+      [class.lib-input-form-field--focus]="isFocused()"
       [class.lib-input-form-field--value]="!!value()"
       [class.lib-input-form-field--error]="!!errors()"
     >
@@ -72,10 +72,10 @@ type InputType = 'text' | 'number' | 'email' | 'password';
 export class InputFormFieldComponent implements ControlValueAccessor, OnInit {
   private injector = inject(Injector);
 
-  type = input<InputType>('text');
   label = input.required<string>();
-  placeholder = input<string>('');
   inputId = input.required<string>();
+  type = input<InputType>('text');
+  placeholder = input<string>('');
   customErrorMessages = input<Record<string, string>>();
 
   control: FormControl | null = null;
