@@ -22,12 +22,12 @@ This is an Angular 19 monorepo application built with NX 20.8.0, using a modern 
 ## Project Structure
 
 ```
-- /Users/daniel/dev/experimentation/angular-nx-playground/
+- /Users/daniel/dev/experimentation/@ngnx-playground/
   - CLAUDE.md                          # Instructions for Claude
   - PROJECT_DETAILS.md                 # This file
   - README.md
   - apps/                              # Contains all applications
-    - angular-nx-playground/           # Main application
+    - @ngnx-playground/           # Main application
       - jest.config.ts
       - project.json                   # NX project configuration for this app
       - public/
@@ -200,7 +200,7 @@ The application implements a comprehensive theme system that integrates with the
    - CSS variables following naming convention `--theme-color-*`
    - Component styles reference these variables (e.g., `var(--theme-color-button-primary)`)
 
-5. **Theme Toggle Component** (`/apps/angular-nx-playground/src/app/theme-toggle/theme-toggle.component.ts`)
+5. **Theme Toggle Component** (`/apps/@ngnx-playground/src/app/theme-toggle/theme-toggle.component.ts`)
    - Uses the new input/output syntax (`input()`, `output()`)
    - Uses modern `@if` syntax for conditional rendering
    - Integrates with UI component library (`libButton`)
@@ -255,11 +255,11 @@ The project uses a hybrid styling approach:
 
 ```
 # Build the application
-npx nx build angular-nx-playground
-npx nx build angular-nx-playground --configuration=development
+npx nx build @ngnx-playground
+npx nx build @ngnx-playground --configuration=development
 
 # Serve the application
-npx nx serve angular-nx-playground
+npx nx serve @ngnx-playground
 
 # Lint a project
 npx nx lint [project-name]

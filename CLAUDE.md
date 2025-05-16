@@ -3,8 +3,8 @@
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
 ## Commands
-- Build: `npx nx build angular-nx-playground` (add `--configuration=development` for dev)
-- Serve: `npx nx serve angular-nx-playground`
+- Build: `npx nx build @ngnx-playground` (add `--configuration=development` for dev)
+- Serve: `npx nx serve @ngnx-playground`
 - Lint: `npx nx lint [project-name]`
 - Test: `npx nx test [project-name]`
 - Test single file: `npx nx test [project-name] --testFile=path/to/test.spec.ts`

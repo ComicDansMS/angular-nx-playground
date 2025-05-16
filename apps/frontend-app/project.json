@@ -1,27 +1,27 @@
 {
-  "name": "angular-nx-playground",
+  "name": "@frontend-app",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
   "prefix": "app",
-  "sourceRoot": "apps/angular-nx-playground/src",
+  "sourceRoot": "apps/frontend-app/src",
   "tags": [],
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:application",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/apps/angular-nx-playground",
-        "index": "apps/angular-nx-playground/src/index.html",
-        "browser": "apps/angular-nx-playground/src/main.ts",
+        "outputPath": "dist/apps/@frontend-app",
+        "index": "apps/frontend-app/src/index.html",
+        "browser": "apps/frontend-app/src/main.ts",
         "polyfills": ["zone.js"],
-        "tsConfig": "apps/angular-nx-playground/tsconfig.app.json",
+        "tsConfig": "apps/frontend-app/tsconfig.app.json",
         "assets": [
           {
             "glob": "**/*",
-            "input": "apps/angular-nx-playground/public"
+            "input": "apps/frontend-app/public"
           }
         ],
-        "styles": ["apps/angular-nx-playground/src/styles.css"],
+        "styles": ["apps/frontend-app/src/styles.css"],
         "scripts": []
       },
       "configurations": {
@@ -52,10 +52,10 @@
       "executor": "@angular-devkit/build-angular:dev-server",
       "configurations": {
         "production": {
-          "buildTarget": "angular-nx-playground:build:production"
+          "buildTarget": "@frontend-app:build:production"
         },
         "development": {
-          "buildTarget": "angular-nx-playground:build:development"
+          "buildTarget": "@frontend-app:build:development"
         }
       },
       "defaultConfiguration": "development"
@@ -63,7 +63,7 @@
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
       "options": {
-        "buildTarget": "angular-nx-playground:build"
+        "buildTarget": "@frontend-app:build"
       }
     },
     "lint": {
@@ -73,15 +73,15 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "apps/angular-nx-playground/jest.config.ts"
+        "jestConfig": "apps/frontend-app/jest.config.ts"
       }
     },
     "serve-static": {
       "executor": "@nx/web:file-server",
       "options": {
-        "buildTarget": "angular-nx-playground:build",
+        "buildTarget": "@frontend-app:build",
         "port": 4200,
-        "staticFilePath": "dist/apps/angular-nx-playground/browser",
+        "staticFilePath": "dist/apps/@frontend-app/browser",
         "spa": true
       }
     }

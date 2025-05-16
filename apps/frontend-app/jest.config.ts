@@ -1,8 +1,8 @@
 export default {
-  displayName: 'angular-nx-playground',
+  displayName: '@frontend-app',
   preset: '../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
-  coverageDirectory: '../../coverage/apps/angular-nx-playground',
+  coverageDirectory: '../../coverage/apps/@frontend-app',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': [
       'jest-preset-angular',
