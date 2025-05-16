@@ -16,6 +16,7 @@
     "baseUrl": ".",
     "esModuleInterop": true,
     "paths": {
+      "@angular-nx-playground/my-plugin": ["tools/my-plugin/src/index.ts"],
       "@crm-project/pipes/camel-case-pipe": [
         "libs/pipes/camel-case/src/index.ts"
       ],
