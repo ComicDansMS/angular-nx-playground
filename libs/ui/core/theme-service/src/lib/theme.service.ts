@@ -1,6 +1,6 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
-import { Theme } from '@crm-project/ui/interfaces';
+import { Theme } from '@ngnx-playground/ui/interfaces';
 import { Subject, tap } from 'rxjs';
 
 @Injectable({

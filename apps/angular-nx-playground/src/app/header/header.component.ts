@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { ThemeService } from '@crm-project/ui/core/theme-service';
+import { ThemeService } from '@ngnx-playground/ui/core/theme-service';
 import { ThemeToggleComponent } from './ui/theme-toggle/theme-toggle.component';
 
 @Component({

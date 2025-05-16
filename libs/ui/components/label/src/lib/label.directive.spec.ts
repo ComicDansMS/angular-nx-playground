@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { Component } from '@angular/core';
 import { LibLabelDirective } from './label.directive';
-import { AbstractStyledDirective } from '@crm-project/ui/core/abstract-styled-directive';
+import { AbstractStyledDirective } from '@ngnx-playground/ui/core/abstract-styled-directive';
 import cssValidator from 'w3c-css-validator';
 
 @Component({

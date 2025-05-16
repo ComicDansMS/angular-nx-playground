@@ -21,7 +21,7 @@ import {
   FormGroupDirective,
   FormControlDirective,
 } from '@angular/forms';
-import { FormFieldErrorComponent } from '@crm-project/ui/components/form-field-error';
+import { FormFieldErrorComponent } from '@ngnx-playground/ui/components/form-field-error';
 import { filter, Subject, takeUntil } from 'rxjs';
 
 export interface RadioOption {

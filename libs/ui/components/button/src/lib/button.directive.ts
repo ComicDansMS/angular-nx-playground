@@ -7,7 +7,7 @@ import {
   OnInit,
   signal,
 } from '@angular/core';
-import { AbstractStyledDirective } from '@crm-project/ui/core/abstract-styled-directive';
+import { AbstractStyledDirective } from '@ngnx-playground/ui/core/abstract-styled-directive';
 
 const style = /* css */ `
   .lib-button {

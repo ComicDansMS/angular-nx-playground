@@ -16,41 +16,41 @@
     "baseUrl": ".",
     "esModuleInterop": true,
     "paths": {
-      "@crm-project/pipes/camel-case-pipe": [
+      "@ngnx-playground/pipes/camel-case-pipe": [
         "libs/pipes/camel-case/src/index.ts"
       ],
-      "@crm-project/tools/automation": ["tools/automation/src/index.ts"],
-      "@crm-project/ui/components/button": [
+      "@ngnx-playground/tools/automation": ["tools/automation/src/index.ts"],
+      "@ngnx-playground/ui/components/button": [
         "libs/ui/components/button/src/index.ts"
       ],
-      "@crm-project/ui/components/card": [
+      "@ngnx-playground/ui/components/card": [
         "libs/ui/components/card/src/index.ts"
       ],
-      "@crm-project/ui/components/form-field-error": [
+      "@ngnx-playground/ui/components/form-field-error": [
         "libs/ui/components/form-field-error/src/index.ts"
       ],
-      "@crm-project/ui/components/input": [
+      "@ngnx-playground/ui/components/input": [
         "libs/ui/components/input/src/index.ts"
       ],
-      "@crm-project/ui/components/input-form-field": [
+      "@ngnx-playground/ui/components/input-form-field": [
         "libs/ui/components/input-form-field/src/index.ts"
       ],
-      "@crm-project/ui/components/label": [
+      "@ngnx-playground/ui/components/label": [
         "libs/ui/components/label/src/index.ts"
       ],
-      "@crm-project/ui/components/radio-form-field": [
+      "@ngnx-playground/ui/components/radio-form-field": [
         "libs/ui/components/radio-form-field/src/index.ts"
       ],
-      "@crm-project/ui/core/abstract-styled-directive": [
+      "@ngnx-playground/ui/core/abstract-styled-directive": [
         "libs/ui/core/abstracts/abstract-styled-directive/src/index.ts"
       ],
-      "@crm-project/ui/core/theme-service": [
+      "@ngnx-playground/ui/core/theme-service": [
         "libs/ui/core/theme-service/src/index.ts"
       ],
-      "@crm-project/ui/directives/control-value-accessor": [
+      "@ngnx-playground/ui/directives/control-value-accessor": [
         "libs/ui/directives/control-value-accessor/src/index.ts"
       ],
-      "@crm-project/ui/interfaces": ["libs/ui/core/interfaces/src/index.ts"]
+      "@ngnx-playground/ui/interfaces": ["libs/ui/core/interfaces/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
