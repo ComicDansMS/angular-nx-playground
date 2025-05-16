@@ -6,12 +6,6 @@
   "sourceRoot": "apps/angular-nx-playground/src",
   "tags": [],
   "targets": {
-    "echo": {
-      "executor": "@angular-nx-playground/my-plugin:echo",
-      "options": {
-        "textToEcho": "Hello World"
-      }
-    },
     "build": {
       "executor": "@angular-devkit/build-angular:application",
       "outputs": ["{options.outputPath}"],
