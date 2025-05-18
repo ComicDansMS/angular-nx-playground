@@ -77,7 +77,7 @@ export class RadioFormFieldComponent implements ControlValueAccessor, OnInit {
 
   label = input.required<string>();
   options = input.required<RadioOption[]>();
-  customErrorMessages = input<Record<string, string>>();
+  customErrorMessages = input<Record<string, string> | null>(null);
 
   control: FormControl | null = null;
   selectedValue = signal<boolean | null>(null);

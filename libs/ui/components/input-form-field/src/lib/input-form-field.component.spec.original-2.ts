@@ -244,7 +244,7 @@ describe('InputFormFieldComponent', () => {
         expect(inputFormFieldComponent.control).toBeInstanceOf(FormControl);
       })
 
-      it("should apply ID to the input and assign the label's 'for' attribute", () => {
+      it("should apply inputId to input and label", () => {
         expect(inputElement.id).toBe('testInputId');
         expect(labelElement.getAttribute('for')).toBe('testInputId');
       })
@@ -282,6 +282,26 @@ describe('InputFormFieldComponent', () => {
       })
     })
 
+    describe("Input value rendering", () => {
+      it("should display the value when the value signal is set", () => {
+        inputFormFieldComponent.value.set('some value')
+        hostFixture.detectChanges();
+        expect(inputElement.value).toBe('some value');
+      })
+
+      it('should set the placeholder when one is provided', () => {
+        hostComponent.placeholder.set('some placeholder')
+        hostFixture.detectChanges();
+        expect(inputElement.placeholder).toBe('some placeholder');
+      });
+
+      it('should not set a placeholder when not provided', () => {
+        expect(inputElement.placeholder).toBeFalsy();
+      });
+
+      // TODO: Snapshot to assert placeholder behavior
+    })
+
     describe("Input type", () => {
       it("should set input type to 'text' by when specified", () => {
         hostComponent.inputType.set('text')
@@ -308,143 +328,176 @@ describe('InputFormFieldComponent', () => {
       })
     })
 
-    describe("User interactions", () => {
-      describe("User selects input field (focus)", () => {
-        beforeEach(() => {
-          inputFormFieldComponent.isFocused.set(false);
-          inputElement.dispatchEvent(new Event('focus'));
+    describe("CSS classes based on state", () => {
+      it("should apply '--value' class when value() signal has content", () => {
+        inputFormFieldComponent.value.set('some value')
+        hostFixture.detectChanges();
+        expect(formFieldWrapperDebugElement.classes['lib-input-form-field--value']).toBe(true);
+      })
+
+      it("should not apply '--value' class when value() signal has no content", () => {
+        inputFormFieldComponent.value.set('')
+        hostFixture.detectChanges();
+        expect(formFieldWrapperDebugElement.classes['lib-input-form-field--value']).toBeUndefined();
+      })
+
+      it("should apply '--focus' class when isFocused() signal is true", () => {
+        inputFormFieldComponent.isFocused.set(true)
+        hostFixture.detectChanges();
+        expect(formFieldWrapperDebugElement.classes['lib-input-form-field--focus']).toBe(true);
+      })
+
+      it("should not apply '--focus' class when isFocused() signal is false", () => {
+        inputFormFieldComponent.isFocused.set(false)
+        hostFixture.detectChanges();
+        expect(formFieldWrapperDebugElement.classes['lib-input-form-field--focus']).toBeUndefined();
+      })
+
+      it("should apply '--error' class when errors() signal is populated", () => {
+        inputFormFieldComponent.errors.set({ required: true });
+        hostFixture.detectChanges();
+        expect(formFieldWrapperDebugElement.classes['lib-input-form-field--error']).toBe(true);
+      })
+
+      it("should not apply '--error' class when errors() signal is null", () => {
+        inputFormFieldComponent.errors.set(null);
+        hostFixture.detectChanges();
+        expect(formFieldWrapperDebugElement.classes['lib-input-form-field--error']).toBeUndefined();
+      })
+    })
+
+    describe("Event handling", () => {
+      it("should update the input value when the FormControl value is updated", () => {
+        inputFormFieldComponent.writeValue('some value');
+        hostFixture.detectChanges();
+        expect(inputFormFieldComponent.value()).toBe('some value');
+      })
+
+
+
+      describe("writeValue()", () => {
+
+        it("should update the value() signal with content when writeValue() is called", () => {
+          inputFormFieldComponent.writeValue('some value');
           hostFixture.detectChanges();
-        })
-
-        it("should set isFocused() to true when user selects the input field", () => {
-          expect(inputFormFieldComponent.isFocused()).toBe(true);
-        })
-
-        it("should apply the focus CSS class when user selects the input field", () => {
-          expect(formFieldWrapperDebugElement.classes['lib-input-form-field--focus']).toBe(true);
+          expect(inputFormFieldComponent.value()).toBe('some value');
         })
       })
 
-      describe("User types in input field (input)", () => {
-        const inputValueRaw = ' some   value ';
-        const inputValueTrimmed = 'some value';
-        let onChangeSpy: jest.Mock;
+      describe("handleInput()", () => {
+        it("should set the value() signal when handleInput() is called by the input element emitting an input event", () => {
+          inputElement.value = 'some value';
+          inputDebugElement.triggerEventHandler('input', { target: inputElement });
+          hostFixture.detectChanges();
+          expect(inputFormFieldComponent.value()).toBe('some value');
+        })
 
-        beforeEach(() => {
-          onChangeSpy = jest.fn();
+        it("should pass trimmed input to onChange() when handleInput() is called by the input element emitting an input event", () => {
+          const onChangeSpy = jest.fn();
           inputFormFieldComponent.registerOnChange(onChangeSpy);
-
-          inputElement.value = inputValueRaw;
-          inputElement.dispatchEvent(new Event('input'));
+          inputElement.value = ' leading, trailing and multiple   space ';
+          inputDebugElement.triggerEventHandler('input', { target: inputElement });
           hostFixture.detectChanges();
-        })
-
-        it("should update value() signal with the raw input when user types", () => {
-          expect(inputFormFieldComponent.value()).toBe(inputValueRaw);
-        })
-
-        it("should call onChange() with the trimmed and space-normalized value", () => {
-          expect(onChangeSpy).toHaveBeenCalledWith(inputValueTrimmed);
-        })
-
-        it("should apply the value CSS class if the input field has a value", () => {
-          expect(formFieldWrapperDebugElement.classes['lib-input-form-field--value']).toBe(true);
-        })
-
-        it("should remove the value CSS class if the input field is empty", () => {
-          inputElement.value = '';
-          inputElement.dispatchEvent(new Event('input'));
-          hostFixture.detectChanges();
-          expect(formFieldWrapperDebugElement.classes['lib-input-form-field--value']).toBeUndefined();
+          expect(onChangeSpy).toHaveBeenCalledWith('leading, trailing and multiple space');
         })
       })
 
-      describe("User leaves input field (blur)", () => {
-        let onTouchedSpy: jest.Mock;
-
-        beforeEach(() => {
-          onTouchedSpy = jest.fn();
+      describe("handleBlur()", () => {
+        it("should call onTouched when input element is blurred", () => {
+          const onTouchedSpy = jest.fn()
           inputFormFieldComponent.registerOnTouched(onTouchedSpy);
-
-          inputElement.dispatchEvent(new Event('focus'));
-          hostFixture.detectChanges();
           inputElement.dispatchEvent(new Event('blur'));
-          hostFixture.detectChanges();
-        })
+          expect(onTouchedSpy).toHaveBeenCalled();
+          onTouchedSpy.mockReset();
+        });
 
-        it("should set isFocused() to false when user leaves the input field", () => {
+        it("should set isFocused() signal is false", () => {
+          inputFormFieldComponent.isFocused.set(true);
+          inputElement.dispatchEvent(new Event('blur'));
           expect(inputFormFieldComponent.isFocused()).toBe(false)
         })
 
-        it("should remove the focus CSS class when user leaves the input field", () => {
-          expect(formFieldWrapperDebugElement.classes['lib-input-form-field--focus']).toBeUndefined();
-        })
-
-        it("should call onTouched() when the user leaves the input field", () => {
-          expect(onTouchedSpy).toHaveBeenCalled()
-        })
-      })
-
-      describe("Error handling", () => {
-        beforeEach(() => {
+        it("should call updateErrors()", () => {
+          const updateErrorsSpy = jest.spyOn(inputFormFieldComponent, 'updateErrors');
           inputFormFieldComponent.control?.setValidators(Validators.required);
-
-          inputElement.value = '';
-          inputElement.dispatchEvent(new Event('input'));
-          hostFixture.detectChanges();
-
+          inputFormFieldComponent.control?.setValue('');
           inputElement.dispatchEvent(new Event('blur'));
+          expect(updateErrorsSpy).toHaveBeenCalled();
+          updateErrorsSpy.mockRestore();
+        })
+      });
+
+      describe("setDisabledState()", () => {
+        it("should update the isDisabled() signal", () => {
+          inputFormFieldComponent.setDisabledState(true);
+          expect(inputFormFieldComponent.isDisabled()).toBe(true);
+          inputFormFieldComponent.setDisabledState(false);
+          expect(inputFormFieldComponent.isDisabled()).toBe(false);
+        });
+
+        it("should set the 'disabled' attribute on the input element", () => {
+          inputFormFieldComponent.setDisabledState(true);
           hostFixture.detectChanges();
-        })
+          expect(inputElement.disabled).toBe(true);
+          inputFormFieldComponent.setDisabledState(false);
+          hostFixture.detectChanges();
+          expect(inputElement.disabled).toBe(false);
+        });
+      });
 
-        it("should set errors() when user leaves the input field with a value that fails validation", () => {
-          expect(inputFormFieldComponent.errors()).toEqual({ required: true });
-        })
+      describe("handleFocus()", () => {
+        it("should set the isFocused() signal to true", () => {
+          inputFormFieldComponent.isFocused.set(false);
+          hostFixture.detectChanges();
+          inputElement.dispatchEvent(new Event('focus'));
+          expect(inputFormFieldComponent.isFocused()).toBe(true);
+        });
+      });
 
-        it("should set error CSS class when user leaves an empty field that is required", () => {
-          expect(formFieldWrapperDebugElement.classes['lib-input-form-field--error']).toBe(true);
-        })
+      describe("Validation and error state", () => {
+        beforeEach(() => {
+          inputFormFieldComponent.control?.clearValidators();
+          inputFormFieldComponent.control?.setValue('');
+          inputFormFieldComponent.errors.set(null);
+          inputFormFieldComponent.control?.markAsUntouched();
+          inputFormFieldComponent.control?.markAsPristine();
+        });
 
-        it("should clear errors() when user leaves with a valid value after being invalid", () => {
-          expect(inputFormFieldComponent.errors()).toEqual({ required: true });
+        it("updateErrors() should populate errors() signal if control is invalid", () => {
+          if (inputFormFieldComponent.control) {
+            inputFormFieldComponent.control.setValidators(Validators.required);
+            inputFormFieldComponent.control.setValue('');
+          } else {
+            throw new Error('Component control not initialised for test');
+          }
 
-          inputElement.value = 'some value';
-          inputElement.dispatchEvent(new Event('input'));
+          inputFormFieldComponent.updateErrors();
           hostFixture.detectChanges();
 
-          inputElement.dispatchEvent(new Event('blur'));
+          expect(inputFormFieldComponent.errors()).toEqual({ required: true });
+        });
+
+        it("updateErrors() should clear errors() signal if control is valid", () => {
+          if (inputFormFieldComponent.control) {
+            inputFormFieldComponent.control.setValidators(Validators.required);
+            inputFormFieldComponent.control.setValue('some valid input');
+          } else {
+            throw new Error('Component control not initialised for test');
+          }
+
+          inputFormFieldComponent.updateErrors();
           hostFixture.detectChanges();
 
           expect(inputFormFieldComponent.errors()).toBeNull();
-        })
-
-        it("should clear error CSS class when user leaves with a valid value after being invalid", () => {
-          expect(formFieldWrapperDebugElement.classes['lib-input-form-field--error']).toBe(true);
-
-          inputElement.value = 'some value';
-          inputElement.dispatchEvent(new Event('input'));
-          hostFixture.detectChanges();
-
-          inputElement.dispatchEvent(new Event('blur'));
-          hostFixture.detectChanges();
-
-          expect(formFieldWrapperDebugElement.classes['lib-input-form-field--error']).toBeUndefined()
-        })
-      })
-
-      describe("User interacts with a disabled input field", () => {
-        beforeEach(() => {
-          inputFormFieldComponent.setDisabledState(true);
-          hostFixture.detectChanges();
-        });
-
-        it("should have the 'disabled' attribute on the native input element", () => {
-          expect(inputElement.disabled).toBe(true);
         });
       });
     })
 
-    // TODO: Events propagate to provided FormControl (shared function)
+    // eventHandling<TestHostComponent>(
+    //   () => inputFormFieldComponent,
+    //   () => hostFixture,
+    //   () => inputDebugElement
+    // )
   })
 
   describe("Provided with a FormControlName from a FormGroup", () => {
@@ -477,7 +530,28 @@ describe('InputFormFieldComponent', () => {
       expect(inputFormFieldComponent.control).toBe(hostComponent.standaloneControl);
     })
 
-    // TODO: Events propagate to provided FormControl (shared function)
+    it("should update value() when FormControl is updated", () => {
+      expect(inputFormFieldComponent.value()).toBe('standalone value');
+
+      inputFormFieldComponent.control?.setValue('some value')
+      hostFixture.detectChanges();
+      expect(inputFormFieldComponent.value()).toBe('some value');
+    })
+
+    it("should update input element's disabled state when FormControl's disabled state changes", () => {
+      expect(inputElement.disabled).toBe(false);
+      expect(hostComponent.standaloneControl.disabled).toBe(false);
+
+      hostComponent.standaloneControl.disable();
+      hostFixture.detectChanges();
+
+      expect(inputElement.disabled).toBe(true);
+
+      hostComponent.standaloneControl.enable();
+      hostFixture.detectChanges();
+
+      expect(inputElement.disabled).toBe(false);
+    });
   });
 
   describe("No FormControl provided", () => {
@@ -503,3 +577,23 @@ describe('InputFormFieldComponent', () => {
     })
   })
 });
+
+//====================================================================
+// 2. Tests for Validation/Error Handling with an External FormControl
+//    (This suite is designed to be run by different integration contexts)
+//====================================================================
+
+  /**
+   * Describe: Common External FormControl Validation and Error Handling Logic [SHARED SUITE]
+   */
+  /**
+   * Context: Given the component is correctly linked to an external FormControl
+   */
+// should derive isRequired() signal based on the external FormControl's validators
+// should populate the errors() signal from the external FormControl's 'errors' property
+// should apply the '--error' CSS class when the external FormControl is invalid and touched
+// should clear the errors() signal and the '--error' CSS class when the external FormControl becomes valid
+// should correctly reflect the 'customErrorMessages' @Input in its customErrorMessages() signal (for FormFieldErrorComponent)
+// should update its errors() signal in response to relevant events from the external FormControl (e.g., statusChanges, or after form-level touch operations like markAllAsTouched)
+
+

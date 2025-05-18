@@ -76,7 +76,7 @@ export class InputFormFieldComponent implements ControlValueAccessor, OnInit {
   inputId = input.required<string>();
   type = input<InputType>('text');
   placeholder = input<string>('');
-  customErrorMessages = input<Record<string, string>>();
+  customErrorMessages = input<Record<string, string> | null>(null);
 
   control: FormControl | null = null;
   value = signal<string>('');
@@ -144,16 +144,22 @@ export class InputFormFieldComponent implements ControlValueAccessor, OnInit {
   }
 
   handleInput(value: string): void {
+    if (this.isDisabled()) return;
+
     const processedValue = value.trim().replace(/\s\s+/g, ' ');
     this.value.set(value);
     this.onChange(processedValue);
   }
 
   handleFocus(): void {
+    if (this.isDisabled()) return;
+
     this.isFocused.set(true);
   }
 
   handleBlur(): void {
+    if (this.isDisabled()) return;
+
     this.onTouched();
     this.isFocused.set(false);
     this.updateErrors();

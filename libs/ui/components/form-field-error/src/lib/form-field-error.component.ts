@@ -42,7 +42,7 @@ import { ValidationErrors } from '@angular/forms';
 })
 export class FormFieldErrorComponent implements OnInit {
   errors = input.required<ValidationErrors | null>();
-  customErrorMessages = input<Record<string, string>>();
+  customErrorMessages = input<Record<string, string> | null>(null);
 
   errorMessages: Record<string, string> = {
     required: 'This field is required',
