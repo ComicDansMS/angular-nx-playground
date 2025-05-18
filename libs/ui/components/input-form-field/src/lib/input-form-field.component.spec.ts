@@ -432,6 +432,8 @@ describe('InputFormFieldComponent', () => {
         })
       })
 
+      // test
+
       describe("User interacts with a disabled input field", () => {
         beforeEach(() => {
           inputFormFieldComponent.setDisabledState(true);
