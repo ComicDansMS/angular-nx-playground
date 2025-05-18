@@ -1,146 +1,104 @@
 import { InputFormFieldComponent } from './input-form-field.component';
 import { Component, ComponentRef, DebugElement, signal } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
 type InputType = 'text' | 'number' | 'email' | 'password';
 
-// function eventHandling<T>(
-//   getComponent: () => InputFormFieldComponent,
-//   getFixture: () => ComponentFixture<T>,
-//   getInputDebugElement: () => DebugElement,
-// ):void {
-//   let component: InputFormFieldComponent;
-//   let fixture: ComponentFixture<T>;
-//   let inputDebugElement: DebugElement
-//   let inputElement: HTMLInputElement
-//
-//   beforeEach(() => {
-//     component = getComponent();
-//     fixture = getFixture();
-//     inputDebugElement = getInputDebugElement();
-//     inputElement = inputDebugElement.nativeElement;
-//   });
-//
-//   describe("Event handling", () => {
-//     describe("writeValue()", () => {
-//       it("should update the value() signal with content when writeValue() is called", () => {
-//         component.writeValue('some value');
-//         fixture.detectChanges();
-//         expect(component.value()).toBe('some value');
-//       })
-//     })
-//
-//     describe("handleInput()", () => {
-//       it("should update the value() signal with content when handleInput() is called", () => {
-//         component.handleInput('some value');
-//         fixture.detectChanges();
-//         expect(component.value()).toBe('some value');
-//       })
-//
-//       it("should process input, set value signal and call onChange when handleInput() is called", () => {
-//         const onChangeSpy = jest.fn();
-//         component.registerOnChange(onChangeSpy);
-//         inputElement.value = ' leading, trailing and multiple   space ';
-//         inputDebugElement.triggerEventHandler('input', { target: inputElement });
-//         fixture.detectChanges();
-//         expect(component.value()).toBe(' leading, trailing and multiple   space ');
-//         expect(onChangeSpy).toHaveBeenCalledWith('leading, trailing and multiple space');
-//       })
-//     })
-//
-//     describe("handleBlur()", () => {
-//       it("should call onTouched when input element is blurred", () => {
-//         const onTouchedSpy = jest.fn()
-//         component.registerOnTouched(onTouchedSpy);
-//         inputElement.dispatchEvent(new Event('blur'));
-//         expect(onTouchedSpy).toHaveBeenCalled();
-//         onTouchedSpy.mockReset();
-//       });
-//
-//       it("should set isFocused() signal is false", () => {
-//         component.isFocused.set(true);
-//         inputElement.dispatchEvent(new Event('blur'));
-//         expect(component.isFocused()).toBe(false)
-//       })
-//
-//       it("should call updateErrors()", () => {
-//         const updateErrorsSpy = jest.spyOn(component, 'updateErrors');
-//         component.control?.setValidators(Validators.required);
-//         component.control?.setValue('');
-//         inputElement.dispatchEvent(new Event('blur'));
-//         expect(updateErrorsSpy).toHaveBeenCalled();
-//         updateErrorsSpy.mockRestore();
-//       })
-//     });
-//
-//     describe("setDisabledState()", () => {
-//       it("should update the isDisabled() signal", () => {
-//         component.setDisabledState(true);
-//         expect(component.isDisabled()).toBe(true);
-//         component.setDisabledState(false);
-//         expect(component.isDisabled()).toBe(false);
-//       });
-//
-//       it("should set the 'disabled' attribute on the input element", () => {
-//         component.setDisabledState(true);
-//         fixture.detectChanges();
-//         expect(inputElement.disabled).toBe(true);
-//         component.setDisabledState(false);
-//         fixture.detectChanges();
-//         expect(inputElement.disabled).toBe(false);
-//       });
-//     });
-//
-//     describe("handleFocus()", () => {
-//       it("should set the isFocused() signal to true", () => {
-//         component.isFocused.set(false);
-//         fixture.detectChanges();
-//         inputElement.dispatchEvent(new Event('focus'));
-//         expect(component.isFocused()).toBe(true);
-//       });
-//     });
-//
-//     describe("updateErrors()", () => {
-//       beforeEach(() => {
-//         component.control?.clearValidators();
-//         component.control?.setValue('');
-//         component.errors.set(null);
-//         component.control?.markAsUntouched();
-//         component.control?.markAsPristine();
-//       });
-//
-//       it("should populate errors() signal if control is invalid", () => {
-//         if (component.control) {
-//           component.control.setValidators(Validators.required);
-//           component.control.setValue('');
-//         } else {
-//           throw new Error('Component control not initialised for test. Check getComponent().');
-//         }
-//
-//         component.updateErrors();
-//         fixture.detectChanges();
-//
-//         expect(component.errors()).toEqual({ required: true });
-//       });
-//
-//       it("should clear errors() signal if control is valid", () => {
-//         if (component.control) {
-//           component.control.setValidators(Validators.required);
-//           component.control.setValue('some valid input');
-//         } else {
-//           throw new Error('Component control not initialised for test. Check getComponent().');
-//         }
-//
-//         component.updateErrors();
-//         fixture.detectChanges();
-//
-//         expect(component.errors()).toBeNull();
-//       });
-//     })
-//   })
-// }
+function shouldUpdateExternalFormControl<T>(
+  getParentFormControl: () => AbstractControl,
+  getFixture: () => ComponentFixture<T>,
+  getInputDebugElement: () => DebugElement,
+):void {
+  let formControl: AbstractControl;
+  let fixture: ComponentFixture<T>;
+  let inputDebugElement: DebugElement
+  let inputElement: HTMLInputElement
+
+  beforeEach(() => {
+    formControl = getParentFormControl();
+    fixture = getFixture();
+    inputDebugElement = getInputDebugElement();
+    inputElement = inputDebugElement.nativeElement;
+  });
+
+  describe("User input", () => {
+    beforeEach(() => {
+      inputElement.value = 'some value';
+      inputElement.dispatchEvent(new Event('input'));
+      fixture.detectChanges();
+    })
+
+    it("should set the FormControl value when the user enters text into the input field", () => {
+      expect(formControl.value).toBe('some value')
+    })
+
+    it("should make FormControl dirty when the user enters text into the input field", () => {
+      expect(formControl.dirty).toBe(true)
+    })
+
+    it("should make FormControl.pristine false when the user enters text into the input field", () => {
+      expect(formControl.pristine).toBe(false)
+    })
+
+    it("should set FormControl.touched as true when blur event is emitted", () => {
+      expect(formControl.touched).toBe(false)
+
+      inputElement.dispatchEvent(new Event('blur'));
+      fixture.detectChanges();
+
+      expect(formControl.touched).toBe(true)
+    })
+  })
+
+  describe("Validators and error state", () => {
+    beforeEach(() => {
+      formControl.setValidators(Validators.email);
+
+      inputElement.value = 'not an email address';
+      inputElement.dispatchEvent(new Event('input'));
+      fixture.detectChanges();
+
+      inputElement.dispatchEvent(new Event('blur'));
+      fixture.detectChanges();
+    })
+
+    it("should set FormControl.status to invalid when user enters invalid text", () => {
+      expect(formControl.status).toBe('INVALID')
+    })
+
+    it("should update FormControl.errors with appropriate errors when input is invalid", () => {
+      expect(formControl.errors).toEqual({ email: true })
+    })
+
+    it("should set FormControl.status to valid when user enters valid text after being invalid", () => {
+      expect(formControl.status).toBe('INVALID')
+
+      inputElement.value = 'anEmail@address.com';
+      inputElement.dispatchEvent(new Event('input'));
+      fixture.detectChanges();
+
+      inputElement.dispatchEvent(new Event('blur'));
+      fixture.detectChanges();
+
+      expect(formControl.status).toBe('VALID')
+    })
+
+    it("should update FormControl.errors with null value when user enters valid text after being invalid", () => {
+      expect(formControl.errors).toEqual({ email: true })
+
+      inputElement.value = 'anEmail@address.com';
+      inputElement.dispatchEvent(new Event('input'));
+      fixture.detectChanges();
+
+      inputElement.dispatchEvent(new Event('blur'));
+      fixture.detectChanges();
+
+      expect(formControl.errors).toBeNull()
+    })
+  })
+}
 
 // Host component for use with FormControl
 @Component({
@@ -157,7 +115,7 @@ type InputType = 'text' | 'number' | 'email' | 'password';
   standalone: true,
   imports: [InputFormFieldComponent, ReactiveFormsModule],
 })
-class TestStandaloneHostComponent {
+class FormControlHostComponent {
   label = signal<string>('test label');
   inputId = signal<string>('testInputId');
   inputType = signal<InputType>('text');
@@ -183,7 +141,7 @@ class TestStandaloneHostComponent {
   standalone: true,
   imports: [InputFormFieldComponent, ReactiveFormsModule],
 })
-class TestHostComponent {
+class FormGroupHostComponent {
   label = signal<string>('test label');
   inputId = signal<string>('testInputId');
   inputType = signal<InputType>('text');
@@ -195,9 +153,9 @@ class TestHostComponent {
 }
 
 describe('InputFormFieldComponent', () => {
-  describe("When provided with an individual FormControl binding", () => {
-    let hostFixture: ComponentFixture<TestHostComponent>;
-    let hostComponent: TestHostComponent;
+  describe("When provided with a FormControlName from a FormGroup", () => {
+    let hostFixture: ComponentFixture<FormControlHostComponent>;
+    let hostComponent: FormControlHostComponent;
 
     let inputFormFieldDebugElement: DebugElement;
     let inputFormFieldComponent: InputFormFieldComponent;
@@ -211,10 +169,10 @@ describe('InputFormFieldComponent', () => {
 
     beforeEach(() => {
       TestBed.configureTestingModule({
-        imports: [TestHostComponent, ReactiveFormsModule]
+        imports: [FormControlHostComponent, ReactiveFormsModule]
       })
 
-      hostFixture = TestBed.createComponent(TestHostComponent);
+      hostFixture = TestBed.createComponent(FormControlHostComponent);
       hostComponent = hostFixture.componentInstance;
 
       inputFormFieldDebugElement = hostFixture.debugElement.query(By.directive(InputFormFieldComponent));
@@ -232,7 +190,7 @@ describe('InputFormFieldComponent', () => {
 
     it("should be created and linked to the host FormGroup's FormControl", () => {
       expect(inputFormFieldComponent).toBeTruthy();
-      expect(inputFormFieldComponent.control).toBe(hostComponent.form.controls.testControl);
+      expect(inputFormFieldComponent.control).toBe(hostComponent.standaloneControl);
     })
 
     describe("Initialisation", () => {
@@ -308,7 +266,7 @@ describe('InputFormFieldComponent', () => {
       })
     })
 
-    describe("User interactions", () => {
+    describe("User interactions - internal state", () => {
       describe("User selects input field (focus)", () => {
         beforeEach(() => {
           inputFormFieldComponent.isFocused.set(false);
@@ -444,40 +402,46 @@ describe('InputFormFieldComponent', () => {
       });
     })
 
-    // TODO: Events propagate to provided FormControl (shared function)
+    shouldUpdateExternalFormControl<FormControlHostComponent>(
+      () => hostComponent.standaloneControl,
+      () => hostFixture,
+      () => inputDebugElement
+    )
   })
 
-  describe("Provided with a FormControlName from a FormGroup", () => {
-    let hostFixture: ComponentFixture<TestStandaloneHostComponent>;
-    let hostComponent: TestStandaloneHostComponent;
+  describe("When provided with a FormControlName from a FormGroup", () => {
+    let hostFixture: ComponentFixture<FormGroupHostComponent>;
+    let hostComponent: FormGroupHostComponent;
     let inputFormFieldComponent: InputFormFieldComponent;
     let inputFormFieldDebugElement: DebugElement;
     let inputDebugElement: DebugElement;
-    let inputElement: HTMLInputElement;
 
     beforeEach(() => {
       TestBed.configureTestingModule({
-        imports: [TestStandaloneHostComponent, ReactiveFormsModule]
+        imports: [FormGroupHostComponent, ReactiveFormsModule]
       })
 
-      hostFixture = TestBed.createComponent(TestStandaloneHostComponent);
+      hostFixture = TestBed.createComponent(FormGroupHostComponent);
       hostComponent = hostFixture.componentInstance;
 
       inputFormFieldDebugElement = hostFixture.debugElement.query(By.directive(InputFormFieldComponent));
       inputDebugElement = hostFixture.debugElement.query(By.css('input'));
 
       inputFormFieldComponent = inputFormFieldDebugElement.componentInstance;
-      inputElement = inputDebugElement.nativeElement;
 
       hostFixture.detectChanges();
     })
 
     it("should be created and linked to the host FormGroup's FormControl", () => {
       expect(inputFormFieldComponent).toBeTruthy();
-      expect(inputFormFieldComponent.control).toBe(hostComponent.standaloneControl);
+      expect(inputFormFieldComponent.control).toBe(hostComponent.form.controls.testControl);
     })
 
-    // TODO: Events propagate to provided FormControl (shared function)
+    shouldUpdateExternalFormControl<FormGroupHostComponent>(
+      () => hostComponent.form.controls.testControl,
+      () => hostFixture,
+      () => inputDebugElement
+    )
   });
 
   describe("No FormControl provided", () => {
