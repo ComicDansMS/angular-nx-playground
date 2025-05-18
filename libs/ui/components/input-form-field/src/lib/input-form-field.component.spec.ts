@@ -153,7 +153,7 @@ class FormGroupHostComponent {
 }
 
 describe('InputFormFieldComponent', () => {
-  describe("When provided with a FormControlName from a FormGroup", () => {
+  describe("When provided with a standalone FormControl", () => {
     let hostFixture: ComponentFixture<FormControlHostComponent>;
     let hostComponent: FormControlHostComponent;
 
@@ -188,18 +188,16 @@ describe('InputFormFieldComponent', () => {
       hostFixture.detectChanges();
     })
 
-    it("should be created and linked to the host FormGroup's FormControl", () => {
-      expect(inputFormFieldComponent).toBeTruthy();
-      expect(inputFormFieldComponent.control).toBe(hostComponent.standaloneControl);
-    })
+
 
     describe("Initialisation", () => {
       it("should create an instance", () => {
         expect(inputFormFieldComponent).toBeDefined();
       })
 
-      it("should initialise internal control", () => {
-        expect(inputFormFieldComponent.control).toBeInstanceOf(FormControl);
+      it("should be created and linked to the host's FormControl", () => {
+        expect(inputFormFieldComponent).toBeTruthy();
+        expect(inputFormFieldComponent.control).toBe(hostComponent.standaloneControl);
       })
 
       it("should apply ID to the input and assign the label's 'for' attribute", () => {
@@ -274,7 +272,7 @@ describe('InputFormFieldComponent', () => {
           hostFixture.detectChanges();
         })
 
-        it("should set isFocused() to true when user selects the input field", () => {
+        it("should set isFocused signal to true when user selects the input field", () => {
           expect(inputFormFieldComponent.isFocused()).toBe(true);
         })
 
@@ -297,11 +295,11 @@ describe('InputFormFieldComponent', () => {
           hostFixture.detectChanges();
         })
 
-        it("should update value() signal with the raw input when user types", () => {
+        it("should update value signal with the raw input when user types", () => {
           expect(inputFormFieldComponent.value()).toBe(inputValueRaw);
         })
 
-        it("should call onChange() with the trimmed and space-normalized value", () => {
+        it("should call onChange signal with the trimmed and space-normalized value", () => {
           expect(onChangeSpy).toHaveBeenCalledWith(inputValueTrimmed);
         })
 
@@ -330,7 +328,7 @@ describe('InputFormFieldComponent', () => {
           hostFixture.detectChanges();
         })
 
-        it("should set isFocused() to false when user leaves the input field", () => {
+        it("should set isFocused signal to false when user leaves the input field", () => {
           expect(inputFormFieldComponent.isFocused()).toBe(false)
         })
 
@@ -338,7 +336,7 @@ describe('InputFormFieldComponent', () => {
           expect(formFieldWrapperDebugElement.classes['lib-input-form-field--focus']).toBeUndefined();
         })
 
-        it("should call onTouched() when the user leaves the input field", () => {
+        it("should call onTouched signal when the user leaves the input field", () => {
           expect(onTouchedSpy).toHaveBeenCalled()
         })
       })
@@ -355,7 +353,7 @@ describe('InputFormFieldComponent', () => {
           hostFixture.detectChanges();
         })
 
-        it("should set errors() when user leaves the input field with a value that fails validation", () => {
+        it("should set errors signal when user leaves the input field with a value that fails validation", () => {
           expect(inputFormFieldComponent.errors()).toEqual({ required: true });
         })
 
@@ -363,7 +361,7 @@ describe('InputFormFieldComponent', () => {
           expect(formFieldWrapperDebugElement.classes['lib-input-form-field--error']).toBe(true);
         })
 
-        it("should clear errors() when user leaves with a valid value after being invalid", () => {
+        it("should clear errors signal when user leaves with a valid value after being invalid", () => {
           expect(inputFormFieldComponent.errors()).toEqual({ required: true });
 
           inputElement.value = 'some value';
@@ -409,7 +407,7 @@ describe('InputFormFieldComponent', () => {
     )
   })
 
-  describe("When provided with a FormControlName from a FormGroup", () => {
+  describe("When provided with a FormControl as part of a FormGroup", () => {
     let hostFixture: ComponentFixture<FormGroupHostComponent>;
     let hostComponent: FormGroupHostComponent;
     let inputFormFieldComponent: InputFormFieldComponent;
