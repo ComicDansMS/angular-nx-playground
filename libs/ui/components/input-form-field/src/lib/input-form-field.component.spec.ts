@@ -100,7 +100,6 @@ function shouldUpdateExternalFormControl<T>(
   })
 }
 
-// Host component for use with FormControl
 @Component({
   template: `
     <lib-input-form-field
@@ -124,7 +123,6 @@ class FormControlHostComponent {
   standaloneControl = new FormControl('standalone value');
 }
 
-// Host component for use with FormGroup
 @Component({
   template: `
     <form [formGroup]="form">
