@@ -6,7 +6,7 @@ import {
   Validators
 } from '@angular/forms';
 import { LibButtonDirective } from '@ngnx-playground/ui/components/button';
-import { InputFormFieldComponent } from '@ngnx-playground/ui/components/input-form-field';
+import { InputComponent } from '@ngnx-playground/input';
 import { RadioFormFieldComponent } from '@ngnx-playground/ui/components/radio-form-field';
 import { CardComponent } from '@ngnx-playground/ui/components/card';
 import { DatePickerComponent } from '@ngnx-playground/ui/components/date-picker';
@@ -18,21 +18,24 @@ import { DatePickerComponent } from '@ngnx-playground/ui/components/date-picker'
       <lib-card>
         <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
           <div class="flex flex-col">
-            <lib-input-form-field
+            <lib-input
               formControlName="firstName"
               [label]="'First name'"
               [id]="'firstName'"
-              [customErrorMessages]="{ required: 'You need a first name and a really long error message that will have to wrap because we wanted as much context as possible because that what makes the world a better place.'   }"
+              [customErrorMessages]="{
+                required:
+                  'You need a first name and a really long error message that will have to wrap because we wanted as much context as possible because that what makes the world a better place.'
+              }"
               [background]="'var(--theme-color-background-surface)'"
             />
-            <lib-input-form-field
+            <lib-input
               formControlName="lastName"
               [label]="'Last name'"
               [id]="'lastName'"
               [background]="'var(--theme-color-background-surface)'"
             />
 
-            <lib-input-form-field
+            <lib-input
               formControlName="email"
               [label]="'Email'"
               [id]="'email'"
@@ -44,14 +47,14 @@ import { DatePickerComponent } from '@ngnx-playground/ui/components/date-picker'
               [id]="'dateOfBirth'"
               [background]="'var(--theme-color-background-surface)'"
             />
-            <lib-input-form-field
+            <lib-input
               formControlName="password"
               [label]="'Password'"
               [id]="'password'"
               [type]="'password'"
               [background]="'var(--theme-color-background-surface)'"
             />
-            <lib-input-form-field
+            <lib-input
               formControlName="repeatPassword"
               [label]="'Repeat password'"
               [id]="'repeatPassword'"
@@ -67,7 +70,7 @@ import { DatePickerComponent } from '@ngnx-playground/ui/components/date-picker'
               ]"
             />
             <div class="mt-3">
-              <lib-input-form-field
+              <lib-input
                 formControlName="notes"
                 [label]="'Notes'"
                 [id]="'notes'"
@@ -85,7 +88,7 @@ import { DatePickerComponent } from '@ngnx-playground/ui/components/date-picker'
   imports: [
     LibButtonDirective,
     ReactiveFormsModule,
-    InputFormFieldComponent,
+    InputComponent,
     RadioFormFieldComponent,
     CardComponent,
     DatePickerComponent

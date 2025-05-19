@@ -1,13 +1,18 @@
-import { ChangeDetectionStrategy, Component, input, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  input,
+  signal
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { InputFormFieldComponent } from '@ngnx-playground/ui/components/input-form-field';
+import { InputComponent } from '@ngnx-playground/input';
 
 @Component({
   selector: 'lib-date-picker',
-  imports: [CommonModule, InputFormFieldComponent],
+  imports: [CommonModule, InputComponent],
   template: `
     <div class="lib-date-picker relative">
-      <lib-input-form-field
+      <lib-input
         label="Date of birth"
         id="id()"
         [placeholder]="'dd/mm/yyyy'"
