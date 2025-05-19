@@ -4,6 +4,7 @@
 @import './theme/theme.base.css';
 
 body {
+  font-size: var(--theme-font-size-body-md);
   background: var(--theme-color-background-body);
   color: var(--theme-color-text-normal);
 }

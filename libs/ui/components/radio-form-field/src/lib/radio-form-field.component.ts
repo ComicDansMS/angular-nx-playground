@@ -7,7 +7,7 @@ import {
   ChangeDetectionStrategy,
   inject,
   input,
-  computed,
+  computed
 } from '@angular/core';
 import {
   ControlValueAccessor,
@@ -19,7 +19,7 @@ import {
   FormControl,
   FormControlName,
   FormGroupDirective,
-  FormControlDirective,
+  FormControlDirective
 } from '@angular/forms';
 import { FormFieldErrorComponent } from '@ngnx-playground/ui/components/form-field-error';
 import { filter, Subject, takeUntil } from 'rxjs';
@@ -35,42 +35,44 @@ export interface RadioOption {
   imports: [FormsModule, FormFieldErrorComponent],
   template: `
     <fieldset
-      class="lib-radio-form-field-fieldset"
+      class="lib-radio-form-field"
       [class.disabled]="isDisabled()"
+      [class.lib-radio-form-field--error]="!!errors()"
     >
       <legend class="lib-radio-form-field-legend">
         {{ label() }}{{ isRequired() ? '*' : '' }}
       </legend>
       @for (option of options(); track option.value) {
-      <div class="lib-radio-option">
-        <input
-          type="radio"
-          [id]="inputId(option.label)"
-          [name]="option.label"
-          [value]="option.value"
-          [checked]="option.value === selectedValue()"
-          [disabled]="isDisabled() || option.disabled"
-          (change)="handleChange(option.value)"
-          (blur)="handleBlur()"
-        />
-        <label [for]="inputId(option.label)">{{ option.label }}</label>
-      </div>
+        <div class="lib-radio-option">
+          <input
+            type="radio"
+            [id]="inputId(option.label)"
+            [name]="option.label"
+            [value]="option.value"
+            [checked]="option.value === selectedValue()"
+            [disabled]="isDisabled() || option.disabled"
+            (change)="handleChange(option.value)"
+            (blur)="handleBlur()"
+          />
+          <label [for]="inputId(option.label)">{{ option.label }}</label>
+        </div>
       }
+
+      <lib-form-field-error
+        [errors]="errors()"
+        [customErrorMessages]="customErrorMessages()"
+      />
     </fieldset>
-    <lib-form-field-error
-      [errors]="errors()"
-      [customErrorMessages]="customErrorMessages()"
-    />
   `,
   styleUrl: 'radio-form-field.style.css',
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => RadioFormFieldComponent),
-      multi: true,
-    },
+      multi: true
+    }
   ],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RadioFormFieldComponent implements ControlValueAccessor, OnInit {
   private injector = inject(Injector);
@@ -125,9 +127,11 @@ export class RadioFormFieldComponent implements ControlValueAccessor, OnInit {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function,@typescript-eslint/no-unused-vars
-  onChange = (value: boolean) => {};
+  onChange = (value: boolean) => {
+  };
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  onTouched = () => {};
+  onTouched = () => {
+  };
 
   writeValue(value: boolean): void {
     this.selectedValue.set(value);

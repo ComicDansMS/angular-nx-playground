@@ -3,22 +3,26 @@
 
   --theme-font-family-base: 'Inter', sans-serif;
 
+  --theme-font-size-base: 16px;
+  --theme-font-size-h1: 1.875rem;
+  --theme-font-size-h2: 1.875rem;
+  --theme-font-size-h3: 1.875rem;
+  --theme-font-size-h4: 1.875rem;
+
+  --theme-font-size-body-sm: 0.625rem;
+  --theme-font-size-body-md: 0.875rem;
+  --theme-font-size-body-lg: 1rem;
+
   --theme-font-weight-regular: 400;
   --theme-font-weight-medium: 500;
   --theme-font-weight-semi-bold: 600;
   --theme-font-weight-extra-bold: 800;
 
-  --theme-font-size-base: 16px;
-  --theme-font-size-h1: 1.875rem;
-  --theme-font-size-body-lg: 1rem;
-  --theme-font-size-body-md: 0.875rem;
-  --theme-font-size-caption: 0.625rem;
-
   --theme-line-height-default: normal;
   --theme-line-height-heading: normal;
 
   --theme-letter-spacing-default: normal;
-  --theme-letter-spacing-wide: normal;
+  --theme-letter-spacing-wide: 0.04em;
 
   /* Sizing */
 

@@ -24,7 +24,7 @@ label {
   transform: translateY(-50%);
   left: calc(var(--field-padding-x) - var(--label-padding));
   padding: 0 var(--label-padding);
-  color: var(--theme-color-text-light);
+  color: var(--theme-color-text-feint);
   line-height: 1em;
   transition-property: top, transform, font-size;
   transition-duration: var(--theme-transition-duration-medium);
@@ -34,7 +34,7 @@ label {
 .lib-input-form-field--value label {
   top: -0.6em;
   transform: translateY(0);
-  font-size: var(--theme-font-size-caption);
+  font-size: var(--theme-font-size-body-sm);
   color: var(--theme-color-text-normal);
 }
 

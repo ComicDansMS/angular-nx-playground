@@ -7,13 +7,13 @@ import { Theme } from '@ngnx-playground/ui/interfaces';
   template: `
     <button libButton [width]="'adapt'" (click)="toggleTheme.emit()">
       @if (theme() === 'light') {
-      <span>☀️</span>
+        <span>☀️</span>
       } @else {
-      <span>🌙</span>
+        <span>🌙</span>
       }
     </button>
   `,
-  imports: [LibButtonDirective],
+  imports: [LibButtonDirective]
 })
 export class ThemeToggleComponent {
   theme = input.required<Theme>();

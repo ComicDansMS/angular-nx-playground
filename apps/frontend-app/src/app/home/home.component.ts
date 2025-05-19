@@ -22,13 +22,13 @@ import { CardComponent } from '@ngnx-playground/ui/components/card';
               [label]="'First name'"
               [inputId]="'firstName'"
               [customErrorMessages]="{ required: 'You need a first name and a really long error message that will have to wrap because we wanted as much context as possible because that what makes the world a better place.'   }"
-              [background]="'var(--theme-color-neutral-50)'"
+              [background]="'var(--theme-color-background-surface)'"
             />
             <lib-input-form-field
               formControlName="lastName"
               [label]="'Last name'"
               [inputId]="'lastName'"
-              [background]="'var(--theme-color-neutral-50)'"
+              [background]="'var(--theme-color-background-surface)'"
             />
             <lib-input-form-field
               formControlName="email"
@@ -36,21 +36,21 @@ import { CardComponent } from '@ngnx-playground/ui/components/card';
               [inputId]="'email'"
               [type]="'email'"
               [placeholder]="'you@mail.com'"
-              [background]="'var(--theme-color-neutral-50)'"
+              [background]="'var(--theme-color-background-surface)'"
             />
             <lib-input-form-field
               formControlName="password"
               [label]="'Password'"
               [inputId]="'password'"
               [type]="'password'"
-              [background]="'var(--theme-color-neutral-50)'"
+              [background]="'var(--theme-color-background-surface)'"
             />
             <lib-input-form-field
               formControlName="repeatPassword"
               [label]="'Repeat password'"
               [inputId]="'repeatPassword'"
               [type]="'password'"
-              [background]="'var(--theme-color-neutral-50)'"
+              [background]="'var(--theme-color-background-surface)'"
             />
 
             <lib-radio-form-field
@@ -62,14 +62,16 @@ import { CardComponent } from '@ngnx-playground/ui/components/card';
               ]"
             />
 
-            <lib-input-form-field
-              formControlName="notes"
-              [label]="'Notes'"
-              [inputId]="'notes'"
-              [type]="'text'"
-            />
+            <div class="mt-3">
+              <lib-input-form-field
+                formControlName="notes"
+                [label]="'Notes'"
+                [inputId]="'notes'"
+                [type]="'text'"
+              />
+            </div>
 
-            <button libButton class="mt-8">Submit</button>
+            <button libButton class="mt-2">Submit</button>
           </div>
         </form>
       </lib-card>

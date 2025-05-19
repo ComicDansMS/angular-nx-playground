@@ -5,13 +5,13 @@ import {
   input,
   OnDestroy,
   OnInit,
-  signal,
+  signal
 } from '@angular/core';
 import { AbstractStyledDirective } from '@ngnx-playground/ui/core/abstract-styled-directive';
 
 const style = /* css */ `
   .lib-button {
-    background: var(--theme-color-primary-700);
+    background: var(--theme-color-primary-800);
     color: var(--theme-color-text-on-primary);
     border-radius: 0.25rem;
     padding: 0.5rem 1rem;
@@ -51,13 +51,12 @@ type ButtonWidth = 'adapt';
     '[attr.data-lib-component]': 'componentName',
     class: 'lib-button',
     '[class.lib-button--type-secondary]': 'variant() === "secondary"',
-    '[class.lib-button--width-adapt]': 'width() === "adapt"',
-  },
+    '[class.lib-button--width-adapt]': 'width() === "adapt"'
+  }
 })
 export class LibButtonDirective
   extends AbstractStyledDirective
-  implements OnInit, OnDestroy
-{
+  implements OnInit, OnDestroy {
   variant = input<ButtonVariant>();
   width = input<ButtonWidth>();
   componentName = 'button';
