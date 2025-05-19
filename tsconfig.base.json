@@ -10,10 +10,7 @@
     "importHelpers": true,
     "target": "es2015",
     "module": "esnext",
-    "lib": [
-      "es2020",
-      "dom"
-    ],
+    "lib": ["es2020", "dom"],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
@@ -22,14 +19,15 @@
       "@ngnx-playground/pipes/camel-case-pipe": [
         "libs/pipes/camel-case/src/index.ts"
       ],
-      "@ngnx-playground/tools/automation": [
-        "tools/automation/src/index.ts"
-      ],
+      "@ngnx-playground/tools/automation": ["tools/automation/src/index.ts"],
       "@ngnx-playground/ui/components/button": [
         "libs/ui/components/button/src/index.ts"
       ],
       "@ngnx-playground/ui/components/card": [
         "libs/ui/components/card/src/index.ts"
+      ],
+      "@ngnx-playground/ui/components/date-picker": [
+        "libs/ui/components/date-picker/src/index.ts"
       ],
       "@ngnx-playground/ui/components/form-field-error": [
         "libs/ui/components/form-field-error/src/index.ts"
@@ -55,13 +53,8 @@
       "@ngnx-playground/ui/directives/control-value-accessor": [
         "libs/ui/directives/control-value-accessor/src/index.ts"
       ],
-      "@ngnx-playground/ui/interfaces": [
-        "libs/ui/core/interfaces/src/index.ts"
-      ]
+      "@ngnx-playground/ui/interfaces": ["libs/ui/core/interfaces/src/index.ts"]
     }
   },
-  "exclude": [
-    "node_modules",
-    "tmp"
-  ]
+  "exclude": ["node_modules", "tmp"]
 }
