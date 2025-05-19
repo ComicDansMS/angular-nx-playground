@@ -46,7 +46,7 @@ export interface RadioOption {
         <div class="lib-radio-option">
           <input
             type="radio"
-            [id]="inputId(option.label)"
+            [id]="id(option.label)"
             [name]="option.label"
             [value]="option.value"
             [checked]="option.value === selectedValue()"
@@ -54,7 +54,7 @@ export interface RadioOption {
             (change)="handleChange(option.value)"
             (blur)="handleBlur()"
           />
-          <label [for]="inputId(option.label)">{{ option.label }}</label>
+          <label [for]="id(option.label)">{{ option.label }}</label>
         </div>
       }
 
@@ -192,7 +192,7 @@ export class RadioFormFieldComponent implements ControlValueAccessor, OnInit {
     return firstWord + transformedTail;
   }
 
-  inputId(optionLabel: string) {
+  id(optionLabel: string) {
     return this.groupId() + '-' + this.camelCase(optionLabel);
   }
 }

@@ -9,6 +9,7 @@ import { LibButtonDirective } from '@ngnx-playground/ui/components/button';
 import { InputFormFieldComponent } from '@ngnx-playground/ui/components/input-form-field';
 import { RadioFormFieldComponent } from '@ngnx-playground/ui/components/radio-form-field';
 import { CardComponent } from '@ngnx-playground/ui/components/card';
+import { DatePickerComponent } from '@ngnx-playground/ui/components/date-picker';
 
 @Component({
   selector: 'app-home',
@@ -20,39 +21,43 @@ import { CardComponent } from '@ngnx-playground/ui/components/card';
             <lib-input-form-field
               formControlName="firstName"
               [label]="'First name'"
-              [inputId]="'firstName'"
+              [id]="'firstName'"
               [customErrorMessages]="{ required: 'You need a first name and a really long error message that will have to wrap because we wanted as much context as possible because that what makes the world a better place.'   }"
               [background]="'var(--theme-color-background-surface)'"
             />
             <lib-input-form-field
               formControlName="lastName"
               [label]="'Last name'"
-              [inputId]="'lastName'"
+              [id]="'lastName'"
               [background]="'var(--theme-color-background-surface)'"
             />
+
             <lib-input-form-field
               formControlName="email"
               [label]="'Email'"
-              [inputId]="'email'"
+              [id]="'email'"
               [type]="'email'"
               [placeholder]="'you@mail.com'"
+              [background]="'var(--theme-color-background-surface)'"
+            />
+            <lib-date-picker
+              [id]="'dateOfBirth'"
               [background]="'var(--theme-color-background-surface)'"
             />
             <lib-input-form-field
               formControlName="password"
               [label]="'Password'"
-              [inputId]="'password'"
+              [id]="'password'"
               [type]="'password'"
               [background]="'var(--theme-color-background-surface)'"
             />
             <lib-input-form-field
               formControlName="repeatPassword"
               [label]="'Repeat password'"
-              [inputId]="'repeatPassword'"
+              [id]="'repeatPassword'"
               [type]="'password'"
               [background]="'var(--theme-color-background-surface)'"
             />
-
             <lib-radio-form-field
               formControlName="addNotes"
               [label]="'Add notes'"
@@ -61,13 +66,13 @@ import { CardComponent } from '@ngnx-playground/ui/components/card';
                 { label: 'Yes please', value: true }
               ]"
             />
-
             <div class="mt-3">
               <lib-input-form-field
                 formControlName="notes"
                 [label]="'Notes'"
-                [inputId]="'notes'"
+                [id]="'notes'"
                 [type]="'text'"
+                [background]="'var(--theme-color-background-surface)'"
               />
             </div>
 
@@ -82,7 +87,8 @@ import { CardComponent } from '@ngnx-playground/ui/components/card';
     ReactiveFormsModule,
     InputFormFieldComponent,
     RadioFormFieldComponent,
-    CardComponent
+    CardComponent,
+    DatePickerComponent
   ]
 })
 export default class HomeComponent {

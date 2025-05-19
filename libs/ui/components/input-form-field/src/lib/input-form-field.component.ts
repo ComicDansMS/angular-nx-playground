@@ -6,7 +6,7 @@ import {
   Injector,
   input,
   OnInit,
-  signal,
+  signal
 } from '@angular/core';
 import {
   ControlValueAccessor,
@@ -18,7 +18,7 @@ import {
   NgControl,
   ReactiveFormsModule,
   ValidationErrors,
-  Validators,
+  Validators
 } from '@angular/forms';
 import { FormFieldErrorComponent } from '@ngnx-playground/ui/components/form-field-error';
 import { filter, Subject, takeUntil } from 'rxjs';
@@ -35,14 +35,14 @@ type InputType = 'text' | 'number' | 'email' | 'password';
       [class.lib-input-form-field--error]="!!errors()"
     >
       <div class="field">
-        <label [for]="inputId()" [style.background]="background()">
+        <label [for]="id()" [style.background]="background()">
           {{ label() }}{{ isRequired() ? '*' : '' }}
         </label>
 
         <input
           [required]="isRequired()"
           [type]="type()"
-          [id]="inputId()"
+          [id]="id()"
           [value]="value()"
           (input)="handleInput($any($event.target).value)"
           (blur)="handleBlur()"
@@ -64,20 +64,20 @@ type InputType = 'text' | 'number' | 'email' | 'password';
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => InputFormFieldComponent),
-      multi: true,
-    },
+      multi: true
+    }
   ],
-  imports: [ReactiveFormsModule, FormFieldErrorComponent],
+  imports: [ReactiveFormsModule, FormFieldErrorComponent]
 })
 export class InputFormFieldComponent implements ControlValueAccessor, OnInit {
   private injector = inject(Injector);
 
   label = input.required<string>();
-  inputId = input.required<string>();
+  id = input.required<string>();
+  background = input.required<string>();
   type = input<InputType>('text');
   placeholder = input<string>('');
   customErrorMessages = input<Record<string, string> | null>(null);
-  background = input<string>();
 
   control: FormControl | null = null;
   value = signal<string>('');
@@ -124,9 +124,11 @@ export class InputFormFieldComponent implements ControlValueAccessor, OnInit {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function,@typescript-eslint/no-unused-vars
-  _onChange = (value: string) => {};
+  _onChange = (value: string) => {
+  };
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  _onTouched = () => {};
+  _onTouched = () => {
+  };
 
   writeValue(value: string): void {
     this.value.set(value);

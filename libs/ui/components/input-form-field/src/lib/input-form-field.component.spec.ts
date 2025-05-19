@@ -4,7 +4,7 @@ import {
   FormControl,
   FormGroup,
   ReactiveFormsModule,
-  Validators,
+  Validators
 } from '@angular/forms';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -15,7 +15,7 @@ type InputType = 'text' | 'number' | 'email' | 'password';
   template: `
     <lib-input-form-field
       [label]="label()"
-      [inputId]="inputId()"
+      [id]="id()"
       [type]="inputType()"
       [placeholder]="placeholder()"
       [customErrorMessages]="customErrorMessages()"
@@ -23,7 +23,7 @@ type InputType = 'text' | 'number' | 'email' | 'password';
     ></lib-input-form-field>
     <lib-input-form-field
       [label]="label()"
-      [inputId]="isRequiredFieldInputId()"
+      [id]="isRequiredFieldInputId()"
       [type]="inputType()"
       [placeholder]="placeholder()"
       [customErrorMessages]="customErrorMessages()"
@@ -31,11 +31,11 @@ type InputType = 'text' | 'number' | 'email' | 'password';
     ></lib-input-form-field>
   `,
   standalone: true,
-  imports: [InputFormFieldComponent, ReactiveFormsModule],
+  imports: [InputFormFieldComponent, ReactiveFormsModule]
 })
 class FormControlHostComponent {
   label = signal<string>('test label');
-  inputId = signal<string>('inputId');
+  id = signal<string>('id');
   isRequiredFieldInputId = signal<string>('isRequiredFieldInputId');
   inputType = signal<InputType>('text');
   placeholder = signal<string>('');
@@ -52,7 +52,7 @@ class FormControlHostComponent {
     <form [formGroup]="form">
       <lib-input-form-field
         [label]="label()"
-        [inputId]="inputId()"
+        [id]="id()"
         [type]="inputType()"
         [placeholder]="placeholder()"
         [customErrorMessages]="customErrorMessages()"
@@ -61,16 +61,16 @@ class FormControlHostComponent {
     </form>
   `,
   standalone: true,
-  imports: [InputFormFieldComponent, ReactiveFormsModule],
+  imports: [InputFormFieldComponent, ReactiveFormsModule]
 })
 class FormGroupHostComponent {
   label = signal<string>('test label');
-  inputId = signal<string>('inputId');
+  id = signal<string>('id');
   inputType = signal<InputType>('text');
   placeholder = signal<string>('');
   customErrorMessages = signal<Record<string, string> | null>(null);
   form = new FormGroup({
-    testControl: new FormControl('initial value'),
+    testControl: new FormControl('initial value')
   });
 }
 
@@ -95,7 +95,7 @@ describe('InputFormFieldComponent', () => {
 
     beforeEach(() => {
       TestBed.configureTestingModule({
-        imports: [FormControlHostComponent, ReactiveFormsModule],
+        imports: [FormControlHostComponent, ReactiveFormsModule]
       });
 
       hostFixture = TestBed.createComponent(FormControlHostComponent);
@@ -106,11 +106,11 @@ describe('InputFormFieldComponent', () => {
         By.directive(InputFormFieldComponent)
       );
       inputFormFieldDebugElement = allFormFieldDebugElements.find(
-        (de) => de.componentInstance.inputId() === hostComponent.inputId()
+        (de) => de.componentInstance.id() === hostComponent.id()
       );
       if (!inputFormFieldDebugElement) {
         throw new Error(
-          `Could not find InputFormFieldComponent with inputId: ${hostComponent.inputId()}`
+          `Could not find InputFormFieldComponent with id: ${hostComponent.id()}`
         );
       }
 
@@ -125,12 +125,12 @@ describe('InputFormFieldComponent', () => {
 
       isRequiredInputFormFieldDebugElement = allFormFieldDebugElements.find(
         (de) =>
-          de.componentInstance.inputId() ===
+          de.componentInstance.id() ===
           hostComponent.isRequiredFieldInputId()
       );
       if (!isRequiredInputFormFieldDebugElement) {
         throw new Error(
-          `Could not find InputFormFieldComponent with inputId: ${hostComponent.isRequiredFieldInputId()}`
+          `Could not find InputFormFieldComponent with id: ${hostComponent.isRequiredFieldInputId()}`
         );
       }
 
@@ -145,42 +145,42 @@ describe('InputFormFieldComponent', () => {
         expect(inputFormFieldComponent).toBeTruthy();
       });
 
-      it("should be linked to the host's FormControl", () => {
+      it('should be linked to the host\'s FormControl', () => {
         expect(inputFormFieldComponent.control).toBe(
           hostComponent.standaloneControl
         );
       });
 
       it('should set input ID', () => {
-        expect(inputElement.id).toBe('inputId');
+        expect(inputElement.id).toBe('id');
       });
 
-      it("should set input type to 'text' by when specified", () => {
+      it('should set input type to \'text\' by when specified', () => {
         hostComponent.inputType.set('text');
         hostFixture.detectChanges();
         expect(inputElement.type).toBe('text');
       });
 
-      it("should set input type to 'password' when specified", () => {
+      it('should set input type to \'password\' when specified', () => {
         hostComponent.inputType.set('password');
         hostFixture.detectChanges();
         expect(inputElement.type).toBe('password');
       });
 
-      it("should set input type to 'email' when specified", () => {
+      it('should set input type to \'email\' when specified', () => {
         hostComponent.inputType.set('email');
         hostFixture.detectChanges();
         expect(inputElement.type).toBe('email');
       });
 
-      it("should set input type to 'number' when specified", () => {
+      it('should set input type to \'number\' when specified', () => {
         hostComponent.inputType.set('number');
         hostFixture.detectChanges();
         expect(inputElement.type).toBe('number');
       });
 
-      it("should set label 'for' attribute", () => {
-        expect(labelElement.getAttribute('for')).toBe('inputId');
+      it('should set label \'for\' attribute', () => {
+        expect(labelElement.getAttribute('for')).toBe('id');
       });
 
       it('should display correct label text', () => {
@@ -306,7 +306,7 @@ describe('InputFormFieldComponent', () => {
 
         it('should update FormControl errors with appropriate errors when user leaves the input field with a value that fails validation', () => {
           expect(hostComponent.standaloneControl.errors).toEqual({
-            email: true,
+            email: true
           });
         });
 
@@ -356,7 +356,7 @@ describe('InputFormFieldComponent', () => {
 
         it('should update FormControl errors with null value when user enters valid text after being invalid', () => {
           expect(hostComponent.standaloneControl.errors).toEqual({
-            email: true,
+            email: true
           });
 
           resolveInputWithValidValue();
@@ -403,7 +403,7 @@ describe('InputFormFieldComponent', () => {
 
     beforeEach(() => {
       TestBed.configureTestingModule({
-        imports: [FormGroupHostComponent, ReactiveFormsModule],
+        imports: [FormGroupHostComponent, ReactiveFormsModule]
       });
 
       hostFixture = TestBed.createComponent(FormGroupHostComponent);
@@ -415,7 +415,7 @@ describe('InputFormFieldComponent', () => {
       hostFixture.detectChanges();
     });
 
-    it("should be linked to the host FormGroup's FormControl", () => {
+    it('should be linked to the host FormGroup\'s FormControl', () => {
       expect(inputFormFieldComponent.control).toBe(
         hostComponent.form.controls.testControl
       );
@@ -429,14 +429,14 @@ describe('InputFormFieldComponent', () => {
 
     beforeEach(() => {
       TestBed.configureTestingModule({
-        imports: [InputFormFieldComponent, ReactiveFormsModule],
+        imports: [InputFormFieldComponent, ReactiveFormsModule]
       });
 
       fixture = TestBed.createComponent(InputFormFieldComponent);
       component = fixture.componentInstance;
       componentRef = fixture.componentRef;
       componentRef.setInput('label', 'test label');
-      componentRef.setInput('inputId', 'inputId');
+      componentRef.setInput('id', 'id');
       fixture.detectChanges();
     });
 

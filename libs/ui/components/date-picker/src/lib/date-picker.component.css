@@ -1,0 +1,7 @@
+.lib-date-picker {
+}
+
+.date-picker-element {
+  display: flex;
+  flex-direction: column;
+}
