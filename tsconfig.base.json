@@ -20,6 +20,9 @@
       "@ngnx-playground/pipes/camel-case-pipe": [
         "libs/pipes/camel-case/src/index.ts"
       ],
+      "@ngnx-playground/radio-group": [
+        "libs/ui/components/radio-group/src/index.ts"
+      ],
       "@ngnx-playground/tools/automation": ["tools/automation/src/index.ts"],
       "@ngnx-playground/ui/components/button": [
         "libs/ui/components/button/src/index.ts"
@@ -35,9 +38,6 @@
       ],
       "@ngnx-playground/ui/components/label": [
         "libs/ui/components/label/src/index.ts"
-      ],
-      "@ngnx-playground/ui/components/radio-form-field": [
-        "libs/ui/components/radio-form-field/src/index.ts"
       ],
       "@ngnx-playground/ui/core/abstract-styled-directive": [
         "libs/ui/core/abstracts/abstract-styled-directive/src/index.ts"

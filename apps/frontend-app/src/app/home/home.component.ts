@@ -7,7 +7,7 @@ import {
 } from '@angular/forms';
 import { LibButtonDirective } from '@ngnx-playground/ui/components/button';
 import { InputComponent } from '@ngnx-playground/input';
-import { RadioFormFieldComponent } from '@ngnx-playground/ui/components/radio-form-field';
+import { RadioGroupComponent } from '@ngnx-playground/radio-group';
 import { CardComponent } from '@ngnx-playground/ui/components/card';
 import { DatePickerComponent } from '@ngnx-playground/ui/components/date-picker';
 
@@ -17,7 +17,7 @@ import { DatePickerComponent } from '@ngnx-playground/ui/components/date-picker'
     <div class="flex flex-col gap-8 mt-8 w-96 mx-auto">
       <lib-card>
         <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-          <div class="flex flex-col">
+          <div class="flex flex-col gap-[var(--theme-space-md)]">
             <lib-input
               formControlName="firstName"
               [label]="'First name'"
@@ -61,23 +61,24 @@ import { DatePickerComponent } from '@ngnx-playground/ui/components/date-picker'
               [type]="'password'"
               [background]="'var(--theme-color-background-surface)'"
             />
-            <lib-radio-form-field
-              formControlName="addNotes"
-              [label]="'Add notes'"
-              [options]="[
+            <div class="mt-1">
+              <lib-radio-form-field
+                formControlName="addNotes"
+                [label]="'Add notes'"
+                [options]="[
                 { label: 'No thanks', value: false },
                 { label: 'Yes please', value: true }
               ]"
-            />
-            <div class="mt-3">
-              <lib-input
-                formControlName="notes"
-                [label]="'Notes'"
-                [id]="'notes'"
-                [type]="'text'"
                 [background]="'var(--theme-color-background-surface)'"
               />
             </div>
+            <lib-input
+              formControlName="notes"
+              [label]="'Notes'"
+              [id]="'notes'"
+              [type]="'text'"
+              [background]="'var(--theme-color-background-surface)'"
+            />
 
             <button libButton class="mt-2">Submit</button>
           </div>
@@ -89,7 +90,7 @@ import { DatePickerComponent } from '@ngnx-playground/ui/components/date-picker'
     LibButtonDirective,
     ReactiveFormsModule,
     InputComponent,
-    RadioFormFieldComponent,
+    RadioGroupComponent,
     CardComponent,
     DatePickerComponent
   ]

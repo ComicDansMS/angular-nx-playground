@@ -23,6 +23,7 @@ import {
 } from '@angular/forms';
 import { FormFieldErrorComponent } from '@ngnx-playground/ui/components/form-field-error';
 import { filter, Subject, takeUntil } from 'rxjs';
+import { InputComponent } from '@ngnx-playground/input';
 
 export interface RadioOption {
   label: string;
@@ -32,30 +33,34 @@ export interface RadioOption {
 
 @Component({
   selector: 'lib-radio-form-field',
-  imports: [FormsModule, FormFieldErrorComponent],
+  imports: [FormsModule, FormFieldErrorComponent, InputComponent],
   template: `
     <fieldset
       class="lib-radio-form-field"
       [class.disabled]="isDisabled()"
       [class.lib-radio-form-field--error]="!!errors()"
+      [style.--radio-background]="background()"
     >
       <legend class="lib-radio-form-field-legend">
         {{ label() }}{{ isRequired() ? '*' : '' }}
       </legend>
+
       @for (option of options(); track option.value) {
-        <div class="lib-radio-option">
-          <input
-            type="radio"
-            [id]="id(option.label)"
-            [name]="option.label"
-            [value]="option.value"
-            [checked]="option.value === selectedValue()"
-            [disabled]="isDisabled() || option.disabled"
-            (change)="handleChange(option.value)"
-            (blur)="handleBlur()"
-          />
-          <label [for]="id(option.label)">{{ option.label }}</label>
-        </div>
+        <input
+          type="radio"
+          class="sr-only"
+          [id]="id(option.label)"
+          [name]="option.label"
+          [value]="option.value"
+          [checked]="option.value === selectedValue()"
+          [disabled]="isDisabled() || option.disabled"
+          (change)="handleChange(option.value)"
+          (blur)="handleBlur()"
+        />
+
+        <label [for]="id(option.label)">
+          {{ option.label }}
+        </label>
       }
 
       <lib-form-field-error
@@ -64,22 +69,23 @@ export interface RadioOption {
       />
     </fieldset>
   `,
-  styleUrl: 'radio-form-field.style.css',
+  styleUrl: 'radio-group.component.css',
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => RadioFormFieldComponent),
+      useExisting: forwardRef(() => RadioGroupComponent),
       multi: true
     }
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class RadioFormFieldComponent implements ControlValueAccessor, OnInit {
+export class RadioGroupComponent implements ControlValueAccessor, OnInit {
   private injector = inject(Injector);
 
   label = input.required<string>();
   options = input.required<RadioOption[]>();
   customErrorMessages = input<Record<string, string> | null>(null);
+  background = input.required<string>();
 
   control: FormControl | null = null;
   selectedValue = signal<boolean | null>(null);

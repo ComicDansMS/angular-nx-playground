@@ -1,8 +1,8 @@
 export default {
-  displayName: 'radio-form-field',
+  displayName: 'radio-group',
   preset: '../../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
-  coverageDirectory: '../../../../coverage/libs/ui/components/radio-form-field',
+  coverageDirectory: '../../../../coverage/libs/ui/components/radio-group',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': [
       'jest-preset-angular',

@@ -61,11 +61,11 @@
 
   /* Border (box-shadow) */
 
-  --theme-private-box-shadow-struct: 0px 0px 0px 1px;
-  --theme-border-box-shadow-light: var(--theme-private-box-shadow-struct) var(--theme-color-border-light);
-  --theme-border-box-shadow-medium: var(--theme-private-box-shadow-struct) var(--theme-color-border-medium);
-  --theme-border-box-shadow-dark: var(--theme-private-box-shadow-struct) var(--theme-color-border-dark);
-  --theme-border-box-shadow-error: var(--theme-private-box-shadow-struct) var(--theme-color-error);
+  --theme-box-shadow-struct: 0px 0px 0px 1px;
+  --theme-border-box-shadow-light: var(--theme-box-shadow-struct) var(--theme-color-border-light);
+  --theme-border-box-shadow-medium: var(--theme-box-shadow-struct) var(--theme-color-border-medium);
+  --theme-border-box-shadow-dark: var(--theme-box-shadow-struct) var(--theme-color-border-dark);
+  --theme-border-box-shadow-error: var(--theme-box-shadow-struct) var(--theme-color-error);
 
   /* Border radius */
 

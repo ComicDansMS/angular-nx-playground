@@ -1,6 +1,5 @@
 .lib-input {
   --field-padding-x: 0.75rem;
-  margin-bottom: var(--theme-space-md);
 }
 
 .field {

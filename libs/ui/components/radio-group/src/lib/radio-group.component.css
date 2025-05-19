@@ -1,0 +1,43 @@
+.lib-radio-form-field {
+  --radio-background: white; /* this property is updated by the input on the component */
+}
+
+.lib-radio-form-field.disabled {
+  opacity: var(--theme-opacity-disabled);
+  pointer-events: none;
+}
+
+.lib-radio-form-field-legend {
+  margin-bottom: 0.35rem;
+  font-size: var(--theme-font-size-body-sm);
+  font-weight: var(--theme-font-weight-medium);
+  letter-spacing: var(--theme-letter-spacing-wide);
+}
+
+input {
+  visibility: hidden;
+}
+
+label {
+  display: flex;
+  align-items: center;
+  position: relative;
+  width: max-content;
+  cursor: pointer;
+  margin-bottom: 0.2rem;
+}
+
+label::before {
+  content: '';
+  display: block;
+  position: relative;
+  width: 0.4rem;
+  height: 0.4rem;
+  margin-right: 0.6rem;
+  box-shadow: 0 0 0 2px var(--radio-background), 0 0 0 3px var(--theme-color-border-medium);
+  border-radius: 50%;
+}
+
+input:checked + label::before {
+  background: var(--theme-color-text-normal);
+}
