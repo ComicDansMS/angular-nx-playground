@@ -21,25 +21,25 @@
       ],
       "@ngnx-playground/tools/automation": ["tools/automation/src/index.ts"],
       "@ngnx-playground/ui/components/button": [
-        "libs/ui/components/button/src/index.ts"
+        "libs/ui/components/card/button/src/index.ts"
       ],
       "@ngnx-playground/ui/components/card": [
-        "libs/ui/components/src/index.ts"
+        "libs/ui/components/card/src/index.ts"
       ],
       "@ngnx-playground/ui/components/form-field-error": [
-        "libs/ui/components/form-field-error/src/index.ts"
+        "libs/ui/components/card/form-field-error/src/index.ts"
       ],
       "@ngnx-playground/ui/components/input": [
-        "libs/ui/components/input/src/index.ts"
+        "libs/ui/components/card/input/src/index.ts"
       ],
       "@ngnx-playground/ui/components/input-form-field": [
-        "libs/ui/components/input-form-field/src/index.ts"
+        "libs/ui/components/card/input-form-field/src/index.ts"
       ],
       "@ngnx-playground/ui/components/label": [
-        "libs/ui/components/label/src/index.ts"
+        "libs/ui/components/card/label/src/index.ts"
       ],
       "@ngnx-playground/ui/components/radio-form-field": [
-        "libs/ui/components/radio-form-field/src/index.ts"
+        "libs/ui/components/card/radio-form-field/src/index.ts"
       ],
       "@ngnx-playground/ui/core/abstract-styled-directive": [
         "libs/ui/core/abstracts/abstract-styled-directive/src/index.ts"

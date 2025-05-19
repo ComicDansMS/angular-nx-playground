@@ -1,35 +1,20 @@
 .lib-input-form-field {
-  --color-field--standard: var(--theme-color-neutral-500);
-  --color-field--standard-focus: var(--theme-color-neutral-700);
-  --color-field--error: var(--theme-color-error);
-  --color-field--error-focus: var(--theme-color-error);
-  --color-field: var(--color-field--standard);
   --field-padding-x: 0.75rem;
-
-  margin-bottom: 0.75rem;
-  padding-top: 0.375rem;
-}
-
-.lib-input-form-field--focus {
-  --color-field: var(--color-field--standard-focus);
-}
-
-.lib-input-form-field--error {
-  --color-field: var(--color-field--error);
-}
-
-.lib-input-form-field--error.lib-input-form-field--focus {
-  --color-field: var(--color-field--error-focus);
+  margin-bottom: var(--theme-space-md);
 }
 
 .field {
   position: relative;
-  border: var(--theme-border);
+  box-shadow: var(--theme-border-box-shadow-medium);
+  border-radius: var(--theme-border-radius-sm);
 }
 
 .lib-input-form-field--focus .field {
-  border-color: var(--color-field);
-  color: var(--color-field);
+  box-shadow: var(--theme-border-box-shadow-dark);
+}
+
+.lib-input-form-field--error .field {
+  box-shadow: var(--theme-border-box-shadow-error);
 }
 
 label {
@@ -38,11 +23,11 @@ label {
   top: 50%;
   transform: translateY(-50%);
   left: calc(var(--field-padding-x) - var(--label-padding));
-  color: var(--color-field);
   padding: 0 var(--label-padding);
+  color: var(--theme-color-text-light);
   line-height: 1em;
   transition-property: top, transform, font-size;
-  transition-duration: var(--theme-transition-duration-slow);
+  transition-duration: var(--theme-transition-duration-medium);
 }
 
 .lib-input-form-field--focus label,
@@ -50,12 +35,17 @@ label {
   top: -0.6em;
   transform: translateY(0);
   font-size: var(--theme-font-size-caption);
+  color: var(--theme-color-text-normal);
+}
+
+.lib-input-form-field--error label {
+  color: var(--theme-color-error);
 }
 
 input {
   padding: 0.6rem var(--field-padding-x);
   width: 100%;
-  color: var(--theme-color-text-primary);
+  color: var(--theme-color-text-normal);
 }
 
 input:focus {
@@ -69,7 +59,7 @@ input:focus {
 
 input::placeholder {
   opacity: var(--theme-opacity-placeholder);
-  transition: opacity var(--theme-transition-duration-fast);
+  transition: opacity var(--theme-transition-duration-medium);
 }
 
 .lib-input-form-field:not(.lib-input-form-field--focus) {

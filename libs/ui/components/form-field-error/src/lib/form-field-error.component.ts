@@ -14,23 +14,36 @@ import { ValidationErrors } from '@angular/forms';
       class="lib-form-field-error"
       [class.lib-input-form-field--active]="!!errors()"
     >
-      @if (errors()) { @for (error of errors() | keyvalue; track $index) {
-      <span>{{ errorMessages[error.key] }}</span>
-      } }
+      <div class="error-content-wrapper">
+        @if (errors()) { @for (error of errors() | keyvalue; track $index) {
+        <span>{{ errorMessages[error.key] }}</span>
+        } }
+      </div>
     </div>
   `,
   styles: `
     .lib-form-field-error {
-      height: 0;
-      transition: height var(--theme-transition-duration-slow);
+      display: grid;
+      grid-template-rows: 0fr;
+      transition: grid-template-rows var(--theme-transition-duration-medium);
       overflow: hidden;
     }
 
-    .lib-form-field-error:has(span) {
-      height: 1.5rem;
+    .lib-form-field-error.lib-input-form-field--active {
+      grid-template-rows: 1fr;
     }
 
-    .lib-form-field-error span {
+    .lib-form-field-error > .error-content-wrapper {
+      min-height: 0;
+      visibility: hidden;
+      transition: visibility var(--theme-transition-duration-medium);
+    }
+
+    .lib-form-field-error.lib-input-form-field--active > .error-content-wrapper {
+      visibility: visible;
+    }
+
+    .error-content-wrapper span {
       display: block;
       margin-top: 0.2rem;
       font-size: var(--theme-font-size-caption);

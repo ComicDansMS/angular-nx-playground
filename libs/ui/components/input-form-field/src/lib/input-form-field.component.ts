@@ -58,7 +58,7 @@ type InputType = 'text' | 'number' | 'email' | 'password';
       />
     </div>
   `,
-  styleUrl: 'input-form-field.style.css',
+  styleUrl: 'input-form-field.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     {
