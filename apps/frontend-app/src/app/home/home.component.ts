@@ -8,12 +8,13 @@ import {
 import { LibButtonDirective } from '@ngnx-playground/ui/components/button';
 import { InputFormFieldComponent } from '@ngnx-playground/ui/components/input-form-field';
 import { RadioFormFieldComponent } from '@ngnx-playground/ui/components/radio-form-field';
+import { CardComponent } from '@ngnx-playground/ui/components/card';
 
 @Component({
   selector: 'app-home',
   template: `
     <div class="flex flex-col gap-8 mt-8 w-96 mx-auto">
-      <div>
+      <lib-card>
         <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
           <div class="flex flex-col">
             <lib-input-form-field
@@ -71,14 +72,15 @@ import { RadioFormFieldComponent } from '@ngnx-playground/ui/components/radio-fo
             <button libButton class="mt-8">Submit</button>
           </div>
         </form>
-      </div>
+      </lib-card>
     </div>
   `,
   imports: [
     LibButtonDirective,
     ReactiveFormsModule,
     InputFormFieldComponent,
-    RadioFormFieldComponent
+    RadioFormFieldComponent,
+    CardComponent
   ]
 })
 export default class HomeComponent {
