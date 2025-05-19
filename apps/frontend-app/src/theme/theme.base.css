@@ -1,0 +1,90 @@
+:root {
+  /* Typography*/
+
+  --theme-font-family-base: 'Inter', sans-serif;
+
+  --theme-font-weight-regular: 400;
+  --theme-font-weight-medium: 500;
+  --theme-font-weight-semi-bold: 600;
+  --theme-font-weight-extra-bold: 800;
+
+  --theme-font-size-base: 16px;
+  --theme-font-size-h1: 1.875rem;
+  --theme-font-size-body-lg: 1rem;
+  --theme-font-size-body-md: 0.875rem;
+  --theme-font-size-caption: 0.625rem;
+
+  --theme-line-height-default: normal;
+  --theme-line-height-heading: normal;
+
+  --theme-letter-spacing-default: normal;
+  --theme-letter-spacing-wide: normal;
+
+  /* Sizing */
+
+  --theme-size-icon-sm: 1rem;
+  --theme-size-icon-md: 1.5rem;
+  --theme-size-icon-lg: 2rem;
+
+  --theme-size-avatar-sm: 2.5rem;
+  --theme-size-avatar-md: 3.75rem;
+  --theme-size-avatar-lg: 5rem;
+
+  /* Spacing */
+
+  --theme-space-unit: 0.5rem;
+
+  --theme-space-xxs: calc(var(--theme-space-unit) / 4);
+  --theme-space-xs: calc(var(--theme-space-unit) / 2);
+  --theme-space-sm: var(--theme-space-unit);
+  --theme-space-md: calc(var(--theme-space-unit) * 2);
+  --theme-space-lg: calc(var(--theme-space-unit) * 3);
+  --theme-space-xl: calc(var(--theme-space-unit) * 4);
+  --theme-space-xxl: calc(var(--theme-space-unit) * 6);
+  --theme-space-xxxl: calc(var(--theme-space-unit) * 8);
+
+  /* Border */
+
+  --theme-border: solid 1px var(--color-neutral-300);
+
+  /* Border radius */
+
+  --theme-border-radius-sm: 0.25rem;
+  --theme-border-radius-md: 0.5rem;
+  --theme-border-radius-lg: 1rem;
+  --theme-border-radius-full: 50%;
+
+  /* Shadows */
+
+  --theme-shadow-sm: 0 0.0625rem 0.125rem var(--theme-color-neutral-500);
+  --theme-shadow-md: 0 0.25rem 0.375rem var(--theme-color-neutral-500);
+  --theme-shadow-lg: 0 0.75rem 1.5rem var(--theme-color-neutral-500);
+
+  /* Transitions */
+
+  --theme-transition-duration-fast: 100ms;
+  --theme-transition-duration-medium: 150ms;
+  --theme-transition-duration-slow: 200ms;
+
+  /* Breakpoints */
+
+  --theme-breakpoint-xs: 350px;
+  --theme-breakpoint-sm: 500px;
+  --theme-breakpoint-md: 750px;
+  --theme-breakpoint-lg: 1000px;
+  --theme-breakpoint-xl: 1200px;
+
+  /* Z-index */
+
+  --theme-z-index-base: 0;
+  --theme-z-index-header: 10;
+  --theme-z-index-sidebar: 20;
+  --theme-z-index-modal: 1000;
+  --theme-z-index-tooltip: 1010;
+  --theme-z-index-notification: 2000;
+
+  /* Opacity */
+
+  --theme-opacity-disabled: 0.25;
+  --theme-opacity-placeholder: 0.5;
+}

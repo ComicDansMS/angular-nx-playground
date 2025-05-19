@@ -22,11 +22,13 @@ import { RadioFormFieldComponent } from '@ngnx-playground/ui/components/radio-fo
               [label]="'First name'"
               [inputId]="'firstName'"
               [customErrorMessages]="{ required: 'You need a first name' }"
+              [background]="'var(--theme-color-neutral-50)'"
             />
             <lib-input-form-field
               formControlName="lastName"
               [label]="'Last name'"
               [inputId]="'lastName'"
+              [background]="'var(--theme-color-neutral-50)'"
             />
             <lib-input-form-field
               formControlName="email"
@@ -34,18 +36,21 @@ import { RadioFormFieldComponent } from '@ngnx-playground/ui/components/radio-fo
               [inputId]="'email'"
               [type]="'email'"
               [placeholder]="'you@mail.com'"
+              [background]="'var(--theme-color-neutral-50)'"
             />
             <lib-input-form-field
               formControlName="password"
               [label]="'Password'"
               [inputId]="'password'"
               [type]="'password'"
+              [background]="'var(--theme-color-neutral-50)'"
             />
             <lib-input-form-field
               formControlName="repeatPassword"
               [label]="'Repeat password'"
               [inputId]="'repeatPassword'"
               [type]="'password'"
+              [background]="'var(--theme-color-neutral-50)'"
             />
 
             <lib-radio-form-field

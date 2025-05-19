@@ -22,7 +22,7 @@ import { ValidationErrors } from '@angular/forms';
   styles: `
     .lib-form-field-error {
       height: 0;
-      transition: height 200ms;
+      transition: height var(--theme-transition-duration-slow);
       overflow: hidden;
     }
 
@@ -33,8 +33,8 @@ import { ValidationErrors } from '@angular/forms';
     .lib-form-field-error span {
       display: block;
       margin-top: 0.2rem;
-      font-size: 0.75rem;
-      color: #c67a7a;
+      font-size: var(--theme-font-size-caption);
+      color: var(--theme-color-error);
     }
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,

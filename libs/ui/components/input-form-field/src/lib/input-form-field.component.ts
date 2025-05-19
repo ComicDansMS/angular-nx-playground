@@ -35,7 +35,7 @@ type InputType = 'text' | 'number' | 'email' | 'password';
       [class.lib-input-form-field--error]="!!errors()"
     >
       <div class="field">
-        <label [for]="inputId()">
+        <label [for]="inputId()" [style.background]="background()">
           {{ label() }}{{ isRequired() ? '*' : '' }}
         </label>
 
@@ -77,6 +77,7 @@ export class InputFormFieldComponent implements ControlValueAccessor, OnInit {
   type = input<InputType>('text');
   placeholder = input<string>('');
   customErrorMessages = input<Record<string, string> | null>(null);
+  background = input<string>();
 
   control: FormControl | null = null;
   value = signal<string>('');
@@ -123,20 +124,20 @@ export class InputFormFieldComponent implements ControlValueAccessor, OnInit {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function,@typescript-eslint/no-unused-vars
-  onChange = (value: string) => {};
+  _onChange = (value: string) => {};
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  onTouched = () => {};
+  _onTouched = () => {};
 
   writeValue(value: string): void {
     this.value.set(value);
   }
 
   registerOnChange(fn: (value: string) => void): void {
-    this.onChange = fn;
+    this._onChange = fn;
   }
 
   registerOnTouched(fn: () => void): void {
-    this.onTouched = fn;
+    this._onTouched = fn;
   }
 
   setDisabledState(isDisabled: boolean): void {
@@ -148,7 +149,7 @@ export class InputFormFieldComponent implements ControlValueAccessor, OnInit {
 
     const processedValue = value.trim().replace(/\s\s+/g, ' ');
     this.value.set(value);
-    this.onChange(processedValue);
+    this._onChange(processedValue);
   }
 
   handleFocus(): void {
@@ -160,7 +161,7 @@ export class InputFormFieldComponent implements ControlValueAccessor, OnInit {
   handleBlur(): void {
     if (this.isDisabled()) return;
 
-    this.onTouched();
+    this._onTouched();
     this.isFocused.set(false);
     this.updateErrors();
   }

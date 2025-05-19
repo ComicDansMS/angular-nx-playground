@@ -11,9 +11,9 @@ import { AbstractStyledDirective } from '@ngnx-playground/ui/core/abstract-style
 
 const style = /* css */ `
   .lib-button {
-    background: var(--theme-color-button-primary);
+    background: var(--theme-color-primary-700);
+    color: var(--theme-color-text-on-primary);
     border-radius: 0.25rem;
-    color: #fff;
     padding: 0.5rem 1rem;
     width: 100%;
     cursor: pointer;
@@ -21,7 +21,8 @@ const style = /* css */ `
   }
 
   .lib-button--type-secondary {
-    background: var(--theme-color-button-secondary);
+    background: var(--theme-color-neutral-600);
+    color: var(--theme-color-text-on-primary)
   }
 
   .lib-button:hover {

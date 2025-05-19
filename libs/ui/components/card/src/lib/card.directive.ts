@@ -3,9 +3,10 @@ import { AbstractStyledDirective } from '@ngnx-playground/ui/core/abstract-style
 
 const style = /* css */ `
   .lib-card {
-    box-shadow: var(--theme-color-shadow) 0 2px 8px 0;
+    background: var(--theme-color-background-surface);
+    box-shadow: var(--theme-shadow-md);
     padding: 2rem;
-    border-radius: 1rem;
+    border-radius: var(--theme-border-radius-lg);
   }
 `;
 

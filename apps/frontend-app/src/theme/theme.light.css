@@ -1,9 +1,34 @@
 .theme-light {
-  --theme-color-background-primary: #ffdee8;
-  --theme-color-text-primary: #424242;
-  --theme-color-button-primary: #4932f3;
-  --theme-color-button-primary-hover: #3e2cc3;
-  --theme-color-button-secondary: #9388e5;
-  --theme-color-button-secondary-hover: #7d74bc;
-  --theme-color-shadow: #cfcfd1;
+  --theme-color-primary-50: #f3e5f5;
+  --theme-color-primary-100: #e1bee7;
+  --theme-color-primary-200: #ce93d8;
+  --theme-color-primary-300: #ba68c8;
+  --theme-color-primary-400: #ab47bc;
+  --theme-color-primary-500: #9c27b0;
+  --theme-color-primary-600: #8e24aa;
+  --theme-color-primary-700: #7b1fa2;
+  --theme-color-primary-800: #6a1b9a;
+  --theme-color-primary-900: #4a148c;
+
+  --theme-color-neutral-50: #fafafa;
+  --theme-color-neutral-100: #f5f5f5;
+  --theme-color-neutral-200: #eeeeee;
+  --theme-color-neutral-300: #e0e0e0;
+  --theme-color-neutral-400: #bdbdbd;
+  --theme-color-neutral-500: #9e9e9e;
+  --theme-color-neutral-600: #757575;
+  --theme-color-neutral-700: #616161;
+  --theme-color-neutral-800: #424242;
+  --theme-color-neutral-900: #212121;
+
+  --theme-color-success: #4caf50;
+  --theme-color-error: #ce3d31;
+  --theme-color-warning: #ffc107;
+  --theme-color-info: #2196f3;
+
+  --theme-color-text-primary: var(--theme-color-neutral-900);
+  --theme-color-text-on-primary: #fff;
+
+  --theme-color-background-body: var(--theme-color-neutral-100);
+  --theme-color-background-surface: var(--theme-color-neutral-50);
 }
