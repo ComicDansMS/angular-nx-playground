@@ -1,4 +1,4 @@
-.theme-light {
+:root:has(.theme-light) {
   --theme-color-primary-50: #f3e5f5;
   --theme-color-primary-100: #e1bee7;
   --theme-color-primary-200: #ce93d8;
@@ -23,12 +23,21 @@
 
   --theme-color-success: #4caf50;
   --theme-color-error: #ce3d31;
+  --theme-color-error-dark: #83271f;
   --theme-color-warning: #ffc107;
   --theme-color-info: #2196f3;
 
-  --theme-color-text-primary: var(--theme-color-neutral-900);
+  --theme-color-text-light: var(--theme-color-neutral-500);
+  --theme-color-text-normal: var(--theme-color-neutral-900);
+  --theme-color-text-dark: var(--theme-color-neutral-900);
   --theme-color-text-on-primary: #fff;
 
   --theme-color-background-body: var(--theme-color-neutral-100);
   --theme-color-background-surface: var(--theme-color-neutral-50);
+
+  --theme-color-shadow: var(--color-neutral-500);
+
+  --theme-color-border-light: var(--theme-color-neutral-300);
+  --theme-color-border-medium: var(--theme-color-neutral-400);
+  --theme-color-border-dark: var(--theme-color-neutral-700);
 }

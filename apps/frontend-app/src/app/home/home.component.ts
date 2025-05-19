@@ -21,7 +21,7 @@ import { CardComponent } from '@ngnx-playground/ui/components/card';
               formControlName="firstName"
               [label]="'First name'"
               [inputId]="'firstName'"
-              [customErrorMessages]="{ required: 'You need a first name' }"
+              [customErrorMessages]="{ required: 'You need a first name and a really long error message that will have to wrap because we wanted as much context as possible because that what makes the world a better place.'   }"
               [background]="'var(--theme-color-neutral-50)'"
             />
             <lib-input-form-field

@@ -23,7 +23,7 @@
   --color-info: ?;
 
   /* Text Colors */
-  --color-text-primary: ?;
+  --color-text-normal: ?;
   --color-text-secondary: ?;
   --color-text-on-primary: ?;
   --color-text-on-secondary: ?;

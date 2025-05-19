@@ -43,9 +43,25 @@
   --theme-space-xxl: calc(var(--theme-space-unit) * 6);
   --theme-space-xxxl: calc(var(--theme-space-unit) * 8);
 
+  /* Shadow */
+
+  --theme-shadow-sm: 0 0.1rem 0.125rem var(--theme-color-shadow);
+  --theme-shadow-md: 0 0.15rem 0.4rem var(--theme-color-shadow);
+  --theme-shadow-lg: 0 0.2rem 0.75rem var(--theme-color-shadow);
+
   /* Border */
 
-  --theme-border: solid 1px var(--color-neutral-300);
+  --theme-border-light: solid 1px var(--theme-color-border-light);
+  --theme-border-medium: solid 1px var(--theme-color-border-medium);
+  --theme-border-dark: solid 1px var(--theme-color-border-dark);
+
+  /* Border (box-shadow) */
+
+  --theme-private-box-shadow-struct: 0px 0px 0px 1px;
+  --theme-border-box-shadow-light: var(--theme-private-box-shadow-struct) var(--theme-color-border-light);
+  --theme-border-box-shadow-medium: var(--theme-private-box-shadow-struct) var(--theme-color-border-medium);
+  --theme-border-box-shadow-dark: var(--theme-private-box-shadow-struct) var(--theme-color-border-dark);
+  --theme-border-box-shadow-error: var(--theme-private-box-shadow-struct) var(--theme-color-error);
 
   /* Border radius */
 
@@ -53,12 +69,6 @@
   --theme-border-radius-md: 0.5rem;
   --theme-border-radius-lg: 1rem;
   --theme-border-radius-full: 50%;
-
-  /* Shadows */
-
-  --theme-shadow-sm: 0 0.1rem 0.125rem #dcd9d9;
-  --theme-shadow-md: 0 0.15rem 0.4rem #dcd9d9;
-  --theme-shadow-lg: 0 0.2rem 0.75rem #cecdcd;
 
   /* Transitions */
 

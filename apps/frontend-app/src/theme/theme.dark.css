@@ -1,4 +1,4 @@
-.theme-dark {
+:root:has(.theme-dark) {
   --theme-color-primary-50: #2a0c3f;
   --theme-color-primary-100: #3e135b;
   --theme-color-primary-200: #531978;
@@ -26,7 +26,7 @@
   --theme-color-warning: #ffca28;
   --theme-color-info: #42a5f5;
 
-  --theme-color-text-primary: var(--theme-color-neutral-800);
+  --theme-color-text-normal: var(--theme-color-neutral-800);
   --theme-color-text-on-primary: #ffffff;
 
   --theme-color-background-body: var(--theme-color-neutral-50);
