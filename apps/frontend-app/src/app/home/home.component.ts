@@ -3,10 +3,9 @@ import {
   FormBuilder,
   FormControl,
   ReactiveFormsModule,
-  Validators,
+  Validators
 } from '@angular/forms';
 import { LibButtonDirective } from '@ngnx-playground/ui/components/button';
-import { LibCardDirective } from '@ngnx-playground/ui/components/card';
 import { InputFormFieldComponent } from '@ngnx-playground/ui/components/input-form-field';
 import { RadioFormFieldComponent } from '@ngnx-playground/ui/components/radio-form-field';
 
@@ -14,7 +13,7 @@ import { RadioFormFieldComponent } from '@ngnx-playground/ui/components/radio-fo
   selector: 'app-home',
   template: `
     <div class="flex flex-col gap-8 mt-8 w-96 mx-auto">
-      <div libCard>
+      <div>
         <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
           <div class="flex flex-col">
             <lib-input-form-field
@@ -77,11 +76,10 @@ import { RadioFormFieldComponent } from '@ngnx-playground/ui/components/radio-fo
   `,
   imports: [
     LibButtonDirective,
-    LibCardDirective,
     ReactiveFormsModule,
     InputFormFieldComponent,
-    RadioFormFieldComponent,
-  ],
+    RadioFormFieldComponent
+  ]
 })
 export default class HomeComponent {
   fb = new FormBuilder();
@@ -91,14 +89,14 @@ export default class HomeComponent {
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [
       Validators.required,
-      Validators.minLength(8),
+      Validators.minLength(8)
     ]),
     repeatPassword: new FormControl('', [
       Validators.required,
-      Validators.minLength(8),
+      Validators.minLength(8)
     ]),
     addNotes: new FormControl<boolean | null>(null, Validators.required),
-    notes: new FormControl({ value: '', disabled: true }),
+    notes: new FormControl({ value: '', disabled: true })
   });
 
   enableNotes = effect(() => {

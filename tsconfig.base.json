@@ -23,9 +23,6 @@
       "@ngnx-playground/ui/components/button": [
         "libs/ui/components/button/src/index.ts"
       ],
-      "@ngnx-playground/ui/components/card": [
-        "libs/ui/components/card/src/index.ts"
-      ],
       "@ngnx-playground/ui/components/form-field-error": [
         "libs/ui/components/form-field-error/src/index.ts"
       ],
