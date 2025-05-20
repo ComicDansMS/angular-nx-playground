@@ -36,6 +36,9 @@
       "@ngnx-playground/ui/components/form-field-error": [
         "libs/ui/components/form-field-error/src/index.ts"
       ],
+      "@ngnx-playground/ui/components/input-form-field": [
+        "libs/ui/components/input-form-field/src/index.ts"
+      ],
       "@ngnx-playground/ui/components/label": [
         "libs/ui/components/label/src/index.ts"
       ],
@@ -44,9 +47,6 @@
       ],
       "@ngnx-playground/ui/core/theme-service": [
         "libs/ui/core/theme-service/src/index.ts"
-      ],
-      "@ngnx-playground/ui/directives/control-value-accessor": [
-        "libs/ui/directives/control-value-accessor/src/index.ts"
       ],
       "@ngnx-playground/ui/interfaces": ["libs/ui/core/interfaces/src/index.ts"]
     }

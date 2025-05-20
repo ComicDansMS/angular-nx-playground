@@ -1,9 +1,8 @@
 export default {
-  displayName: 'control-value-accessor',
+  displayName: 'input-form-field',
   preset: '../../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
-  coverageDirectory:
-    '../../../../coverage/libs/ui/directives/control-value-accessor',
+  coverageDirectory: '../../../../coverage/libs/ui/components/input-form-field',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': [
       'jest-preset-angular',

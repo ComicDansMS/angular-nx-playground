@@ -1,4 +1,5 @@
 .lib-input {
+  --input-background: inherit;
   --field-padding-x: 0.75rem;
 }
 
@@ -8,15 +9,11 @@
   border-radius: var(--theme-border-radius-sm);
 }
 
-.lib-input--focus .field {
+.lib-input:focus-within .field {
   box-shadow: var(--theme-border-box-shadow-dark);
 }
 
-.lib-input--error .field {
-  box-shadow: var(--theme-border-box-shadow-error);
-}
-
-label {
+legend {
   --label-padding: 0.12rem;
   position: absolute;
   top: 50%;
@@ -24,21 +21,18 @@ label {
   left: calc(var(--field-padding-x) - var(--label-padding));
   padding: 0 var(--label-padding);
   color: var(--theme-color-text-feint);
+  background: var(--input-background);
   line-height: 1em;
   transition-property: top, transform, font-size;
   transition-duration: var(--theme-transition-duration-medium);
 }
 
-.lib-input--focus label,
-.lib-input--value label {
+legend.legend-small,
+legend.legend-small {
   top: -0.6em;
   transform: translateY(0);
   font-size: var(--theme-font-size-body-sm);
   color: var(--theme-color-text-normal);
-}
-
-.lib-input--error label {
-  color: var(--theme-color-error);
 }
 
 input {
@@ -61,8 +55,6 @@ input::placeholder {
   transition: opacity var(--theme-transition-duration-medium);
 }
 
-.lib-input:not(.lib-input--focus) {
-  input::placeholder {
-    opacity: 0;
-  }
+input:not(input:focus)::placeholder {
+  opacity: 0;
 }

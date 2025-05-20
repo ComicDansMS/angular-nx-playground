@@ -205,13 +205,13 @@ describe('InputFormFieldComponent', () => {
     describe('User interactions', () => {
       describe('User selects input field', () => {
         beforeEach(() => {
-          inputFormFieldComponent.isFocused.set(false);
+          inputFormFieldComponent.isFocused$.set(false);
           inputElement.dispatchEvent(new Event('focus'));
           hostFixture.detectChanges();
         });
 
         it('should set isFocused signal to true when user selects the input field', () => {
-          expect(inputFormFieldComponent.isFocused()).toBe(true);
+          expect(inputFormFieldComponent.isFocused$()).toBe(true);
         });
 
         it('should apply the focus CSS class when user selects the input field', () => {
@@ -272,7 +272,7 @@ describe('InputFormFieldComponent', () => {
         });
 
         it('should set isFocused signal to false when user leaves the input field', () => {
-          expect(inputFormFieldComponent.isFocused()).toBe(false);
+          expect(inputFormFieldComponent.isFocused$()).toBe(false);
         });
 
         it('should remove the focus CSS class when user leaves the input field', () => {
@@ -382,7 +382,7 @@ describe('InputFormFieldComponent', () => {
       describe('User interacts with a disabled input field', () => {
         it('should not be able to interact with the input field when disabled', () => {
           inputElement.focus();
-          expect(inputFormFieldComponent.isFocused()).toBe(true);
+          expect(inputFormFieldComponent.isFocused$()).toBe(true);
 
           inputElement.blur();
           inputFormFieldComponent.setDisabledState(true);
@@ -391,7 +391,7 @@ describe('InputFormFieldComponent', () => {
           inputElement.focus();
           hostFixture.detectChanges();
 
-          expect(inputFormFieldComponent.isFocused()).toBe(false);
+          expect(inputFormFieldComponent.isFocused$()).toBe(false);
         });
       });
     });

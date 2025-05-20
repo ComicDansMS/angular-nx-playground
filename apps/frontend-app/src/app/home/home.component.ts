@@ -7,9 +7,9 @@ import {
 } from '@angular/forms';
 import { LibButtonDirective } from '@ngnx-playground/ui/components/button';
 import { InputComponent } from '@ngnx-playground/input';
-import { RadioGroupComponent } from '@ngnx-playground/radio-group';
 import { CardComponent } from '@ngnx-playground/ui/components/card';
-import { DatePickerComponent } from '@ngnx-playground/ui/components/date-picker';
+import { RadioGroupComponent } from '@ngnx-playground/radio-group';
+import { InputFormFieldComponent } from '@ngnx-playground/ui/components/input-form-field';
 
 @Component({
   selector: 'app-home',
@@ -18,47 +18,32 @@ import { DatePickerComponent } from '@ngnx-playground/ui/components/date-picker'
       <lib-card>
         <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
           <div class="flex flex-col gap-[var(--theme-space-md)]">
-            <lib-input
-              formControlName="firstName"
+            <lib-input-form-field
+              [control]="loginForm.controls.firstName"
               [label]="'First name'"
-              [id]="'firstName'"
-              [customErrorMessages]="{
-                required:
-                  'You need a first name and a really long error message that will have to wrap because we wanted as much context as possible because that what makes the world a better place.'
-              }"
               [background]="'var(--theme-color-background-surface)'"
             />
-            <lib-input
-              formControlName="lastName"
+            <lib-input-form-field
+              [control]="loginForm.controls.lastName"
               [label]="'Last name'"
-              [id]="'lastName'"
               [background]="'var(--theme-color-background-surface)'"
             />
-
-            <lib-input
-              formControlName="email"
+            <lib-input-form-field
+              [control]="loginForm.controls.email"
               [label]="'Email'"
-              [id]="'email'"
-              [type]="'email'"
               [placeholder]="'you@mail.com'"
               [background]="'var(--theme-color-background-surface)'"
             />
-            <lib-date-picker
-              [id]="'dateOfBirth'"
-              [background]="'var(--theme-color-background-surface)'"
-            />
-            <lib-input
-              formControlName="password"
+            <lib-input-form-field
+              [control]="loginForm.controls.password"
+              [type]="'password'"
               [label]="'Password'"
-              [id]="'password'"
-              [type]="'password'"
               [background]="'var(--theme-color-background-surface)'"
             />
-            <lib-input
-              formControlName="repeatPassword"
-              [label]="'Repeat password'"
-              [id]="'repeatPassword'"
+            <lib-input-form-field
+              [control]="loginForm.controls.repeatPassword"
               [type]="'password'"
+              [label]="'Repeat password'"
               [background]="'var(--theme-color-background-surface)'"
             />
             <div class="mt-1">
@@ -72,11 +57,9 @@ import { DatePickerComponent } from '@ngnx-playground/ui/components/date-picker'
                 [background]="'var(--theme-color-background-surface)'"
               />
             </div>
-            <lib-input
-              formControlName="notes"
+            <lib-input-form-field
+              [control]="loginForm.controls.notes"
               [label]="'Notes'"
-              [id]="'notes'"
-              [type]="'text'"
               [background]="'var(--theme-color-background-surface)'"
             />
 
@@ -90,15 +73,15 @@ import { DatePickerComponent } from '@ngnx-playground/ui/components/date-picker'
     LibButtonDirective,
     ReactiveFormsModule,
     InputComponent,
-    RadioGroupComponent,
     CardComponent,
-    DatePickerComponent
+    RadioGroupComponent,
+    InputFormFieldComponent
   ]
 })
 export default class HomeComponent {
   fb = new FormBuilder();
   loginForm = this.fb.nonNullable.group({
-    firstName: new FormControl('', Validators.required),
+    firstName: new FormControl('name', Validators.required),
     lastName: new FormControl(''),
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [
@@ -130,7 +113,7 @@ export default class HomeComponent {
     }
   }
 
-  constructor() {
-    this.loginForm.valueChanges.subscribe((value) => console.log(value));
-  }
+  // constructor() {
+  //   this.loginForm.valueChanges.subscribe((value) => console.log(value));
+  // }
 }
