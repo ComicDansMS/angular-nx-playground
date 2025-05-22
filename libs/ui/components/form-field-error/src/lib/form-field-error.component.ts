@@ -1,50 +1,29 @@
 import {
   ChangeDetectionStrategy,
-  Component,
+  Component, computed, effect,
   input,
-  OnInit
+  OnInit, signal
 } from '@angular/core';
-import { KeyValuePipe } from '@angular/common';
-import { ValidationErrors } from '@angular/forms';
+import { JsonPipe, KeyValuePipe } from '@angular/common';
+import { FormControl, StatusChangeEvent, ValidationErrors } from '@angular/forms';
+import { BehaviorSubject, defer, distinctUntilChanged, filter, map, Observable, tap } from 'rxjs';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'lib-form-field-error',
   template: `
     <div
       class="lib-form-field-error"
-      [class.lib-input--active]="!!errors()"
     >
       <div class="error-content-wrapper">
-        @if (errors()) {
-          @for (error of errors() | keyvalue; track $index) {
-            <span>{{ errorMessages[error.key] }}</span>
-          }
+        @if (errors$ | async) {
+          <span>Has error!</span>
+          {{ errors$ | json }}
         }
       </div>
     </div>
   `,
   styles: `
-    .lib-form-field-error {
-      display: grid;
-      grid-template-rows: 0fr;
-      transition: grid-template-rows var(--theme-transition-duration-medium);
-      overflow: hidden;
-    }
-
-    .lib-form-field-error.lib-input--active {
-      grid-template-rows: 1fr;
-    }
-
-    .lib-form-field-error > .error-content-wrapper {
-      min-height: 0;
-      visibility: hidden;
-      transition: visibility var(--theme-transition-duration-medium);
-    }
-
-    .lib-form-field-error.lib-input--active > .error-content-wrapper {
-      visibility: visible;
-    }
-
     .error-content-wrapper span {
       display: block;
       margin-top: 0.2rem;
@@ -52,12 +31,19 @@ import { ValidationErrors } from '@angular/forms';
       color: var(--theme-color-error);
     }
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [KeyValuePipe]
+  imports: [AsyncPipe, KeyValuePipe, JsonPipe]
 })
 export class FormFieldErrorComponent implements OnInit {
-  errors = input.required<ValidationErrors | null>();
-  customErrorMessages = input<Record<string, string> | null>(null);
+  readonly control = input.required<FormControl>();
+  readonly customErrorMessages = input<Record<string, string> | null>(null);
+  readonly isFocused = input.required<boolean>();
+
+  protected readonly errors$ = defer<Observable<ValidationErrors | null>>(() => this.control().events.pipe(
+    filter(event => !this.isFocused() && (event instanceof StatusChangeEvent || this.control().touched)),
+    map(() => this.control().errors),
+    distinctUntilChanged(),
+    tap(console.log)
+  ));
 
   errorMessages: Record<string, string> = {
     required: 'This field is required',

@@ -63,10 +63,10 @@ export interface RadioOption {
         </label>
       }
 
-      <lib-form-field-error
-        [errors]="errors()"
-        [customErrorMessages]="customErrorMessages()"
-      />
+      <!--      <lib-form-field-error-->
+      <!--        [errors]="errors()"-->
+      <!--        [customErrorMessages]="customErrorMessages()"-->
+      <!--      />-->
     </fieldset>
   `,
   styleUrl: 'radio-group.component.css',

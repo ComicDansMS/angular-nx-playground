@@ -23,6 +23,7 @@ legend {
   color: var(--theme-color-text-feint);
   background: var(--input-background);
   line-height: 1em;
+  pointer-events: none;
   transition-property: top, transform, font-size;
   transition-duration: var(--theme-transition-duration-medium);
 }

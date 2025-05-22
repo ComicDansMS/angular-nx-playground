@@ -2,7 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   input,
-  OnInit
+  OnInit, output
 } from '@angular/core';
 import {
   FormControl,
@@ -36,8 +36,9 @@ import { InputType } from '@ngnx-playground/ui/interfaces';
           [type]="type()"
           [formControl]="control()"
           [placeholder]="placeholder()"
-          (focus)="isFocused$.next(true)"
-          (blur)="isFocused$.next(false)"
+          (focus)="isFocused$.next(true);"
+          (blur)="isFocused$.next(false);"
+          data-1p-ignore
         />
       </div>
     </fieldset>
@@ -54,8 +55,14 @@ export class InputComponent implements OnInit {
   readonly type = input<InputType>('text');
   readonly placeholder = input<string>('');
 
+  readonly isFocused = output<boolean>();
+
   protected readonly isFocused$ = new BehaviorSubject<boolean>(false);
   protected smallLegend$!: Observable<boolean>;
+
+  constructor() {
+    this.isFocused$.subscribe((isFocused) => this.isFocused.emit(isFocused));
+  }
 
   ngOnInit(): void {
     if (this.control()) {

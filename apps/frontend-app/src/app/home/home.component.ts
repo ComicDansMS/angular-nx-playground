@@ -81,9 +81,9 @@ import { InputFormFieldComponent } from '@ngnx-playground/ui/components/input-fo
 export default class HomeComponent {
   fb = new FormBuilder();
   loginForm = this.fb.nonNullable.group({
-    firstName: new FormControl('name', Validators.required),
+    firstName: new FormControl('', Validators.required),
     lastName: new FormControl(''),
-    email: new FormControl('', [Validators.required, Validators.email]),
+    email: new FormControl('anExisting@value.com', [Validators.required, Validators.email]),
     password: new FormControl('', [
       Validators.required,
       Validators.minLength(8)
