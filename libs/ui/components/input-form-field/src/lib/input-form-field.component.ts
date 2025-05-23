@@ -1,8 +1,9 @@
-import { ChangeDetectionStrategy, Component, effect, input, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, signal } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { InputType } from '@ngnx-playground/ui/interfaces';
 import { InputComponent } from '@ngnx-playground/input';
 import { FormFieldErrorComponent } from '@ngnx-playground/ui/components/form-field-error';
+import { BehaviorSubject, Subject } from 'rxjs';
 
 @Component({
   selector: 'lib-input-form-field',
@@ -18,10 +19,9 @@ import { FormFieldErrorComponent } from '@ngnx-playground/ui/components/form-fie
       [background]="background()"
       [type]="type()"
       [placeholder]="placeholder()"
-      (isFocused)="isFocused.set($event)"
     />
 
-    <lib-form-field-error [control]="control()" [isFocused]="isFocused()" />
+    <lib-form-field-error [control]="control()" />
   `,
   styles: ``,
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -33,5 +33,4 @@ export class InputFormFieldComponent {
 
   readonly type = input<InputType>('text');
   readonly placeholder = input<string>('');
-  protected readonly isFocused = signal(false);
 }

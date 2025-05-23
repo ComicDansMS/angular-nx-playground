@@ -13,7 +13,8 @@ import {
   Observable,
   combineLatest,
   startWith,
-  map
+  map,
+  tap
 } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
 import { InputType } from '@ngnx-playground/ui/interfaces';
@@ -55,14 +56,8 @@ export class InputComponent implements OnInit {
   readonly type = input<InputType>('text');
   readonly placeholder = input<string>('');
 
-  readonly isFocused = output<boolean>();
-
   protected readonly isFocused$ = new BehaviorSubject<boolean>(false);
   protected smallLegend$!: Observable<boolean>;
-
-  constructor() {
-    this.isFocused$.subscribe((isFocused) => this.isFocused.emit(isFocused));
-  }
 
   ngOnInit(): void {
     if (this.control()) {

@@ -6,7 +6,7 @@ import {
 } from '@angular/core';
 import { JsonPipe, KeyValuePipe } from '@angular/common';
 import { FormControl, StatusChangeEvent, ValidationErrors } from '@angular/forms';
-import { BehaviorSubject, defer, distinctUntilChanged, filter, map, Observable, tap } from 'rxjs';
+import { BehaviorSubject, defer, distinctUntilChanged, filter, map, Observable, startWith, Subject, tap } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
 
 @Component({
@@ -16,10 +16,7 @@ import { AsyncPipe } from '@angular/common';
       class="lib-form-field-error"
     >
       <div class="error-content-wrapper">
-        @if (errors$ | async) {
-          <span>Has error!</span>
-          {{ errors$ | json }}
-        }
+        <!-- display correct error message here-->
       </div>
     </div>
   `,
@@ -36,14 +33,6 @@ import { AsyncPipe } from '@angular/common';
 export class FormFieldErrorComponent implements OnInit {
   readonly control = input.required<FormControl>();
   readonly customErrorMessages = input<Record<string, string> | null>(null);
-  readonly isFocused = input.required<boolean>();
-
-  protected readonly errors$ = defer<Observable<ValidationErrors | null>>(() => this.control().events.pipe(
-    filter(event => !this.isFocused() && (event instanceof StatusChangeEvent || this.control().touched)),
-    map(() => this.control().errors),
-    distinctUntilChanged(),
-    tap(console.log)
-  ));
 
   errorMessages: Record<string, string> = {
     required: 'This field is required',
