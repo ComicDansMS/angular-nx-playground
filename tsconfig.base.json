@@ -33,6 +33,9 @@
       "@ngnx-playground/ui/components/date-picker": [
         "libs/ui/components/date-picker/src/index.ts"
       ],
+      "@ngnx-playground/ui/components/form-field": [
+        "libs/ui/components/form-field/src/index.ts"
+      ],
       "@ngnx-playground/ui/components/form-field-error": [
         "libs/ui/components/form-field-error/src/index.ts"
       ],
