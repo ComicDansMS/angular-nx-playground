@@ -27,6 +27,10 @@ import { InputFormFieldComponent } from '@ngnx-playground/ui/components/input-fo
               [label]="'First name'"
               [background]="'var(--theme-color-background-surface)'"
               [type]="'text'"
+              [customErrorMessages]="{
+                required:
+                  'A long error message because it always good to have choice and it needs to be long to make this thing work'
+              }"
             />
 
             <lib-input-form-field
